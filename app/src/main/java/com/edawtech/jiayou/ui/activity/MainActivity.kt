@@ -150,7 +150,7 @@ class MainActivity : BaseMvpActivity() {
                 .request { allGranted, grantedList, deniedList ->
                     //finish();
                     if (allGranted) {
-                        Toast.makeText(this@MainActivity, "所有申请的权限都已通过", Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(this@MainActivity, "所有申请的权限都已通过", Toast.LENGTH_SHORT).show();
                     } else {
                     }
                 }
