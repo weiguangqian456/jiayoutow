@@ -28,10 +28,10 @@
     <string name="AccountHasBeenFrozen">账号被冻结</string>
     <string name="RealNameCertification">实名认证</string>
 
-    <string name="TabText1">嘟嘟加油</string>
+    <string name="TabText1">首页</string>
     <string name="TabText4">我的</string>
 
-
+    <string name="make_money">我要赚钱</string>
 
     <string name="sure">确定</string>
     <string name="cancel">取消</string>
