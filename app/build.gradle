@@ -1,0 +1,255 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+
+    /** 全局变量配置。 */
+    // 应用名称
+    def appName = "佳油"
+    // 商户id标识（暂时没用到）
+    def appID = '"888888"'
+
+    // 开发环境 --- API接口地址：
+    def API_DEV_HOST = '"https://api.data.fengwoseo.com"'
+    // 测试环境 --- API接口地址：
+    def API_TEST_HOST = '"http://192.168.5.230:8089"'
+    // 正式环境 --- API接口地址：
+    def API_RELEASE_HOST = '"https://api.data.fengwoseo.com"'
+    // API接口版本前缀： '"/api"' (目前为空)
+    def API_URL_dynamic = '""'
+    // API接口数据取第几条：
+    def API_Position = 1
+
+
+
+    defaultConfig {
+        applicationId "com.edawtech.jiayou"
+        minSdkVersion 24
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        // 生产环境
+        release {
+            // 不显示Log
+            buildConfigField "boolean", "DEBUG_TOGGLE", "false"
+            // 商户id标识
+            buildConfigField "String", "APPID", "${appID}"
+            // 正式环境API接口地址：
+            buildConfigField "String", "BASE_Url", "${API_RELEASE_HOST}"
+            // API接口版本前缀：
+            buildConfigField "String", "URL_dynamic", "${API_URL_dynamic}"
+            // API接口数据取第几条：
+            buildConfigField "int", "API_Position", "${API_Position}"
+
+            // APP名称
+            resValue "string", "app_name", "${appName}"
+            // 字体大小
+            resValue "dimen", "font_size", "14sp"
+
+            // 是否混淆
+            //minifyEnabled true
+            minifyEnabled false
+            // Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            //shrinkResources true
+            // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // 实现自动签名
+//            signingConfig signingConfigs.myconfig
+        }
+        // 开发环境
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "DEBUG_TOGGLE", "true"
+            // 商户id标识
+            buildConfigField "String", "APPID", "${appID}"
+            // 测试环境API接口地址：
+            buildConfigField "String", "BASE_Url", "${API_DEV_HOST}"
+            // API接口版本前缀：
+            buildConfigField "String", "URL_dynamic", "${API_URL_dynamic}"
+            // API接口数据取第几条：
+            buildConfigField "int", "API_Position", "${API_Position}"
+
+            // APP名称
+            resValue "string", "app_name", "${appName}"
+            // 字体大小
+            resValue "dimen", "font_size", "14sp"
+
+            // 不混淆
+            minifyEnabled false
+            // Zipalign优化
+            zipAlignEnabled true
+            // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // 实现自动签名
+//            signingConfig signingConfigs.myconfig
+        }
+    }
+    sourceSets {
+        main {
+            // 配置.so文件路径---把so文件夹armeabi添加到libs中
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    // 修改打包生成的APK名称。
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            // 这里修改apk文件名：
+            // "${appName}_${releaseTime()}_v${defaultConfig.versionName}_vc${defaultConfig.versionCode}_" + buildType.name + ".apk"
+            //    outputFileName = "KeBaoBao-${releaseTime()}-v${defaultConfig.versionName}-" + buildType.name + ".apk"
+        }
+    }
+    // 指定jdk版本为1.8
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    // 打包时的错误提示：Error:Execution failed for task ':app:lintVitalRelease'
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+        disable 'GoogleAppIndexingWarning'//禁止 AS 出现 App is not indexable by Google Search 警告
+    }
+    // Dex的方法数量超过了65536，导致打包失败。
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    // rxjava冲突：在app build.gradle下添加
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
+}
+
+
+// 添加libs中jar包外的其它文件。
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // 支付依赖
+    implementation(name: 'alipaySdk-15.6.5-20190718211159-noUtdid', ext: 'aar')
+
+    // v7相关
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:29.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
+    implementation 'com.google.android.material:material:1.2.0' //（非必须，引用可以解决无法预览问题）
+    // V7  -  recyclerview 用。
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    // v4
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    // 解决方法数 65536 (65k) 限制
+    implementation 'androidx.multidex:multidex:2.0.1'
+    // gson解析
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    // butterknife 注解
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+    // 工具类库
+    implementation 'com.blankj:utilcode:1.20.3'
+    // 工具类库：Apache Commons包 StringUtils工具类。org.apache.commons.lang3.StringUtils的使用。
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
+    // 谷歌官方权限库 1.0.1 / 2.0.1
+    implementation 'pub.devrel:easypermissions:2.0.1'
+    // TabLayout 第三方库 —— FlycoTabLayout：https://github.com/H07000223/FlycoTabLayout
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    // recyclerview适配器，多布局显示的BaseRecyclerViewAdapterHelper：https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47'
+    /*** Android智能下拉刷新框架-SmartRefreshLayout ***/
+    /*implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14' // 1.1.0 API改动过大，老用户升级需谨慎
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14' // 没有使用特殊Header，可以不加这行*/
+    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
+    implementation 'com.scwang.smart:refresh-header-classics:2.0.1'    //经典刷新头
+    // RecyclerView侧滑菜单，Item拖拽，滑动删除Item，自动加载更多，HeaderView，FooterView，Item分组黏贴。:https://github.com/yanzhenjie/SwipeRecyclerView
+    implementation 'com.yanzhenjie.recyclerview:x:1.3.2'
+
+    /*** AutoDispose ***/
+    // AutoDispose解决RxJava内存泄漏
+    implementation 'com.uber.autodispose:autodispose:0.7.0'
+    implementation 'com.uber.autodispose:autodispose-android:0.7.0'
+    implementation 'com.uber.autodispose:autodispose-android-archcomponents:0.7.0'
+
+    /**
+     * RxHttp：Http请求框架 https://juejin.im/post/5ded221a518825125d14a1d4
+     */
+    implementation 'com.rxjava.rxhttp:rxhttp:1.4.4' //  必须
+    annotationProcessor 'com.rxjava.rxhttp:rxhttp-compiler:1.4.4' // 注解处理器，生成RxHttp类，即可一条链发送请求，必须
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1' //切换主线程，Android工程必须
+    // implementation 'com.rxjava.rxlife:rxlife:1.1.0' // 页面销毁，关闭请求，非必须
+    // if you use AndroidX
+    implementation 'com.rxjava.rxlife:rxlife-x:1.1.0'
+    // 非必须 根据自己需求选择Converter  RxHttp默认内置了GsonConverter
+    implementation 'com.rxjava.rxhttp:converter-jackson:1.4.4'
+    implementation 'com.rxjava.rxhttp:converter-fastjson:1.4.4'
+    implementation 'com.rxjava.rxhttp:converter-protobuf:1.4.4'
+    implementation 'com.rxjava.rxhttp:converter-simplexml:1.4.4'
+    // OkHttp3.x ：如果需要添加HttpLoggingInterceptor进行调试，是为了配置缓存策略，必须跟okhttp同一版本号
+    implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
+
+    //集成微信
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
+    
+    /*** 图片加载框架 Glide4.x ***/
+    implementation 'com.github.bumptech.glide:glide:4.11.0' // 添加支持
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0' // Glide4.x以上需要添加的支持
+    implementation 'jp.wasabeef:glide-transformations:4.1.0' // 配套Glide图片加载框架的图片变换开源库
+
+    // QRCode 扫描二维码、扫描条形码. --- ZXing
+    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.7'
+    // QRCode 扫描二维码、扫描条形码. --- ZBar
+    // implementation 'cn.bingoogolapple:bga-qrcode-zbar:1.3.7'
+
+    // okdownload下载框架
+    implementation 'com.liulishuo.okdownload:okdownload:1.0.3'
+    implementation 'com.liulishuo.okdownload:sqlite:1.0.3'
+    implementation 'com.liulishuo.okdownload:okhttp:1.0.3'
+    // 图片选择器 PictureSelector 2.0：https://github.com/LuckSiege/PictureSelector
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.5.8'
+    implementation "androidx.camera:camera-lifecycle:1.0.0-beta07"
+    implementation "androidx.camera:camera-camera2:1.0.0-beta07"
+    // 提示框 和 图片预览 框架。
+    implementation 'com.lxj:xpopup:1.8.10'
+
+    //EventBus框架
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //权限添加
+    implementation 'com.davidinchina:easylibrary:1.0.0'
+    implementation 'pub.devrel:easypermissions:2.0.1'
+    implementation 'com.permissionx.guolindev:permissionx:1.2.2'
+
+    // 日志打印 依赖
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation 'com.bigkoo:convenientbanner:2.1.5'
+}

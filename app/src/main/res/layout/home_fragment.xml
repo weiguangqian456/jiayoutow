@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+   <androidx.core.widget.NestedScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:overScrollMode="never">
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+         <FrameLayout
+             android:layout_width="match_parent"
+             android:layout_height="295dp">
+
+            <com.bigkoo.convenientbanner.ConvenientBanner
+                android:id="@+id/cb_banner"
+                android:layout_width="match_parent"
+                android:layout_height="295dp"
+                app:canLoop="true" />
+
+            <ImageView
+                android:id="@+id/iv_banner_default"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_refuel_main_top" />
+
+         </FrameLayout>
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="15dp"
+             android:layout_marginTop="230dp"
+             android:layout_marginRight="15dp"
+             android:orientation="vertical">
+
+
+
+         </LinearLayout>
+
+      </FrameLayout>
+
+
+
+   </androidx.core.widget.NestedScrollView>
+
+
+</FrameLayout>

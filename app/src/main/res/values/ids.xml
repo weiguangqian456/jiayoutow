@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 自定义标题TitleView，为标题栏titleView预定义id -->
+    <item name="tv_title_name" type="id"/>
+    <item name="tv_left_text" type="id"/>
+    <item name="iv_left_image" type="id"/>
+    <item name="iv_right_image" type="id"/>
+    <item name="iv_right_image_two" type="id"/>
+    <item name="tv_right_text" type="id"/>
+    <item name="tv_right_text_two" type="id"/>
+
+    <!-- 为 ImageView 自定义id，解决android listview使用glide异步加载图片错位，闪烁问题。 -->
+    <item name="imageloader_uri" type="id"/>
+
+    <!--  列表控件：多级树(第三方AndroidTreeView)  -->
+    <item name="node_header" type="id" />
+    <item name="node_items" type="id" />
+    <item name="tree_items" type="id" />
+
+
+</resources>

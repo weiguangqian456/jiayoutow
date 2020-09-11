@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#ff0084FF</color><!--03DAC5-->
+
+    <!-- 白色  -->
+    <color name="colorWhite">#ffffffff</color>
+    <!-- 淡白色  -->
+    <color name="colorWhiteLight">#69ffffff</color>
+    <!-- 黑色  -->
+    <color name="colorBlack">#ff000000</color>
+    <!-- 淡黑色  -->
+    <color name="colorBlackLight">#ff323335</color>
+    <!-- 透明  -->
+    <color name="colorEmpty">#00000000</color>
+
+    <!-- 主色调  -->
+    <color name="colorMain">#ff0084FF</color>
+    <!-- 主色调浅色  -->
+    <color name="colorMainLight">#ff64E3ED</color>
+    <!-- 主色调浅色二  -->
+    <color name="colorMainLight2">#3652D3DD</color>
+    <!-- 辅色调一  -->
+    <color name="colorAided">#ffFEB50A</color>
+    <!-- 辅色调二  -->
+    <color name="colorAidedTwo">#ffff6f73</color>
+    <!-- 辅色调三  -->
+    <color name="colorAidedThree">#fffb7c3d</color>
+
+    <!-- 字体颜色  -->
+    <color name="colorFont">#ff585858</color>
+    <!-- 字体颜色深黑色 -->
+    <color name="colorFontDark">#ff191919</color>
+    <!-- 小字体颜色浅黑色 -->
+    <color name="colorFontLight">#ffababab</color>
+
+    <!-- 背景颜色 -->
+    <color name="colorBackground">#ffF7F6FB</color>
+    <!-- 背景颜色2 -->
+    <color name="colorBackground2">#ff1A1A1A</color>
+    <!-- 大框颜色（白灰色）-->
+    <color name="colorLineBox">#ffE1E3E6</color>
+    <!-- 小线条颜色（白灰色）-->
+    <color name="colorLines">#ffECECEC</color>
+    <!-- 小线条颜色（浅白灰色）-->
+    <color name="colorLinesLight">#ffF5F5F5</color>
+    <!-- 小线条颜色（浅黑色，搭配灰色背景(colorBackground2)用）-->
+    <color name="colorLinesLight2">#99585858</color>
+
+    <color name="ThemeColor">#ff5c00</color>
+    <color name="exo_edit_mode_background_color">#FFF4F3F0</color>
+
+    <!--  带有刻度的圆形进度条颜色  -->
+    <integer-array name="gradient_arc_color">
+        <item>@color/colorMain</item>
+        <item>@color/colorMain</item>
+        <item>@color/colorMain</item>
+    </integer-array>
+
+    <color name="dialog_bg_press">#f0f0f0</color>
+
+
+    <color name="colorRed">#EFEFF4</color>
+    <color name="white">#ffffff</color>
+    <color name="colormap">#0084FF</color>
+    <color name="colorpage">#C7C7CC</color>
+    <color name="colorRed_txte">#FFFFFF</color>
+
+
+    <color name="black">#000000</color>
+    <color name="colortextgray">#66000000</color>
+    <color name="colortrans">#00000000</color>
+    <!--    <color name="colorcardtrans">#f2f8ff</color>-->
+    <color name="colorspace">#f7f6fb</color>
+    <color name="colortext">#000000</color>
+
+    <color name="colortexttip">#333333</color>
+    <color name="navpage">#FFE1E8EB</color>
+    <color name="aboutmetext">#333333</color>
+    <color name="aboutmetext_">#999999</color>
+
+    <color name="color_super_disco_text">#facf71</color>
+    <color name="color_super_text">#4b4b4b</color>
+    <color name="color_blue">#0084ff</color>
+    <color name="text_black">#2d2d2d</color>
+    <color name="green_gray">#c3e099</color>
+    <color name="green">#87C233</color>
+    <color name="navigation_bg">#999999</color>
+    <color name="nodeColor">#0084ff</color>
+
+
+    <color name="setting_gray">#464F66</color>
+    <color name="text_flow_black">#411f04</color>
+
+    <color name="color_shop_fw">#F2F8FF</color>
+    <color name="color_shop_sg">#8590A6</color>
+
+    <color name="color_text_pee">#f5a623</color>
+    <color name="text_share">#3c4550</color>
+    <color name="red_rmb">#ff2555</color>
+    <color name="blue">#0068b7</color>
+    <color name="nodeTextColor">#0068b7</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="red_srmb">#ee0c00</color>
+    <color name="nanse">#bf8a45</color>
+    <color name="liannanse">#e9d4a3</color>
+    <color name="color_grey">#efebee</color>
+    <color name="color_ori_price">#8e8e93</color>
+    <color name="dialog_line">#2c000000</color>
+
+    <!-- zxing -->
+    <item type="id" name="auto_focus"/>
+    <item type="id" name="decode"/>
+    <item type="id" name="decode_failed"/>
+    <item type="id" name="decode_succeeded"/>
+    <item type="id" name="encode_failed"/>
+    <item type="id" name="encode_succeeded"/>
+    <item type="id" name="launch_product_query"/>
+    <item type="id" name="quit"/>
+    <item type="id" name="restart_preview"/>
+    <item type="id" name="return_scan_result"/>
+    <item type="id" name="search_book_contents_failed"/>
+    <item type="id" name="search_book_contents_succeeded"/>
+    <color name="blue_03A9F4">#03A9F4</color>
+
+    <color name="line">#c9c9c9</color>
+    <color name="bg">#f9f9f9</color>
+    <color name="normal_item">#e9e9e9</color>
+
+    <color name="gray">#979797</color>
+    <color name="color_BCBBC1">#BCBBC1</color>
+
+    <color name="dialSelect">#0084ff</color>
+    <color name="arcColor">#e5e5ea</color>
+    <color name="gray1">#f4f3f4</color>
+    <color name="color_2">#fdc61d</color>
+    <color name="color_3">#ff6f73</color>
+    <color name="color_4">#fb7c3d</color>
+    <color name="red1">#ec6a37</color>
+    <color name="lanse">#b24b1f</color>
+    <color name="color_5">#9b69fb</color>
+    <color name="table_tou">#f3f7ff</color>
+    <color name="orge">#ffad33</color>
+    <color name="grayline">#F0F0F5</color>
+    <color name="app_color_f6">#f6f6f6</color>
+    <color name="uvv_gray">#969696</color>
+    <color name="uvv_black">#ff000000</color>
+    <color name="uvv_light_gray">#ffF0F0F0</color>
+    <color name="uvv_titlebar_bg">#7f000000</color>
+    <color name="app_color_white_transparent">#E0DBDBDB</color>
+    <color name="app_color_grey">#393a3e</color>
+    <color name="gray_bg">#eeeff0</color>
+    <color name="bg_f0">#F0F0F0</color>
+    <color name="blue_53">#53adff</color>
+    <color name="text_33">#333333</color>
+    <color name="bg_f4">#48C960</color>
+    <color name="black_10">#101010</color>
+
+    <!-- 个人中心选中背景色 -->
+    <color name="TextBlack">#1e1e1e</color>
+    <color name="TextYellow">#ff5a20</color>
+    <color name="BgColor">#FFFFFF</color>
+
+</resources>
