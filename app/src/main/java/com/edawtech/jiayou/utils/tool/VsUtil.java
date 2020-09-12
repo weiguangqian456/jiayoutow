@@ -79,6 +79,9 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
 import com.blankj.utilcode.util.ToastUtils;
 import com.edawtech.jiayou.BuildConfig;
 import com.edawtech.jiayou.R;
@@ -91,6 +94,7 @@ import com.edawtech.jiayou.retrofit.RetrofitClient;
 import com.edawtech.jiayou.ui.activity.LoginActivity;
 import com.edawtech.jiayou.ui.activity.MainActivity;
 import com.edawtech.jiayou.ui.activity.WeiboShareWebViewActivity;
+import com.edawtech.jiayou.ui.adapter.HomePageBannerViewHolder;
 import com.edawtech.jiayou.ui.dialog.CustomDialog;
 import com.edawtech.jiayou.ui.dialog.PromptDialog;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -4091,5 +4095,19 @@ public class VsUtil {
             }
             getOReceiver = null;
         }
+    }
+
+    public static  void setPase( ConvenientBanner mCbBanner ,List<Object> list){
+        mCbBanner.setPages(new CBViewHolderCreator() {
+            @Override
+            public Holder createHolder(View itemView) {
+                return new HomePageBannerViewHolder(itemView);
+            }
+
+            @Override
+            public int getLayoutId() {
+                return  R.layout.homepage_banner;
+            }
+        },list);
     }
 }
