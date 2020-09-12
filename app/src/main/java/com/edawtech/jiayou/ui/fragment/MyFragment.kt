@@ -10,15 +10,15 @@ class MyFragment : BaseMvpFragment() {
 
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.my_frament
-    }
 
     override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
 
     }
 
-    override fun initView(view: View?, savedInstanceState: Bundle?) {
+     override val layoutId: Int
+         get() = R.layout.my_frament
+
+     override fun initView(view: View?, savedInstanceState: Bundle?) {
 
     }
 }

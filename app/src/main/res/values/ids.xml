@@ -18,5 +18,5 @@
     <item name="node_items" type="id" />
     <item name="tree_items" type="id" />
 
-
+    <item name="tag_click" type="id" />
 </resources>

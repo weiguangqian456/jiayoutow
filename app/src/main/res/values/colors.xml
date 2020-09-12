@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#ff0084FF</color><!--03DAC5-->
+
 
     <!-- 白色  -->
     <color name="colorWhite">#ffffffff</color>
@@ -428,7 +426,7 @@
 
     <color name="noclick">#b5bac0</color>
     <color name="soldout">#cecece</color>
-    <color name="orange">#f67a00</color>
+
     <!-- 进度条渐变  -->
     <color name="progress_start">#1694fe</color>
     <color name="progress_center">#5ef4fd</color>
@@ -453,7 +451,6 @@
     <color name="public_color_FFC6AF">#FFC6AF</color>
     <color name="public_color_FF5000">#FF5000</color>
     <color name="public_color_DE5A3C">#DE5A3C</color>
-    <color name="public_color_EC6941">#EC6941</color>
     <color name="public_color_FEB705">#FEB705</color>
     <color name="public_color_F11801">#F11801</color>
     <color name="public_color_FF3333">#FF3333</color>

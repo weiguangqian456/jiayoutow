@@ -28,9 +28,10 @@ class MainActivity : BaseMvpActivity() {
     private lateinit var TabFragment2: Fragment
 
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
-    }
+
+    override val layoutId: Int
+        get() = R.layout.activity_main
+
 
     override fun initView(savedInstanceState: Bundle?) {
         /**

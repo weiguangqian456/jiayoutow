@@ -113,6 +113,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    useLibrary 'org.apache.http.legacy'
     // 打包时的错误提示：Error:Execution failed for task ':app:lintVitalRelease'
     lintOptions {
         checkReleaseBuilds false
@@ -214,7 +215,7 @@ dependencies {
     implementation 'com.rxjava.rxhttp:converter-simplexml:1.4.4'
     // OkHttp3.x ：如果需要添加HttpLoggingInterceptor进行调试，是为了配置缓存策略，必须跟okhttp同一版本号
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
-
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.5.0'
     //集成微信
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
 
@@ -254,4 +255,12 @@ dependencies {
     implementation 'com.bigkoo:convenientbanner:2.1.5'
 
     implementation 'com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar'
+    implementation 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'
+
+    implementation 'com.androidkun:XTabLayout:1.1.4'
+
+    //retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+
+    implementation 'com.alibaba:fastjson:1.2.48'
 }

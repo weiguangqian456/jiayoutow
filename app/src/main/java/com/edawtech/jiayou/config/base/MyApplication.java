@@ -4,6 +4,8 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
@@ -29,12 +31,14 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
 
-public class MyApplication extends Application implements IApp, CameraXConfig.Provider{
+public class MyApplication extends Application implements IApp, CameraXConfig.Provider {
     private static Context mContext;
     private static MyApplication mInstance;
     // 当前线程id
     public static int mainThreadId;
     public static Handler handler;
+
+    public int payType = 0;
 
     @Override
     public void onCreate() {
@@ -43,7 +47,6 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
         mContext = getApplicationContext();
         mainThreadId = android.os.Process.myTid();
         handler = new Handler();
-
 
 
         /**
@@ -69,8 +72,8 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
         });
 
 
-
     }
+
     public static Context getContext() {
         return mContext;
     }
@@ -79,6 +82,7 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
     public static MyApplication getInstance() {
         return mInstance;
     }
+
     /**
      * 重写attachBaseContext()方法：解决方法数 65536 (65k) 限制
      * 同时解决友盟分析问题Could not find class 'com.umeng.analytics.d'
@@ -157,7 +161,15 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
         });
     }
 
-
-
-
+    public static String getVersionCode() {
+        try {
+            PackageManager manager = MyApplication.getContext().getPackageManager();
+            PackageInfo info = manager.getPackageInfo(MyApplication.getContext().getPackageName(), 0);
+            String version = info.versionName;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyApplication.getContext().getString(R.string.version_unkown);
+        }
+    }
 }

@@ -6,8 +6,9 @@ import com.edawtech.jiayou.config.base.BaseMvpActivity
 
 class LoginActivity : BaseMvpActivity() {
 
-    override fun getLayoutId(): Int {
-     return  R.layout.activity_login    }
+
+    override val layoutId: Int
+        get() =  R.layout.activity_login
 
     override fun initView(savedInstanceState: Bundle?) {
 
