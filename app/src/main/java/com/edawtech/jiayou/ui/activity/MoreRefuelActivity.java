@@ -96,6 +96,7 @@ public class MoreRefuelActivity extends BaseRecycleActivity implements OnAddress
     @Override
     public void initView(Bundle savedInstanceState) {
 
+
     }
 
     @Override

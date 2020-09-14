@@ -1,6 +1,7 @@
 package com.edawtech.jiayou.ui.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.ArrayMap
@@ -10,7 +11,6 @@ import android.widget.LinearLayout
 import com.alibaba.fastjson.JSON
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
-import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.edawtech.jiayou.R
@@ -19,12 +19,11 @@ import com.edawtech.jiayou.config.bean.BannerDataEntity
 import com.edawtech.jiayou.config.bean.ResultEntity
 import com.edawtech.jiayou.net.test.RetrofitCallback
 import com.edawtech.jiayou.retrofit.RetrofitClient
-import com.edawtech.jiayou.ui.activity.MoreRefuelActivity
+import com.edawtech.jiayou.ui.activity.MoreReListActivity
 import com.edawtech.jiayou.ui.dialog.CustomProgressDialog
 import com.edawtech.jiayou.utils.tool.ViewSetUtils
 import com.edawtech.jiayou.utils.tool.VsUtil
 import com.service.helper.BDLBSMapHelper
-import com.service.listener.OnAddressCallback
 import kotlinx.android.synthetic.main.home_fragment.*
 
 
@@ -57,10 +56,11 @@ class HomeFragment : BaseMvpFragment() {
         loadingDialog.setLoadingDialogShow()
 
         getBanner()
-      //更多油站
+      //更多油站列表
         view?.findViewById<LinearLayout>(R.id.llerefuel)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
-            MoreRefuelActivity.start(context, mIsLocationSuccess, mLatitude, mLongitude)
+            startActivity(Intent(context, MoreReListActivity::class.java))
+
         }
         view?.findViewById<LinearLayout>(R.id.ll_refuel_order)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
