@@ -27,14 +27,21 @@ android {
 
     defaultConfig {
         applicationId "com.edawtech.jiayou"
-        minSdkVersion 24
+        minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        myConfig {
+            storeFile file("D:/AndroidFile/jiayou/jiayou.jks")
+            keyAlias 'jiayou'
+            keyPassword 'jiayou123'
+            storePassword 'jiayou123'
+        }
+    }
     buildTypes {
         // 生产环境
         release {
@@ -94,6 +101,8 @@ android {
 //            signingConfig signingConfigs.myconfig
         }
     }
+
+
     sourceSets {
         main {
             // 配置.so文件路径---把so文件夹armeabi添加到libs中
@@ -251,6 +260,7 @@ dependencies {
 
     // 日志打印 依赖
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation files('libs/BDLBS_helper.jar')
 
     implementation 'com.bigkoo:convenientbanner:2.1.5'
 
@@ -263,4 +273,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
     implementation 'com.alibaba:fastjson:1.2.48'
+
+    //定位功能
+    compile 'com.amap.api:location:latest.integration'
+
 }

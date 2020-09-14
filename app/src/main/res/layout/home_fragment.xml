@@ -237,13 +237,14 @@
                     app:rv_cornerRadius="10dp">
 
                     <LinearLayout
-                        android:id="@+id/ll_more_refuel"
+                        android:id="@+id/llerefuel"
                         android:layout_width="match_parent"
                         android:layout_height="65dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
+
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"

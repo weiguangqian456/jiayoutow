@@ -44,9 +44,12 @@ class MainActivity : BaseMvpActivity() {
 
         ly_Tab1.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.9f)
-            switchFragment(0) }
+            resetBtn()
+            switchFragment(0)
+        }
         ly_Tab4.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.9f)
+            resetBtn()
             switchFragment(1)
         }
 
@@ -104,7 +107,6 @@ class MainActivity : BaseMvpActivity() {
 
     }
 
-
     fun switchFragment(page: Int) {
         if (page == showFragmentPage) {
             return
@@ -156,8 +158,6 @@ class MainActivity : BaseMvpActivity() {
                     }
                 }
     }
-
-
 
     /**
      * Fragment如何调用所在Activity的dispatchTouchEvent(MotionEvent ev)函数。

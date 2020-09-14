@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+
 import com.baidu.location.BDLocation;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseRecycleActivity;
@@ -159,7 +160,7 @@ public class MoreRefuelActivity extends BaseRecycleActivity implements OnAddress
         mFuelOilType = mFuelOilTypeList.get(0).filtrateValue;
         mTvFuelOilType.setText(mFuelOilTypeList.get(0).filtrateName);
 
-        mFuelOilTypeDialog = new RefuelFiltrateDialog(mContext, mLlRefuelFiltrate);
+        mFuelOilTypeDialog = new RefuelFiltrateDialog(getApplicationContext(), mLlRefuelFiltrate);
         mFuelOilTypeDialog.setData(mFuelOilTypeList);
         mFuelOilTypeDialog.mAdapter.setRecycleClickListener(new RecycleItemClick() {
             @Override
