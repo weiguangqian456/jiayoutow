@@ -4092,4 +4092,12 @@ public class VsUtil {
             getOReceiver = null;
         }
     }
+
+    public static void getUpdate(Context mContext) {
+        // 拉取升级信息
+        TreeMap<String, String> treeMap = new TreeMap<String, String>();
+        // treeMap.put("package_name", mContext.getPackageName());
+        treeMap.put("netmode", VsNetWorkTools.getNetMode(mContext));
+        CoreBusiness.getInstance().startThread(mContext, GlobalVariables.UPDATE_CONFIG, DfineAction.authType_AUTO, treeMap, GlobalVariables.actionupdate);
+    }
 }

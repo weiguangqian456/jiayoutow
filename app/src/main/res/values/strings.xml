@@ -114,4 +114,6 @@
     <string name="call_display_login_prompt">您尚未登录，登录后才可以设置来电显示，现在马上去登录吧！</string>
 
     <string name="phone_call">手机拨打</string>
+    <string name="vs_miss_call">来电显示</string>
+    <string name="vs_miss_call_d">%d个未接来电</string>
 </resources>
