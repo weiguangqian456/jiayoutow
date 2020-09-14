@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BasePresenter;
 import com.edawtech.jiayou.config.bean.BaseResultData;
+import com.edawtech.jiayou.config.bean.ResultEntity;
 import com.edawtech.jiayou.config.constant.Constant;
 import com.edawtech.jiayou.mvp.contract.PublicContract;
 import com.edawtech.jiayou.mvp.model.PublicModel;
@@ -277,42 +278,53 @@ public class PublicPresenter extends BasePresenter<PublicContract.View> implemen
                                     getView().onSuccess(data);
                                 }
                             } else {
-                                BaseResultData resultData = GsonUtils.getGson().fromJson(data, BaseResultData.class);
-                                if (resultData.getCode() == Constant.CODE_Success) {
+                                ResultEntity resultData = GsonUtils.getGson().fromJson(data, ResultEntity.class);
+                                if (resultData.getCode() == Constant.CODE_Success){
                                     LogUtils.i("data",data);
                                     if (task != null) {
                                         task.onSuccess(data);
                                     } else {
                                         getView().onSuccess(data);
                                     }
-                                } else if (resultData.getCode() == Constant.CODE_Failed_20201
-                                        || resultData.getCode() == Constant.CODE_Failed_20202
-                                        || resultData.getCode() == Constant.CODE_Failed_20203) {
-                                    String msg = getView().getContext().getResources().getString(R.string.pleaseLoginAgain);
-                                    if (resultData.getCode() == Constant.CODE_Failed_20201) {
-                                        msg = getView().getContext().getResources().getString(R.string.UserNotLoggedIn);
-                                    } else if (resultData.getCode() == Constant.CODE_Failed_20202) {
-                                        msg = getView().getContext().getResources().getString(R.string.pleaseLoginAgain);
-                                    } else if (resultData.getCode() == Constant.CODE_Failed_20203) {
-                                        msg = getView().getContext().getResources().getString(R.string.AccountHasBeenFrozen);
-                                    }
-                                    // 身份已过期,请重新登录
-                                    //getView().showToast(msg);
-                                    // 退出登录弹出框提醒
-                                    showAlertDialog(getView().getContext(), msg);
-                                    // 回调。
-                                    if (task != null) {
-                                        task.onFailure(null, resultData.getCode(), resultData.getMessage(), false);
-                                    } else {
-                                        getView().onFailure(null, resultData.getCode(), resultData.getMessage(), false);
-                                    }
-                                } else {
-                                    if (task != null) {
-                                        task.onFailure(null, resultData.getCode(), resultData.getMessage(), false);
-                                    } else {
-                                        getView().onFailure(null, resultData.getCode(), resultData.getMessage(), false);
-                                    }
                                 }
+
+
+//                                BaseResultData resultData = GsonUtils.getGson().fromJson(data, BaseResultData.class);
+//                                if (resultData.getCode() == Constant.CODE_Success) {
+//                                    LogUtils.i("data",data);
+////                                    if (task != null) {
+////                                        task.onSuccess(data);
+////                                    } else {
+////                                        getView().onSuccess(data);
+////                                    }
+//                                } else if (resultData.getCode() == Constant.CODE_Failed_20201
+//                                        || resultData.getCode() == Constant.CODE_Failed_20202
+//                                        || resultData.getCode() == Constant.CODE_Failed_20203) {
+//                                    String msg = getView().getContext().getResources().getString(R.string.pleaseLoginAgain);
+//                                    if (resultData.getCode() == Constant.CODE_Failed_20201) {
+//                                        msg = getView().getContext().getResources().getString(R.string.UserNotLoggedIn);
+//                                    } else if (resultData.getCode() == Constant.CODE_Failed_20202) {
+//                                        msg = getView().getContext().getResources().getString(R.string.pleaseLoginAgain);
+//                                    } else if (resultData.getCode() == Constant.CODE_Failed_20203) {
+//                                        msg = getView().getContext().getResources().getString(R.string.AccountHasBeenFrozen);
+//                                    }
+//                                    // 身份已过期,请重新登录
+//                                    //getView().showToast(msg);
+//                                    // 退出登录弹出框提醒
+//                                    showAlertDialog(getView().getContext(), msg);
+//                                    // 回调。
+//                                    if (task != null) {
+//                                        task.onFailure(null, resultData.getCode(), resultData.getMessage(), false);
+//                                    } else {
+//                                        getView().onFailure(null, resultData.getCode(), resultData.getMessage(), false);
+//                                    }
+//                                } else {
+//                                    if (task != null) {
+//                                        task.onFailure(null, resultData.getCode(), resultData.getMessage(), false);
+//                                    } else {
+//                                        getView().onFailure(null, resultData.getCode(), resultData.getMessage(), false);
+//                                    }
+//                                }
                             }
                         } catch (Exception e) {
                             // 数据解析失败 DataParsingFailed getView().getContext().getResources().getString(R.string.DataParsingFailed)

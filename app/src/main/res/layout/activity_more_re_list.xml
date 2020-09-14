@@ -10,7 +10,7 @@
      android:id="@+id/title_main_tv"
      android:layout_width="match_parent"
      android:layout_height="@dimen/TitleView_Height"
-     android:background="@color/colorEmpty"
+     android:background="@color/colorWhite"
      app:left_image="@mipmap/icon_titlebar_close"
      app:title_gravity="center"
      app:title_name="加油"
@@ -69,7 +69,6 @@
        android:id="@+id/tv_filtrate"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-
        android:drawablePadding="5dp"
        android:ellipsize="end"
        android:gravity="center"
@@ -119,10 +118,11 @@
      android:layout_width="match_parent"
      android:layout_height="match_parent">
 
-  <androidx.recyclerview.widget.RecyclerView
+  <com.yanzhenjie.recyclerview.SwipeRecyclerView
       android:id="@+id/rv_load"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
       android:overScrollMode="never" />
  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
