@@ -384,7 +384,7 @@ public class MoreRefuelActivity extends BaseRecycleActivity implements OnAddress
         RefuelList refuelList = JSON.parseObject(mAdapter.getItem(position).toString(), RefuelList.class);
         switch (view.getId()) {
             case R.id.rll_item:
-                RefuelDetailActivity.start(this, refuelList);
+              //  RefuelDetailActivity.start(this, refuelList);
                 break;
             case R.id.tv_navigation:
                 mGoLatitude = refuelList.gasAddressLatitude;

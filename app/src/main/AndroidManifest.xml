@@ -123,14 +123,24 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name=".ui.activity.MoreReListActivity"
+        <activity
+            android:name=".ui.activity.MoreReListActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan"
-            ></activity>
+            android:windowSoftInputMode="adjustPan" />
+
+      <!-- 加油站详情-->
+        <activity android:name=".ui.activity.RefuelDetailKTActivity"
+            android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitle"
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -139,11 +149,11 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="1e83b290e755fa5f7661ece7598583c7"></meta-data>
+            android:value="1e83b290e755fa5f7661ece7598583c7" />
 
         <service android:name="com.amap.api.location.APSService" />
     </application>

@@ -19,6 +19,7 @@
         app:rv_cornerRadius="10dp">
 
         <LinearLayout
+            android:id="@+id/Lin_rll_item"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -120,6 +121,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/Lv_navigation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">

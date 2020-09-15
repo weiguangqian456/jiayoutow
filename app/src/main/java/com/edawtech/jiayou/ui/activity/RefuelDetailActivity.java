@@ -28,6 +28,7 @@ import com.androidkun.xtablayout.XTabLayout;
 import com.bumptech.glide.Glide;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseActivity;
+import com.edawtech.jiayou.config.bean.MoreReListBean;
 import com.edawtech.jiayou.config.bean.RefuelDetail;
 import com.edawtech.jiayou.config.bean.RefuelList;
 import com.edawtech.jiayou.config.bean.ResultEntity;
@@ -47,6 +48,7 @@ import com.flyco.roundview.RoundTextView;
 import com.google.gson.Gson;
 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,10 +94,10 @@ public class RefuelDetailActivity extends BaseActivity {
     @BindView(R.id.tv_prompt)
     TextView mTvPrompt;
 
-    public static void start(Context context, RefuelList refuelList) {
+    public static void start(Context context, MoreReListBean.MoreReListRecords refuelList) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("REFUEL_LIST", refuelList);
-        ArmsUtils.startActivity(context, RefuelDetailActivity.class, bundle);
+        bundle.putSerializable("REFUEL_LIST", (Serializable) refuelList);
+        ArmsUtils.startActivity(context, MoreReListBean.MoreReListRecords.class, bundle);
     }
 
     public static RefuelCouponMoneyActivity getInstance = new RefuelCouponMoneyActivity();

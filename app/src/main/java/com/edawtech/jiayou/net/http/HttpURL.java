@@ -40,6 +40,8 @@ public class HttpURL {
 
     //加油站列表
     public final static String CheZhuBangControll = "/benefit/web/CheZhuBangController/queryGasStationInfoList";
+   //获取油站详情
+    public final static String queryPriceByPhone ="/benefit/web/CheZhuBangController/queryPriceByPhone";
 
 
 
