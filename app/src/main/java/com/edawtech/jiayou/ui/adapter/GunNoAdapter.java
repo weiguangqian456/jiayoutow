@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.bean.RefuelDetail;
+import com.edawtech.jiayou.config.bean.RefuelDetailBean;
 import com.flyco.roundview.RoundTextView;
 import com.flyco.roundview.RoundViewDelegate;
 
@@ -24,14 +25,14 @@ import butterknife.ButterKnife;
 public class GunNoAdapter extends RecyclerView.Adapter<GunNoAdapter.ItemViewHolder> {
 
     private Context mContext;
-    private List<RefuelDetail.OilPriceList.GunNos> mList = new ArrayList<>();
+    private List<RefuelDetailBean.RefuelDetaiOilGunNos> mList = new ArrayList<>();
     private RecycleItemClick mRecycleItemClick;
 
-    public List<RefuelDetail.OilPriceList.GunNos> getList() {
+    public List<RefuelDetailBean.RefuelDetaiOilGunNos> getList() {
         return mList;
     }
 
-    public void setList(List<RefuelDetail.OilPriceList.GunNos> list) {
+    public void setList(List<RefuelDetailBean.RefuelDetaiOilGunNos> list) {
         this.mList = list;
     }
 
@@ -49,9 +50,9 @@ public class GunNoAdapter extends RecyclerView.Adapter<GunNoAdapter.ItemViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
-        final RefuelDetail.OilPriceList.GunNos item = mList.get(position);
+        final RefuelDetailBean.RefuelDetaiOilGunNos item = mList.get(position);
 
-        holder.mRtvFiltrateName.setText(item.gunNo + "号枪");
+        holder.mRtvFiltrateName.setText(item.getGunNo() + "号枪");
 
         RoundViewDelegate delegate = holder.mRtvFiltrateName.getDelegate();
 
@@ -87,7 +88,7 @@ public class GunNoAdapter extends RecyclerView.Adapter<GunNoAdapter.ItemViewHold
     }
 
     public void cancelCheck() {
-        for (RefuelDetail.OilPriceList.GunNos address : mList) {
+        for (RefuelDetailBean.RefuelDetaiOilGunNos address : mList) {
             address.check = false;
         }
     }

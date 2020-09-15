@@ -79,12 +79,14 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.alibaba.fastjson.JSON;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.blankj.utilcode.util.ToastUtils;
 import com.edawtech.jiayou.BuildConfig;
 import com.edawtech.jiayou.R;
+import com.edawtech.jiayou.config.bean.RefuelDetail;
 import com.edawtech.jiayou.config.bean.ResultEntity;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.GlobalVariables;
@@ -598,7 +600,7 @@ public class VsUtil {
             mContext.registerReceiver(getOReceiver, Filter);
             String caller = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_PhoneNumber);
             String uid = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_KcId);
-      //      VsBizUtil.getInstance().getOK(mContext, caller, number, getCallType(mContext), uid);
+            //      VsBizUtil.getInstance().getOK(mContext, caller, number, getCallType(mContext), uid);
         }
     }
 
@@ -723,9 +725,6 @@ public class VsUtil {
         }
         return phone;
     }
-
-
-
 
 
     /**
@@ -905,6 +904,7 @@ public class VsUtil {
 
     /**
      * 查询电话号码是否为VS好友
+     *
      * @return
      */
     public static boolean checheNumberIsVsUser(Context context, String phoneNum) {
@@ -1276,12 +1276,12 @@ public class VsUtil {
 //        }
 //    }
 //
- /**
-//     * 设置共用的参数到Bundle
-//     *
-//     * @param bund
-//     * @param context
-//     */
+    /**
+     //     * 设置共用的参数到Bundle
+     //     *
+     //     * @param bund
+     //     * @param context
+     //     */
 //    public static void setValueToBundle(Bundle bund, Context context) {
 //        bund.putString("brandid", DfineAction.brandid);
 //        bund.putString("uid", VsUserConfig.getDataString(context, VsUserConfig.JKey_KcId));
@@ -1333,7 +1333,7 @@ public class VsUtil {
     /**
      * 根据给定的Intent进行Activity跳转
      *
-     * @param intent   要传递的Intent对象
+     * @param intent 要传递的Intent对象
      */
     public static void startActivity(Context mContext, Intent intent) {
         mContext.startActivity(intent);
@@ -1361,7 +1361,7 @@ public class VsUtil {
             GlobalVariables.curIndicator = 1;
             intent.setClass(mContext, MainActivity.class);
         } else if (link.equals("40002")) {// 个人信息界面
-        //    intent.setClass(mContext, VsMyInfoTextActivity.class);
+            //    intent.setClass(mContext, VsMyInfoTextActivity.class);
         } else if (link.equals("30002")) {// 赚钱计划界面
             String urlTo = "http://www.wind163.com/help/money_plan.html";
             String[] aboutBusiness = new String[]{"赚钱计划", "", urlTo};
@@ -1374,43 +1374,43 @@ public class VsUtil {
             intent.setClass(mContext, WeiboShareWebViewActivity.class);
         } else if (link.equals("40003")) {// 我的余额界面
             intent.putExtra("flag", "3");
-         //   intent.setClass(mContext, VsMyBalanceDetailActivity.class);
+            //   intent.setClass(mContext, VsMyBalanceDetailActivity.class);
         } else if (link.equals("40004")) {// 我的套餐界面
             intent.putExtra("flag", "2");
-         //   intent.setClass(mContext, VsMyBalanceDetailActivity.class);
+            //   intent.setClass(mContext, VsMyBalanceDetailActivity.class);
         } else if (link.equals("40005")) {// 我的红包界面
-        //    intent.setClass(mContext, VsMyRedPagActivity.class);
+            //    intent.setClass(mContext, VsMyRedPagActivity.class);
         } else if (link.equals("40006")) {// 我的二维码界面
-         //   intent.setClass(mContext, KcMyQcodeActivity.class);
+            //   intent.setClass(mContext, KcMyQcodeActivity.class);
         } else if (link.equals("40008")) {// 设置界面
-        //    intent.setClass(mContext, VsSetingActivity.class);
+            //    intent.setClass(mContext, VsSetingActivity.class);
         } else if (link.equals("40009")) {// 拨打方式界面
-        //    intent.setClass(mContext, VsCallTypeSetingActivity.class);
+            //    intent.setClass(mContext, VsCallTypeSetingActivity.class);
         } else if (link.equals("40010")) {// 关于界面
-        //    intent.setClass(mContext, KcQcodeActivity.class);
+            //    intent.setClass(mContext, KcQcodeActivity.class);
         } else if (link.equals("40007")) {// 扫码绑定界面
             intent.putExtra("code", "2");
-        //    intent.setClass(mContext, CaptureActivity.class);
+            //    intent.setClass(mContext, CaptureActivity.class);
         }
         // 话费界面
         else if (link.equals("0301") || link.equals("30001")) {
             intent.putExtra("indicator", 2);
             GlobalVariables.curIndicator = 2;
-        //    intent.setClass(mContext, VsMainActivity.class);
+            //    intent.setClass(mContext, VsMainActivity.class);
         } else if (link.equals("40001")) {
             intent.putExtra("indicator", 3);
             GlobalVariables.curIndicator = 3;
-           // intent.setClass(mContext, VsMainActivity.class);
+            // intent.setClass(mContext, VsMainActivity.class);
         } else if (link.equals("3027")) {// 迷你小游戏
-           // intent.setClass(mContext, VsMiniGameActivity.class);
+            // intent.setClass(mContext, VsMiniGameActivity.class);
         } else if (link.equals("4002") || link.equals("30004")) {// 扫描二维码
-           intent.putExtra("code", "0");
-         //   intent.setClass(mContext, CaptureActivity.class);
+            intent.putExtra("code", "0");
+            //   intent.setClass(mContext, CaptureActivity.class);
         } else if (link.equals("4001")) {// 手势密码
 
-          //  intent.setClass(mContext, KcUnlockedActivity.class);
+            //  intent.setClass(mContext, KcUnlockedActivity.class);
         } else if (link.equals("3035")) {
-          //  intent.setClass(mContext, VsSetingVoicePianoActivity.class);
+            //  intent.setClass(mContext, VsSetingVoicePianoActivity.class);
         }
         // 充值方式
         else if (link.equals("0302") || link.equals("2000")) {
@@ -1431,16 +1431,16 @@ public class VsUtil {
                     e.printStackTrace();
                 }
             }
-          //  intent.setClass(mContext, VsRechargePayTypes.class);
+            //  intent.setClass(mContext, VsRechargePayTypes.class);
         }
         // 余额
         else if (link.equals("0401") || link.equals("3016")) {
             if (!isLogin(mContext.getResources().getString(R.string.seach_balance_login_prompt), mContext))
                 return;
-        //    intent.setClass(mContext, VsBalanceActivity.class);
+            //    intent.setClass(mContext, VsBalanceActivity.class);
         } // 赚话费
         else if (link.equals("3002") || link.equals("3002")) {
-        //   intent.setClass(mContext, VsMakeMoneyActivity.class);
+            //   intent.setClass(mContext, VsMakeMoneyActivity.class);
         }
 
         // 资费说明页面
@@ -1475,7 +1475,7 @@ public class VsUtil {
         }
         // 联系客服页面
         else if (link.equals("3018")) {
-          //  intent.setClass(mContext, VsAboutActivity.class);
+            //  intent.setClass(mContext, VsAboutActivity.class);
         }
         // 帮助中心页面
         else if (link.equals("3019")) {
@@ -1521,11 +1521,11 @@ public class VsUtil {
          */
         // 在线升级页面
         else if (link.equals("3020")) {
-           // intent.setClass(mContext, VsSetingActivity.class);
+            // intent.setClass(mContext, VsSetingActivity.class);
         }
         // 签到---
         else if (link.equals("3006")) {
-           // intent.setClass(mContext, VsSignInFirstActivity.class);
+            // intent.setClass(mContext, VsSignInFirstActivity.class);
         }
         // 查询话单页面
         else if (link.equals("3024")) {
@@ -1545,14 +1545,14 @@ public class VsUtil {
             if (!isLogin(mContext.getResources().getString(R.string.call_display_login_prompt), mContext)) {
                 return;
             }
-      //      intent.setClass(mContext, VsCallerIdentificationActivity.class);
+            //      intent.setClass(mContext, VsCallerIdentificationActivity.class);
         }
         // 赚话费任务界面---
         else if (link.equals("040201")) {
             if (item != null) {
-            //    intent.putExtra("vsInviteItem", (VsInviteItem) item);
+                //    intent.putExtra("vsInviteItem", (VsInviteItem) item);
             }
-         //   intent.setClass(mContext, VsMakeMoneyTaskActivity.class);
+            //   intent.setClass(mContext, VsMakeMoneyTaskActivity.class);
 
         } else if (link.contains("http://")) {
             String urlTo = link;
@@ -1594,7 +1594,7 @@ public class VsUtil {
             DialogInterface.OnClickListener okListener = new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                   // VsUtil.callNumber("", phone, "", context, "", false, null);
+                    // VsUtil.callNumber("", phone, "", context, "", false, null);
                 }
             };
             DialogInterface.OnClickListener cancel = new OnClickListener() {
@@ -1638,7 +1638,7 @@ public class VsUtil {
     public static void showInView(String url, Context context, int activityId, String actionType) {
         // 如果不是协议跳转 url即为界面编号 直接启动即可
         if (activityId != 0 && actionType != null) {
-           // VsAction.insertAction(activityId, actionType, String.valueOf(System.currentTimeMillis() / 1000), "0", context);
+            // VsAction.insertAction(activityId, actionType, String.valueOf(System.currentTimeMillis() / 1000), "0", context);
         }
         try {
             url = URLDecoder.decode(url);
@@ -1856,7 +1856,7 @@ public class VsUtil {
     public static void setAlarmForActivity(Context mContext, Long Time, String title, String url) {
         AlarmManager alarm = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent();
-      //  intent.setAction(VsCoreService.VS_ACTION_ALARM_ACTIVITY);
+        //  intent.setAction(VsCoreService.VS_ACTION_ALARM_ACTIVITY);
         intent.putExtra("packname", mContext.getPackageName());
         intent.putExtra("title", title);
         intent.putExtra("url", url);
@@ -1875,7 +1875,7 @@ public class VsUtil {
      */
     public static void closeAlarm(Context mContext) {
         Intent intent = new Intent();
-     //   intent.setAction(VsCoreService.VS_ACTION_ALARM_ACTIVITY);
+        //   intent.setAction(VsCoreService.VS_ACTION_ALARM_ACTIVITY);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         CustomLog.i("GDK", "取消闹铃:" + alarmManager.toString() + "pendingIntent=" + pendingIntent);
@@ -1961,7 +1961,7 @@ public class VsUtil {
      * @return
      */
     public static String getNetTypeString() {
-     //   int net_type = VsNetWorkTools.getSelfNetworkType(VsApplication.getContext());
+        //   int net_type = VsNetWorkTools.getSelfNetworkType(VsApplication.getContext());
         String netType = "";
 //        if (net_type == 1) {
 //            netType = "wifi"; // wifi
@@ -2130,7 +2130,6 @@ public class VsUtil {
 
     /**
      * 一段String字体大小不一处理
-     *
      */
     public static String setTextTypeStyles(HashMap<String, ArrayList<String>> hashMap) {
         StringBuffer msp_content = new StringBuffer();
@@ -2230,7 +2229,7 @@ public class VsUtil {
                     StringBuffer regxString = new StringBuffer();
                     try {
                         for (int j = 0; j < input.length(); j++) {
-                       //     regxString.append("[" + VsSearchSql.array[input.charAt(j) - '2'] + "]");
+                            //     regxString.append("[" + VsSearchSql.array[input.charAt(j) - '2'] + "]");
                         }
                     } catch (Exception e) {
                     }
@@ -3112,7 +3111,7 @@ public class VsUtil {
 
     /**
      * 比较当前时间与指定时间的差
-
+     *
      * @return
      */
     public static int compareDate(Context context, String vaild_date) {
@@ -3718,7 +3717,7 @@ public class VsUtil {
 
     /**
      * 手机号码类型判断
-
+     *
      * @return
      */
     public static String checkMobileType(String phoneNum) {
@@ -4097,7 +4096,7 @@ public class VsUtil {
         }
     }
 
-    public static  void setPase( ConvenientBanner mCbBanner ,List<Object> list){
+    public static void setPase(ConvenientBanner mCbBanner, List<Object> list) {
         mCbBanner.setPages(new CBViewHolderCreator() {
             @Override
             public Holder createHolder(View itemView) {
@@ -4106,8 +4105,10 @@ public class VsUtil {
 
             @Override
             public int getLayoutId() {
-                return  R.layout.homepage_banner;
+                return R.layout.homepage_banner;
             }
-        },list);
+        }, list);
     }
+
+
 }

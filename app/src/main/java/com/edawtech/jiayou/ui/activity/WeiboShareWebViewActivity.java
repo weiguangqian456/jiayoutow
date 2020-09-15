@@ -114,7 +114,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
         getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vs_webview);
-       // FitStateUtils.setImmersionStateMode(this,R.color.public_color_EC6941);
+        // FitStateUtils.setImmersionStateMode(this,R.color.public_color_EC6941);
         //关闭左滑功能
         setDisEnableLeftSliding();
         initTitleNavBar();
@@ -183,7 +183,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
         // webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         webSettings.setPluginState(WebSettings.PluginState.ON);
         webSettings.setAppCacheMaxSize(Integer.MAX_VALUE);
-   //     webSettings.setAppCachePath(FileUtils.getSaveFilePath() + WEB_CACHE_FILE);
+        //     webSettings.setAppCachePath(FileUtils.getSaveFilePath() + WEB_CACHE_FILE);
         int netType = VsNetWorkTools.getSelfNetworkType(this);
         CustomLog.i(TAG, "netType = " + netType);
         switch (netType) {
@@ -212,7 +212,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
     }
 
     protected void onResume() {
-        
+
         super.onResume();
         CustomLog.i("GDK", "smsCallBack=" + smsCallBack);
         if (smsCallBack != null) {
@@ -225,7 +225,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        
+
     }
 
     public void onStop() {
@@ -296,7 +296,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
             web_nextback_layout.setVisibility(View.GONE);
         } else {
             if (name.equals("store")) {
-            //    showRightNavaBtn(R.drawable.webview_finish);
+                //    showRightNavaBtn(R.drawable.webview_finish);
             }
             mCurrentTabView.setText(title);
             builder = new StringBuilder(business[2]);
@@ -401,7 +401,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
                     }
                     return true;
                 } else if (urlString.startsWith(DfineAction.scheme_head)) {
-                  //  VsUtil.skipForTarget(urlString, mContext, 0, null);
+                    //  VsUtil.skipForTarget(urlString, mContext, 0, null);
                     mWebView.stopLoading();
                     return true;
                 }
@@ -518,7 +518,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
                 mWebView.reload();
             }
         });
-      //  mWebView.addJavascriptInterface(new KcWebView(), "KcWebView");
+        //  mWebView.addJavascriptInterface(new KcWebView(), "KcWebView");
         mBaseHandler.sendEmptyMessageDelayed(MSG_SHOW_ANIMATION, 500);
 
     }
@@ -606,11 +606,11 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
     // }
     // }
 
-	/*
+    /*
      * @Override public boolean onKeyDown(int keyCode, KeyEvent event) { if(keyCode == KeyEvent.KEYCODE_BACK){
-	 * if(mWebView.canGoBack()){ mWebView.goBack(); }else{ finish(); } return false; } return super.onKeyDown(keyCode,
-	 * event); }
-	 */
+     * if(mWebView.canGoBack()){ mWebView.goBack(); }else{ finish(); } return false; } return super.onKeyDown(keyCode,
+     * event); }
+     */
 
     // /**
     // * 加载进度框
