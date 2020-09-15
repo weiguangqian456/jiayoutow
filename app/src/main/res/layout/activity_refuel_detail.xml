@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg"
-   >
+    android:background="@color/color_bg">
 
 
     <androidx.core.widget.NestedScrollView
@@ -21,15 +20,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp">
-
-                <ImageView
-                    android:id="@+id/iv_oil_station_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/bg_my_integral_top" />
+                android:layout_height="211dp">
 
                 <com.flyco.roundview.RoundTextView
                     android:layout_width="match_parent"
@@ -38,6 +29,14 @@
                     app:rv_backgroundColor="@color/public_color_white"
                     app:rv_cornerRadius_TL="10dp"
                     app:rv_cornerRadius_TR="10dp" />
+
+                <ImageView
+                    android:id="@+id/iv_oil_station_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/bg_my_integral_top" />
 
             </FrameLayout>
 
@@ -82,8 +81,8 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="@dimen/dp15"
+                                android:layout_height="@dimen/dp20"
                                 android:layout_marginLeft="5dp"
                                 android:src="@drawable/ic_refuel_location" />
 
@@ -110,7 +109,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="嘟嘟价￥"
+                                android:text="佳油价￥"
                                 android:textColor="@color/public_color_999999"
                                 android:textSize="10sp" />
 
@@ -171,18 +170,34 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_navigation"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="15dp"
-                        android:drawableTop="@drawable/ic_refuel_list_navigation"
-                        android:drawablePadding="2dp"
-                        android:gravity="center"
-                        android:text="0.0km"
-                        android:textColor="@color/public_color_EC6941"
-                        android:textSize="10sp" />
+                        android:layout_marginRight="15dp">
+
+                        <ImageView
+                            android:id="@+id/iv_navigation"
+                            android:layout_width="@dimen/dp45"
+                            android:layout_height="@dimen/dp45"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_refuel_list_navigation" />
+
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/tv_navigation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/iv_navigation"
+                            android:layout_centerHorizontal="true"
+                            android:drawablePadding="2dp"
+                            android:gravity="center"
+                            android:text="0.0km"
+                            android:textColor="@color/public_color_EC6941"
+                            android:textSize="10sp" />
+                    </RelativeLayout>
+
 
                 </LinearLayout>
 
@@ -319,6 +334,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp25"
             android:orientation="vertical">
 
             <LinearLayout
@@ -333,9 +349,10 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/dp20"
+                        android:layout_height="@dimen/dp30"
                         android:layout_gravity="center"
+                        android:layout_margin="@dimen/dp15"
                         android:src="@drawable/ic_seckill_back" />
 
                 </FrameLayout>

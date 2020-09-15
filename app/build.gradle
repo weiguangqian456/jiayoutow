@@ -35,11 +35,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
-        myConfig {
-            storeFile file("D:/AndroidFile/jiayou/jiayou.jks")
-            keyAlias 'jiayou'
+        myconfig {
+            keyAlias 'key0'
             keyPassword 'jiayou123'
             storePassword 'jiayou123'
+            storeFile file("D:\\app\\jiayou\\jiayou.jks")
         }
     }
     buildTypes {
@@ -71,7 +71,7 @@ android {
             // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 实现自动签名
-//            signingConfig signingConfigs.myconfig
+            signingConfig signingConfigs.myconfig
         }
         // 开发环境
         debug {
@@ -98,7 +98,7 @@ android {
             // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 实现自动签名
-//            signingConfig signingConfigs.myconfig
+           signingConfig signingConfigs.myconfig
         }
     }
 
@@ -275,6 +275,6 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.48'
 
     //定位功能
-    compile 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:location:latest.integration'
 
 }

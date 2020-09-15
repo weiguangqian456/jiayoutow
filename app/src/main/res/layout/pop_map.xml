@@ -50,12 +50,12 @@
 
         <CheckBox
             android:id="@+id/cb_amap"
-            android:layout_width="@dimen/w_17_dip"
-            android:layout_height="@dimen/w_16_dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/w_20_dip"
-            android:button="@drawable/cb_map"
+
             android:checked="true" />
     </RelativeLayout>
 
@@ -90,12 +90,12 @@
 
         <CheckBox
             android:id="@+id/cb_baidumap"
-            android:layout_width="@dimen/w_17_dip"
-            android:layout_height="@dimen/w_16_dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/w_20_dip"
-            android:button="@drawable/cb_map" />
+      />
     </RelativeLayout>
 
     <View style="@style/line_below" />

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.bean.RefuelDetail;
+import com.edawtech.jiayou.config.bean.RefuelDetailBean;
 import com.flyco.roundview.RoundTextView;
 import com.flyco.roundview.RoundViewDelegate;
 
@@ -24,14 +25,14 @@ import butterknife.ButterKnife;
 public class OilNoAdapter extends RecyclerView.Adapter<OilNoAdapter.ItemViewHolder> {
 
     private Context mContext;
-    private List<RefuelDetail.OilPriceList> mList = new ArrayList<>();
+    private List<RefuelDetailBean.RefuelDetaiOilPriceList> mList = new ArrayList<>();
     private RecycleItemClick mRecycleItemClick;
 
-    public List<RefuelDetail.OilPriceList> getList() {
+    public List<RefuelDetailBean.RefuelDetaiOilPriceList> getList() {
         return mList;
     }
 
-    public void setList(List<RefuelDetail.OilPriceList> list) {
+    public void setList(List<RefuelDetailBean.RefuelDetaiOilPriceList> list) {
         this.mList = list;
     }
 
@@ -49,9 +50,9 @@ public class OilNoAdapter extends RecyclerView.Adapter<OilNoAdapter.ItemViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final ItemViewHolder holder, final int position) {
-        final RefuelDetail.OilPriceList item = mList.get(position);
+        final RefuelDetailBean.RefuelDetaiOilPriceList item = mList.get(position);
 
-        holder.mRtvFiltrateName.setText(item.oilName);
+        holder.mRtvFiltrateName.setText(item.getOilName());
 
         RoundViewDelegate delegate = holder.mRtvFiltrateName.getDelegate();
 
@@ -87,7 +88,7 @@ public class OilNoAdapter extends RecyclerView.Adapter<OilNoAdapter.ItemViewHold
     }
 
     public void cancelCheck() {
-        for (RefuelDetail.OilPriceList address : mList) {
+        for (RefuelDetailBean.RefuelDetaiOilPriceList address : mList) {
             address.check = false;
         }
     }

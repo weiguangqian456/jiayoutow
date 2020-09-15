@@ -5,6 +5,7 @@ import android.util.Base64;
 
 import com.edawtech.jiayou.config.bean.RefuelFiltrate;
 import com.edawtech.jiayou.utils.tool.IntentJumpUtils;
+import com.edawtech.jiayou.utils.tool.JsonHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +49,13 @@ public class HttpRequest {
         String searchContent = "@" + mFuelOilType + "@" + mFiltrate + "@" + TextUtils.join("#",mBrandList);
         String base64Str = Base64.encodeToString(searchContent.getBytes(), Base64.NO_WRAP);
         return base64Str;
+    }
+
+    public static  String queryPrice(String gasId ,String phone ){
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("gasId",gasId);
+        params.put("phone", phone);
+        return JsonHelper.newtoJson(params);
     }
 
 }

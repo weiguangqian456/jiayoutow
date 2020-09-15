@@ -79,12 +79,14 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.alibaba.fastjson.JSON;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.blankj.utilcode.util.ToastUtils;
 import com.edawtech.jiayou.BuildConfig;
 import com.edawtech.jiayou.R;
+import com.edawtech.jiayou.config.bean.RefuelDetail;
 import com.edawtech.jiayou.config.bean.ResultEntity;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.GlobalVariables;
@@ -4096,15 +4098,7 @@ public class VsUtil {
         }
     }
 
-    public static void getUpdate(Context mContext) {
-        // 拉取升级信息
-        TreeMap<String, String> treeMap = new TreeMap<String, String>();
-        // treeMap.put("package_name", mContext.getPackageName());
-        treeMap.put("netmode", VsNetWorkTools.getNetMode(mContext));
-        CoreBusiness.getInstance().startThread(mContext, GlobalVariables.UPDATE_CONFIG, DfineAction.authType_AUTO, treeMap, GlobalVariables.actionupdate);
-    }
-
-    public static  void setPase(ConvenientBanner mCbBanner , List<Object> list){
+    public static  void setPase( ConvenientBanner mCbBanner ,List<Object> list){
         mCbBanner.setPages(new CBViewHolderCreator() {
             @Override
             public Holder createHolder(View itemView) {
