@@ -32,14 +32,16 @@ public class ViewSetUtils {
         }
     }
 
-    /**
-     * @功能描述 : 设置按钮点击背景颜色改变动画。
-     */
-    public static void ButtonClickBackground(View view_lay) {
-        if (view_lay != null) {
-            view_lay.setBackgroundResource(R.drawable.linerlayout_water_selector);
-        }
-    }
+//    /**
+//     * @功能描述 : 设置按钮点击背景颜色改变动画。
+//     * @param view_lay
+//     * @param fl
+//     */
+//    public static void ButtonClickBackground(error.NonExistentClass view_lay, float fl) {
+//        if (view_lay != null) {
+//            view_lay.setBackgroundResource(R.drawable.linerlayout_water_selector);
+//        }
+//    }
 
     /**
      * 设置某个View的margin

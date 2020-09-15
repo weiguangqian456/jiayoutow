@@ -38,6 +38,10 @@ public class HttpURL {
     // 流量卡的 baseUrl
     public final static String Base_flowCardIp = "http://99.liumall.co/inter/";
 
+    //加油站列表
+    public final static String CheZhuBangControll = "/benefit/web/CheZhuBangController/queryGasStationInfoList";
+
+
 
 
 

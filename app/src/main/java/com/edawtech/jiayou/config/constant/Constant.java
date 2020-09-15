@@ -1,6 +1,17 @@
 package com.edawtech.jiayou.config.constant;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.edawtech.jiayou.config.bean.RefuelFiltrate;
+import com.edawtech.jiayou.config.bean.RefuelOrderList;
+import com.edawtech.jiayou.config.bean.ResultDataEntity;
+import com.edawtech.jiayou.config.bean.ResultEntity;
+import com.edawtech.jiayou.config.bean.SeckillDataEntity;
+
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Constant {
 
@@ -108,9 +119,8 @@ public class Constant {
     public static final int mesType_3 = 3;
 
 
-
     // 返回码说明
-    public static final int CODE_Success = 200;   // 请求成功
+    public static final int CODE_Success = 0;   // 请求成功
     public static final int CODE_Failed = 500;   // 请求失败
     public static final int CODE_Failed_20201 = 1401;  // 请求失败（用户未登录）
     public static final int CODE_Failed_20202 = 1403;  // 请求失败（登录超时,请重新登录）
@@ -135,6 +145,14 @@ public class Constant {
     public static final int DEFAULT_VALUE_SIZE = 15;
     public static final int DEFAULT_ARC_WIDTH = 15;
     public static final int DEFAULT_WAVE_HEIGHT = 40;
+
+
+    public static final String RECYCLE_TYPE_DEFAULT = "RECYCLE_TYPE_DEFAULT";
+    public static final String RECYCLE_TYPE_SECKILL = "RECYCLE_TYPE_SECKILL";
+    public static final String RECYCLE_TYPE_CHOICES = "RECYCLE_TYPE_CHOICES";
+    public static final String RECYCLE_TYPE_REFUEL_ORDER = "RECYCLE_TYPE_REFUEL_ORDER";
+
+
 
 
     public static final String APP_ID = "dudu";
@@ -165,6 +183,36 @@ public class Constant {
     public static final int RECYCLE_FOOTER_OVER = 1;
     public static final int RECYCLE_FOOTER_ERROR = 2;
     public static final int RECYCLE_FOOTER_GONE = 3;
+
+    public static final List<RefuelFiltrate> mFuelOilTypeList() {
+        List<RefuelFiltrate> mFuelOilTypeList = new ArrayList<>();
+        mFuelOilTypeList.add(new RefuelFiltrate("92#", "92#", true));
+        mFuelOilTypeList.add(new RefuelFiltrate("95#", "95#", false));
+        mFuelOilTypeList.add(new RefuelFiltrate("98#", "98#", false));
+        mFuelOilTypeList.add(new RefuelFiltrate("0#", "0#", false));
+        return mFuelOilTypeList;
+    }
+
+    public static final List<RefuelFiltrate> mFiltrateList() {
+        List<RefuelFiltrate> mFiltrateList = new ArrayList<>();
+        mFiltrateList.add(new RefuelFiltrate("智能排序", "1001", true));
+        mFiltrateList.add(new RefuelFiltrate("距离优先", "1001", false));
+        mFiltrateList.add(new RefuelFiltrate("价格优先", "1002", false));
+        return mFiltrateList;
+    }
+
+    public static final List<RefuelFiltrate> mBrandList() {
+        List<RefuelFiltrate> mBrandList = new ArrayList<>();
+        mBrandList.add(new RefuelFiltrate("中石油", "1", true));
+        mBrandList.add(new RefuelFiltrate("中石化", "2", true));
+        mBrandList.add(new RefuelFiltrate("壳牌", "3", true));
+        mBrandList.add(new RefuelFiltrate("其他", "4", true));
+        return mBrandList;
+    }
+
+
+
+
 }
 
 

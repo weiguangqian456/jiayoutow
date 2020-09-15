@@ -239,33 +239,33 @@ public abstract class BaseRecycleActivity extends BaseActivity {
         String path = getPath();
         Log.e("TAG-HTTP", path);
 
-//        RetrofitClient.getInstance(mContext)
-//                .Api()
-//                .getList(path, params)
-//                .enqueue(new Callback<ResultEntity>() {
-//                    @Override
-//                    public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
-//                        ResultEntity resultEntity = response.body();
-//                        if (resultEntity != null && Const.REQUEST_CODE == resultEntity.getCode() && resultEntity.getData() != null) {
-//                            JSONArray array = getJsonArray(resultEntity);
-//                            if (isReplace() && mHttpPage == 1) {
-//                                mAdapter.clearList();
-//                            }
-//                            mAdapter.addList(array);
-//                            if (array.size() != getPageSize()) {
-//                                isNotMore = true;
-//                                mAdapter.initFooterState(Constant.RECYCLE_FOOTER_OVER);
-//                            }
-//                        }
-//                        onHttpFinish();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResultEntity> call, Throwable t) {
-//                        mAdapter.initFooterState(Constant.RECYCLE_FOOTER_ERROR);
-//                        onHttpFinish();
-//                    }
-//                });
+        RetrofitClient.getInstance(mContext)
+                .Api()
+                .getList(path, params)
+                .enqueue(new Callback<ResultEntity>() {
+                    @Override
+                    public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
+                        ResultEntity resultEntity = response.body();
+                        if (resultEntity != null && Const.REQUEST_CODE == resultEntity.getCode() && resultEntity.getData() != null) {
+                            JSONArray array = getJsonArray(resultEntity);
+                            if (isReplace() && mHttpPage == 1) {
+                                mAdapter.clearList();
+                            }
+                            mAdapter.addList(array);
+                            if (array.size() != getPageSize()) {
+                                isNotMore = true;
+                                mAdapter.initFooterState(Constant.RECYCLE_FOOTER_OVER);
+                            }
+                        }
+                        onHttpFinish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResultEntity> call, Throwable t) {
+                        mAdapter.initFooterState(Constant.RECYCLE_FOOTER_ERROR);
+                        onHttpFinish();
+                    }
+                });
 
 
     }

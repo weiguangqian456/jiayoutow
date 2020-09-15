@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+
 import com.baidu.location.BDLocation;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseRecycleActivity;
@@ -23,6 +24,8 @@ import com.edawtech.jiayou.config.base.BaseRecycleFragment;
 import com.edawtech.jiayou.config.bean.RefuelFiltrate;
 import com.edawtech.jiayou.config.bean.RefuelList;
 import com.edawtech.jiayou.config.constant.VsUserConfig;
+import com.edawtech.jiayou.ui.adapter.BaseRecyclerAdapter;
+import com.edawtech.jiayou.ui.adapter.BaseRecyclerHolder;
 import com.edawtech.jiayou.ui.adapter.MoreRefuelAdapter;
 import com.edawtech.jiayou.ui.adapter.RecycleItemClick;
 import com.edawtech.jiayou.ui.custom.CommonPopupWindow;
@@ -86,7 +89,7 @@ public class MoreRefuelActivity extends BaseRecycleActivity implements OnAddress
     List<RefuelFiltrate> mFuelOilTypeList = new ArrayList<>();
     List<RefuelFiltrate> mFiltrateList = new ArrayList<>();
     List<RefuelFiltrate> mBrandList = new ArrayList<>();
-
+    BaseRecyclerAdapter<RefuelList> baseRecyclerAdapter;
     @Override
     public int getLayoutId() {
         return R.layout.activity_more_refuel;
@@ -94,6 +97,12 @@ public class MoreRefuelActivity extends BaseRecycleActivity implements OnAddress
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        baseRecyclerAdapter = new BaseRecyclerAdapter<RefuelList>(getApplicationContext(),null,R.layout.item_more_refuel) {
+            @Override
+            public void convert(BaseRecyclerHolder holder, RefuelList data, int position, boolean isScrolling, int selectedPosition) {
+
+            }
+        };
 
     }
 
@@ -159,7 +168,7 @@ public class MoreRefuelActivity extends BaseRecycleActivity implements OnAddress
         mFuelOilType = mFuelOilTypeList.get(0).filtrateValue;
         mTvFuelOilType.setText(mFuelOilTypeList.get(0).filtrateName);
 
-        mFuelOilTypeDialog = new RefuelFiltrateDialog(mContext, mLlRefuelFiltrate);
+        mFuelOilTypeDialog = new RefuelFiltrateDialog(getApplicationContext(), mLlRefuelFiltrate);
         mFuelOilTypeDialog.setData(mFuelOilTypeList);
         mFuelOilTypeDialog.mAdapter.setRecycleClickListener(new RecycleItemClick() {
             @Override
@@ -270,6 +279,7 @@ public class MoreRefuelActivity extends BaseRecycleActivity implements OnAddress
     }
 
     private void refresh(boolean isRefresh) {
+
         brandBuilder = new StringBuilder();
         for (int i = 0; i < mBrandList.size(); i++) {
             if (mBrandList.get(i).check) {
