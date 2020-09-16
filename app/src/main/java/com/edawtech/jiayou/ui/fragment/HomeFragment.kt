@@ -126,13 +126,11 @@ class HomeFragment : BaseMvpFragment() {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
             startActivity(Intent(context, RefuelDetailKTActivity().javaClass)?.putExtra("MoreReListRecords", JsonHelper.newtoJson(morerel)))
         }
-    //导航
+        //导航
         view?.findViewById<RelativeLayout>(R.id.Relat_navigation)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
             showMapPop(morerel)
         }
-
-
     }
 
     //图片轮播图
@@ -225,24 +223,29 @@ class HomeFragment : BaseMvpFragment() {
                     val rememberCb = view.findViewById<View>(R.id.cb_remember) as CheckBox
                     val ensureBtn = view.findViewById<View>(R.id.btn_ensure) as TextView
 
-                    amapCb.setOnCheckedChangeListener { buttonView, isChecked -> if (isChecked){
-                        baidumapCb.isChecked = false
-                    } }
-                    baidumapCb.setOnCheckedChangeListener { buttonView, isChecked -> if (isChecked){
-                        amapCb.isChecked = false } }
+                    amapCb.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if (isChecked) {
+                            baidumapCb.isChecked = false
+                        }
+                    }
+                    baidumapCb.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if (isChecked) {
+                            amapCb.isChecked = false
+                        }
+                    }
                     ensureBtn.setOnClickListener {
-                        if (!baidumapCb.isChecked && !amapCb.isChecked)  ToastUtil.showMsg("请选择一种地图")
+                        if (!baidumapCb.isChecked && !amapCb.isChecked) ToastUtil.showMsg("请选择一种地图")
                         if (baidumapCb.isChecked) {
-                            if(StoreDetailActivity.mapisAvailable(context, "com.baidu.BaiduMap")){
+                            if (StoreDetailActivity.mapisAvailable(context, "com.baidu.BaiduMap")) {
                                 navWithBaidu()
-                            }else{
+                            } else {
                                 ToastUtil.showMsg("您尚未安装百度地图")
                                 val uri = Uri.parse("market://details?id=com.baidu.BaiduMap")
                                 intent = Intent(Intent.ACTION_VIEW, uri)
                                 startActivity(intent)
                             }
                         }
-                        if (amapCb.isChecked){
+                        if (amapCb.isChecked) {
                             if (StoreDetailActivity.mapisAvailable(context, "com.autonavi.minimap")) {
                                 navWithAmap()
                             } else {
@@ -257,7 +260,8 @@ class HomeFragment : BaseMvpFragment() {
                         } else if (rememberCb.isChecked && amapCb.isChecked) {
                             SpUtils.putIntValue(context, "selectMapFlag", 1)
                         }
-                        mapPop!!.dismiss() }
+                        mapPop!!.dismiss()
+                    }
 
 
                 }.setOutsideTouchable(true).create();
@@ -268,14 +272,15 @@ class HomeFragment : BaseMvpFragment() {
         val bdGps = RxLocationUtils.GCJ02ToBD09(mGoLongitude, mGoLatitude)
         val stringBuffer = StringBuffer("baidumap://map/navi?location=").append(bdGps.latitude).append(",").append(bdGps.longitude).append("&type=TIME")
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(stringBuffer.toString()))
-     startActivity(intent)
+        startActivity(intent)
     }
 
     private fun navWithAmap() {
         val intent = Intent("android.intent.action.VIEW", Uri.parse("androidamap://route?sourceApplication=appName&slat=&slon=&sname=我的位置&dlat=" + mGoLatitude +
                 "&dlon=" + mGoLongitude + "&dname=目的地&dev=0&t=2"))
-      startActivity(intent)
+        startActivity(intent)
     }
+
 
 }
 

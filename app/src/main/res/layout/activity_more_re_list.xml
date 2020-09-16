@@ -112,18 +112,18 @@
 
   </LinearLayout>
 
- </LinearLayout>
- <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-     android:id="@+id/srl_load"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent">
 
-  <com.yanzhenjie.recyclerview.SwipeRecyclerView
-      android:id="@+id/rv_load"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-      android:overScrollMode="never" />
- </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</LinearLayout>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+android:id="@+id/srl_load"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
 
+<com.yanzhenjie.recyclerview.SwipeRecyclerView
+    android:id="@+id/rv_load"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    android:overScrollMode="never" />
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

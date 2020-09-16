@@ -51,7 +51,7 @@ class MoreReListActivity : BaseMvpActivity() {
     private var isNowLoad = false
 
     var baseRecyclerAdapter: BaseRecyclerAdapter<MoreReListBean.MoreReListRecords>? = null
-    var locationClient: AMapLocationClient? = null
+
     private var mFuelOilTypeDialog: RefuelFiltrateDialog? = null
     private var mFiltrateDialog: RefuelFiltrateDialog? = null
     private var mBrandDialog: RefuelFiltrateDialog? = null
@@ -62,7 +62,11 @@ class MoreReListActivity : BaseMvpActivity() {
     var mBrandLisd: List<RefuelFiltrate> = ArrayList()
     private var mapPop: CommonPopupWindow? = null
 
+
+    var locationClient: AMapLocationClient? = null
     var option = AMapLocationClientOption()
+
+
     private var mLatitude = 0.00
     private var mLongitude = 0.00
 
@@ -74,6 +78,7 @@ class MoreReListActivity : BaseMvpActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         title_main_tv.leftBackImageTv.setOnClickListener { finish() }
+
         Inform_Target = PublicPresenter(context, false, "")
         Inform_Target?.attachView(this)
         locationClient = AMapLocationClient(this)
@@ -146,13 +151,13 @@ class MoreReListActivity : BaseMvpActivity() {
             //签到只需调用startLocation即可
             locationClient!!.startLocation()
         }
-        rv_load.useDefaultLoadMore()
+             rv_load.useDefaultLoadMore()
         rv_load.loadMoreFinish(false, true)
         rv_load.setLoadMoreListener {
             mHttpPage++
             Log.e("setLoadMoreListener", mHttpPage.toString())
-          newData("", "", mLongitude, mLatitude,
-                  GetsearchContent(mFuelOilTypeList()[0].filtrateValue, mFiltrateList()[0].filtrateValue, mBrandList()), "10", mHttpPage.toString(), "8.3.11", "%22%22")
+            newData("", "", mLongitude, mLatitude,
+                    GetsearchContent(mFuelOilTypeList()[0].filtrateValue, mFiltrateList()[0].filtrateValue, mBrandList()), "10", mHttpPage.toString(), "8.3.11", "%22%22")
 
         }
 
@@ -181,7 +186,7 @@ class MoreReListActivity : BaseMvpActivity() {
 
         }
 
-
+        title_main_tv.rightImageIv.setOnClickListener { startActivity(Intent(this@MoreReListActivity ,RefuelKotilActivity().javaClass)) }
     }
 
     override fun onResume() {
@@ -256,6 +261,8 @@ class MoreReListActivity : BaseMvpActivity() {
             }
 
         }
+
+
     }
 
 

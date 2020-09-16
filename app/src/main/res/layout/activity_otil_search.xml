@@ -4,14 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     android:orientation="vertical"
-   >
-
+    tools:context=".ui.activity.RefuelKotilActivity">
     <LinearLayout
-        android:layout_marginTop="@dimen/dp25"
+
         android:id="@+id/ll_totalbar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -19,18 +15,18 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="@dimen/dp15"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:src="@drawable/ic_back_black" />
 
         <FrameLayout
             android:id="@+id/fl_back"
             android:layout_width="45dp"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:layout_width="@dimen/dp15"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_back_black" />
         </FrameLayout>
 
         <com.flyco.roundview.RoundLinearLayout
@@ -89,9 +85,7 @@
         </FrameLayout>
 
     </LinearLayout>
-
     <include layout="@layout/include_line" />
-
     <com.androidkun.xtablayout.XTabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
@@ -107,9 +101,16 @@
         app:xTabSelectedTextSize="@dimen/w_15_dip"
         app:xTabTextColor="#b8b8b8"
         app:xTabTextSize="@dimen/w_15_dip" />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!--    <include layout="@layout/include_line" />-->
-
-    <include layout="@layout/fragment_recycle" />
-
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+            android:id="@+id/rv_load"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:overScrollMode="never" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

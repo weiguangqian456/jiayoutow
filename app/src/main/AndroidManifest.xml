@@ -60,7 +60,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" /> <!-- 加油站列表 -->
-    <!-- 登录页面 -->
+        <!-- 登录页面 -->
         <activity
             android:name=".ui.activity.RefuelCouponMoneyActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
@@ -68,7 +68,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" /> <!-- 登录页面 -->
-
         <activity
             android:name=".ui.activity.RefuelOrderActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
@@ -118,18 +117,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" />
-
-      <!-- 加油站详情-->
-        <activity android:name=".ui.activity.RefuelDetailKTActivity"
+        <!-- 加油站详情 -->
+        <activity
+            android:name=".ui.activity.RefuelDetailKTActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-
-
+            android:windowSoftInputMode="adjustPan"/>
+        <!--   加油站搜索 -->
+        <activity android:name=".ui.activity.RefuelKotilActivity"
+            android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitle"
+            android:windowSoftInputMode="adjustPan"/>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="27IY4EmCGG7t974j3BK2eSlSe02rXKou" />
