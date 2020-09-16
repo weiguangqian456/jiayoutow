@@ -25,4 +25,5 @@
     <item
         android:drawable="@drawable/dudu_loading8"
         android:duration="50" />
-</animation-list>   
+</animation-list>
+

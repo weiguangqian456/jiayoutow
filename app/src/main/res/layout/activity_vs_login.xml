@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/vs_gray_simaple">
+
+    <include
+        android:id="@+id/in"
+        layout="@layout/activity_title" />
+
+    <View
+        android:id="@+id/line0"
+        android:layout_width="fill_parent"
+        android:layout_height="0.67dp"
+        android:layout_below="@id/in"
+        android:background="@color/vs_line_color" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="fill_parent"
+        android:layout_height="0.67dp"
+        android:layout_below="@id/line0"
+        android:layout_marginTop="@dimen/dp25"
+        android:background="@color/vs_line_color" />
+
+    <RelativeLayout
+        android:id="@+id/rl_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line1"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12.5dp"
+            android:clickable="true"
+            android:padding="15dp"
+            android:src="@drawable/vs_del"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/et_account"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_toLeftOf="@id/iv_close"
+            android:background="@drawable/vs_edittext_shape"
+            android:gravity="center_vertical"
+            android:hint="@string/vs_phone_hint_and_account"
+            android:inputType="phone"
+            android:maxLength="13"
+            android:paddingLeft="28dp"
+            android:paddingRight="28dp"
+            android:singleLine="true"
+            android:textColor="@color/vs_black"
+            android:textColorHint="@color/vs_gray"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="fill_parent"
+        android:layout_height="0.67dp"
+        android:layout_below="@id/rl_1"
+        android:background="@color/vs_line_color" />
+
+    <RelativeLayout
+        android:id="@+id/rl_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line2"
+        android:background="@color/vs_white">
+
+        <ImageView
+            android:id="@+id/iv_look"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12.5dp"
+            android:clickable="true"
+            android:padding="15dp"
+            android:src="@drawable/vs_checked_no" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_toLeftOf="@id/iv_look"
+            android:background="@drawable/vs_edittext_shape"
+            android:gravity="center_vertical"
+            android:hint="@string/vs_password_sr_hint"
+            android:maxLength="20"
+            android:paddingLeft="28dp"
+            android:paddingRight="28dp"
+            android:password="true"
+            android:singleLine="true"
+            android:textColor="@color/vs_black"
+            android:textColorHint="@color/vs_gray"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="fill_parent"
+        android:layout_height="0.67dp"
+        android:layout_below="@id/rl_2"
+        android:background="@color/vs_line_color" />
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/line3"
+        android:padding="@dimen/dp15"
+        android:text="@string/vs_set_register_show_hint"
+        android:textColor="@color/public_color_EC6941"
+        android:textSize="14.5sp" />
+
+    <TextView
+        android:id="@+id/tv_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:layout_below="@id/line3"
+        android:gravity="center"
+        android:padding="@dimen/dp15"
+        android:text="@string/vs_login_reset_password_hint"
+        android:textColor="@color/public_color_EC6941"
+        android:textSize="14.5sp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/bt_login"
+        android:layout_width="230dp"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="@string/vs_login_btn_hint"
+        android:layout_below="@id/tv_register"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/vs_white"
+        android:textSize="19.5sp"
+        android:layout_marginTop="@dimen/dp20"
+        app:rv_backgroundColor="@color/public_color_EC6941"
+        app:rv_isRadiusHalfHeight="true" />
+
+</RelativeLayout>

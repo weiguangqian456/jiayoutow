@@ -1,13 +1,14 @@
 package com.edawtech.jiayou.net.http;
 
 import android.content.Context;
+import android.widget.TimePicker;
 
 
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.GlobalVariables;
+import com.edawtech.jiayou.json.me.JSONObject;
 import com.edawtech.jiayou.utils.tool.CustomLog;
 
-import org.json.JSONObject;
 
 import java.util.TreeMap;
 
@@ -150,8 +151,9 @@ public class VsHttpsClient {
 	// }
 	/**
 	 * 直接登录 http请求
+	 * @return
 	 */
-	public static JSONObject GetLoginHttp(final Context mContext, final TreeMap<String, String> treeMap) {
+	public static com.edawtech.jiayou.json.me.JSONObject GetLoginHttp(final Context mContext, final TreeMap<String, String> treeMap) {
 		String target = GlobalVariables.INRFACE_LOGIN;
 		String authType = DfineAction.authType_Key;
 		JSONObject root = null;
@@ -161,6 +163,7 @@ public class VsHttpsClient {
 			}
 			String RealUrl =VsHttpTools.getInstance(mContext).getUri_prefix()+ "/" + DfineAction.uri_verson + "/"
 					+ DfineAction.brandid + target;
+			CustomLog.e("fxx","登录URL="+RealUrl);
 			CustomLog.i("vsdebug", "url---" + RealUrl);
 //			String paramStr = CoreBusiness.getInstance().returnParamStr(mContext, treeMap, authType);
 //			CustomLog.i("vsdebug", "paramStr---" + paramStr);

@@ -134,6 +134,32 @@
         <!-- 模糊 -->
     </style>
 
+    <style name="TextViewStyleSize12">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/public_color_999999</item>
+        <item name="android:textSize">@dimen/w_12_dip</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/custom_dialog_anim_start</item>
+        <item name="android:windowExitAnimation">@anim/custom_dialog_anim_end</item>
+        <item name="android:interpolator">@android:anim/decelerate_interpolator</item>
+    </style>
+
+    <!-- 系统公告弹 -->
+    <style name="SystemNoticeDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="LineH">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">#e4e6f0</item>
+    </style>
     <!-- 自定义标题TitleView，标题属性 -->
     <declare-styleable name="TitleAttr">
         <attr name="title_name" format="reference|string" />
@@ -168,5 +194,36 @@
         <attr name="right_text_two_drawable_left" format="reference" />
         <attr name="right_image_margins_right" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="Panel">
+
+        <!-- Defines panel animation duration in ms. -->
+        <attr name="animationDuration" format="integer" />
+        <!-- Defines panel position on the screen. -->
+        <attr name="position">
+
+            <!-- Panel placed at top of the screen. -->
+            <enum name="top" value="0" />
+            <!-- Panel placed at bottom of the screen. -->
+            <enum name="bottom" value="1" />
+            <!-- Panel placed at left of the screen. -->
+            <enum name="left" value="2" />
+            <!-- Panel placed at right of the screen. -->
+            <enum name="right" value="3" />
+        </attr>
+        <!-- Identifier for the child that represents the panel's handle. -->
+        <attr name="handle" format="reference" />
+        <!-- Identifier for the child that represents the panel's content. -->
+        <attr name="content" format="reference" />
+        <!-- Defines if flying gesture forces linear interpolator in animation. -->
+        <attr name="linearFlying" format="boolean" />
+        <!-- Defines size relative to parent (must be in form: nn%p). -->
+        <attr name="weight" format="fraction" />
+        <!-- Defines opened handle (drawable/color). -->
+        <attr name="openedHandle" format="reference|color" />
+        <!-- Defines closed handle (drawable/color). -->
+        <attr name="closedHandle" format="reference|color" />
+    </declare-styleable>
+
 
 </resources>

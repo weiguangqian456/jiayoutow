@@ -1,5 +1,7 @@
 package com.edawtech.jiayou.config.base
 
+import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,11 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.edawtech.jiayou.ui.statusbar.StatusBarUtil
+import com.edawtech.jiayou.utils.ActivityCollector
 import com.edawtech.jiayou.utils.permission.PermissionManager
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
+import java.lang.ref.WeakReference
 import java.util.*
+
 
 /**
  * @author azheng
@@ -23,6 +28,17 @@ import java.util.*
  */
 abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
     private var unbinder: Unbinder? = null
+
+    /**
+     * 弱引用实例
+     */
+    private var weakRefActivity: WeakReference<Activity>? = null
+
+    /**
+     * 弹出框
+     */
+    protected var mProgressDialog: ProgressDialog? = null
+
     @JvmField
     protected var mContext: Context? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +69,11 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
         unbinder = ButterKnife.bind(this)
         // 初始化视图
         initView(savedInstanceState)
+        //初始化Activity实例
+        weakRefActivity = WeakReference(this)
+        //添加至Activity管理器
+        val instance = ActivityCollector.getInstance()
+        instance.add(weakRefActivity)
     }
 
     /**
@@ -64,9 +85,13 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
      * 初始化视图
      */
     abstract fun initView(savedInstanceState: Bundle?)
+
     override fun onDestroy() {
         unbinder!!.unbind()
         super.onDestroy()
+        //移除Activity实例
+        val collector = ActivityCollector.getInstance()
+        collector.remove(weakRefActivity)
     }
     // 使用EasyPermission权限库解决6.0权限问题，解决7.0 FileProvider问题，华为手机获取不到图库相片问题等等
     /**
@@ -217,5 +242,43 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
 
     companion object {
         private const val TAG = "BaseActivity"
+    }
+
+    /**
+     * 加载等待界面
+     *
+     * @param message
+     */
+    protected open fun loadProgressDialog(message: String?) {
+        if (mProgressDialog != null) {
+            mProgressDialog!!.dismiss()
+        }
+        mProgressDialog = ProgressDialog(mContext)
+        mProgressDialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        mProgressDialog!!.setMessage(message)
+        mProgressDialog!!.show()
+    }
+
+    protected open fun loadProgressDialog(message: String?, Cancelable: Boolean) {
+        if (mProgressDialog != null) {
+            mProgressDialog!!.dismiss()
+        }
+        mProgressDialog = ProgressDialog(mContext)
+        mProgressDialog!!.setCancelable(Cancelable) // 设置是否可以取消
+        mProgressDialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        mProgressDialog!!.setMessage(message)
+        mProgressDialog!!.show()
+    }
+
+    /**
+     * 销毁等待界面
+     *
+     * @param
+     */
+    protected open fun dismissProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog!!.isShowing) {
+            mProgressDialog!!.dismiss()
+        }
+        mProgressDialog = null
     }
 }

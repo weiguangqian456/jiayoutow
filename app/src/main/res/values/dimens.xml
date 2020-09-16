@@ -435,7 +435,12 @@
     <dimen name="vs_start_margtop">100dp</dimen>
     <dimen name="vs_chat_bg_margin_img">5dip</dimen>
     <dimen name="vs_chat_txt_size">16sp</dimen>
+    <dimen name="indicator_internal_padding">4dp</dimen>
+    <dimen name="indicator_right_padding">10dp</dimen>
 
+    <dimen name="header_footer_left_right_padding">24dp</dimen>
+    <dimen name="header_footer_top_bottom_padding">12dp</dimen>
+    <dimen name="indicator_corner_radius">12dp</dimen>
 
 
 </resources>

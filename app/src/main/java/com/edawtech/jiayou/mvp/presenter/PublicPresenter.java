@@ -446,6 +446,7 @@ public class PublicPresenter extends BasePresenter<PublicContract.View> implemen
     }
     // 网络请求：POST请求
     public void netWorkRequestPost(String url, Map<String, Object> params) {
+//        netWorkRequestPost(url, Constant.contentType_json, true, null, "", params, null);
         netWorkRequestPost(url, Constant.contentType_json, true, null, "", params, null);
     }
     // 网络请求：POST请求
