@@ -1,9 +1,7 @@
 package com.edawtech.jiayou.ui.activity;
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,33 +13,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.edawtech.jiayou.BuildConfig;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseMvpActivity;
-import com.edawtech.jiayou.config.constant.DfineAction;
-import com.edawtech.jiayou.config.constant.GlobalVariables;
-import com.edawtech.jiayou.config.constant.VsUserConfig;
-import com.edawtech.jiayou.config.service.VsCoreService;
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
+import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.FitStateUtils;
-import com.edawtech.jiayou.utils.tool.CoreBusiness;
-import com.edawtech.jiayou.utils.tool.Rc;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
-import com.edawtech.jiayou.utils.tool.VsMd5;
-import com.edawtech.jiayou.utils.tool.VsNetWorkTools;
-import com.edawtech.jiayou.utils.tool.VsRc4;
-import com.edawtech.jiayou.utils.tool.VsUtil;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Response;
+
 
 import org.jetbrains.annotations.Nullable;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -75,7 +58,7 @@ public class VsLoginActivity extends BaseMvpActivity {
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
 
-        Log.e("fxx","VsLoginActivity  登录");
+        Log.e("fxx", "VsLoginActivity  登录");
 
         FitStateUtils.setImmersionStateMode(this, R.color.public_color_EC6941);
         tvTitle.setText("登录");
@@ -154,18 +137,16 @@ public class VsLoginActivity extends BaseMvpActivity {
                 startActivity(intent2);
                 break;
             case R.id.bt_login:// 登录
-                String mPhoneNumber = etAccount.getText().toString();
+                String account = etAccount.getText().toString();
                 String pwd = etPassword.getText().toString();
-                if (mPhoneNumber != null && !"null".equalsIgnoreCase(mPhoneNumber) && !"".equalsIgnoreCase(mPhoneNumber)) {
+                if (account != null && !"null".equalsIgnoreCase(account) && !"".equalsIgnoreCase(account)) {
                     if (pwd != null && !"".equals(pwd) && pwd.length() >= 6) {
                         // 登录
-                            login(mPhoneNumber, pwd);
-//                        login2(mPhoneNumber, pwd);
+                        login(account, pwd);
                     } else if (pwd == null || "".equals(pwd)) {
                         ToastUtil.showMsg(getResources().getString(R.string.vs_pwd_isnull_str));
                     } else if (pwd.length() < 6) {
                         ToastUtil.showMsg(getResources().getString(R.string.vs_pwd_xy6_str));
-
                     }
                 } else {
                     ToastUtil.showMsg(getResources().getString(R.string.vs_phone_erro_isnull));
@@ -176,74 +157,6 @@ public class VsLoginActivity extends BaseMvpActivity {
         }
     }
 
-    private void login2(String account, String pwd) {
-
-        Map<String, Object> map = new HashMap<>();
-        String deciceid = VsUtil.getMacAddress(mContext);
-        Long curTime = System.currentTimeMillis() / 1000;
-        String netType = VsUtil.getNetTypeString();
-        map.put("account", account);
-        map.put("password", VsMd5.md5(pwd));
-        map.put("device_id", deciceid.toUpperCase());
-        map.put("net_mode", netType);
-        map.put("device_type", Build.MODEL);
-
-        String sign = "";
-        sign = getSign(map);
-        OkGo.<String>post("http://paas.edawtech.com/8.0.1/dudu/account/login")
-//        OkGo.<String>post("https://route.edawtech.com/8.0.1/dudu/account/login")
-                .params("account", account)
-                .params("password", VsRc4.encry_RC4_string(pwd, DfineAction.passwad_key))
-                .params("agent_id", "")
-                .params("app_id", "dudu")
-                .params("device_id", deciceid.toUpperCase())
-                .params("device_type", Build.MODEL)
-                .params("net_mode", netType)
-                .params("pv", "android")
-                .params("sign", sign)
-                .params("token", "Y.XRWYO6DN5X7CV7GGV1OP7C55XY75TOONPUU1QRF3N8F_WU8OLNXMJFPH9MGPA9_RJNP3JFPE2UO054T7IJ4J4FWE.5MB64UODSEEKBJOF5KY3B6Z9MQM23ESZJC8MR")
-                .params("ts", curTime.toString())
-                .params("v", "8.3.11")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        String body = response.body();
-                        Log.e("fxx", "登录成功：" + body);
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        Log.e("fxx", "登录失败：" + response.body());
-                    }
-                });
-    }
-
-    private String getSign(Map<String, Object> map) {
-        TreeMap<String, Object> treemapsign = new TreeMap<String, Object>();
-        treemapsign.putAll(map);
-        treemapsign.put("key", "($*key*$)");
-        StringBuffer src = null;
-        Iterator iter = treemapsign.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            Object key = entry.getKey();
-            Object val = entry.getValue();
-            if (src == null) {
-                src = new StringBuffer();
-                src.append(key).append("=").append(URLEncoder.encode(val.toString()));
-            } else {
-                src.append("&").append(key).append("=").append(val.toString());
-            }
-        }
-        String sign = null;
-        try {
-            // sign = VsMd5.md5(src.toString());
-            sign = Rc.getSign(src.toString(), 1);
-        } catch (NoClassDefFoundError e) {
-            e.printStackTrace();
-        }
-        return sign;
-    }
 
     /**
      * 登录
@@ -252,28 +165,12 @@ public class VsLoginActivity extends BaseMvpActivity {
      * @param pwd
      */
     private void login(String account, String pwd) {
-
         Map<String, Object> map = new HashMap<>();
-        String deciceid = VsUtil.getMacAddress(mContext);
-        Long curTime = System.currentTimeMillis() / 1000;
-        String netType = VsUtil.getNetTypeString();
+        map.put("appId", CommonParam.APP_ID);
         map.put("account", account);
-        map.put("password", VsMd5.md5(pwd));
-        map.put("device_id", deciceid.toUpperCase());
-        map.put("net_mode", netType);
-        map.put("device_type", Build.MODEL);
+        map.put("password", pwd);
 
-        String sign = getSign(map);
-
-        map.put("agent_id", "");
-        map.put("app_id", "dudu");
-        map.put("pv", "android");
-        map.put("sign", sign);
-        map.put("token", "Y.XRWYO6DN5X7CV7GGV1OP7C55XY75TOONPUU1QRF3N8F_WU8OLNXMJFPH9MGPA9_RJNP3JFPE2UO054T7IJ4J4FWE.5MB64UODSEEKBJOF5KY3B6Z9MQM23ESZJC8MR");
-        map.put("ts", curTime.toString());
-        map.put("v", "8.3.11");
-
-        publicPresenter.netWorkRequestGet("http://paas.edawtech.com/8.0.1/dudu/account/login", map);
+        publicPresenter.netWorkRequestPost(CommonParam.TEST_BASE_URL + "/user/login", map);
     }
 
     @Override

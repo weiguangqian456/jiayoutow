@@ -242,8 +242,9 @@ public class CoreBusiness {
                 // RealUrl = VsHttpTools.getInstance(mContext).getUri_prefix()
                 // + "/" + DfineAction.uri_verson + "/" + DfineAction.brandid
                 // + target;
-//                RealUrl = VsHttpTools.getInstance(mContext).getUri_prefix() + "/" + "8.0.1" + "/" + DfineAction.brand_id + target;
-                RealUrl = "http://paas.edawtech.com" + "/" + "8.0.1" + "/" + DfineAction.brand_id + target;
+                RealUrl = VsHttpTools.getInstance(mContext).getUri_prefix() + "/" + "8.0.1" + "/" + DfineAction.brand_id + target;
+//                RealUrl = "http://paas.edawtech.com" + "/" + "8.0.1" + "/" + DfineAction.brand_id + target;
+
             }
             CustomLog.e("fxx","url="+RealUrl);
             CustomLog.i("vsdebug", "url---" + RealUrl);

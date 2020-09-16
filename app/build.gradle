@@ -39,12 +39,13 @@ android {
     }
 
     signingConfigs {
-//        myconfig {
-//            keyAlias 'key0'
-//            keyPassword 'jiayou123'
-//            storePassword 'jiayou123'
+        myconfig {
+            keyAlias 'key0'
+            keyPassword 'jiayou123'
+            storePassword 'jiayou123'
 //            storeFile file("D:\\app\\jiayou\\jiayou.jks")
-//        }
+            storeFile file("D:\\work\\jiayoutow\\jiayou.jks")
+        }
     }
     buildTypes {
         // 生产环境
@@ -75,7 +76,7 @@ android {
             // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 实现自动签名
-//            signingConfig signingConfigs.myconfig
+            signingConfig signingConfigs.myconfig
         }
         // 开发环境
         debug {
@@ -102,7 +103,7 @@ android {
             // 前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 实现自动签名
-//           signingConfig signingConfigs.myconfig
+           signingConfig signingConfigs.myconfig
         }
     }
     sourceSets {
@@ -115,8 +116,8 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             // 这里修改apk文件名：
-            // "${appName}_${releaseTime()}_v${defaultConfig.versionName}_vc${defaultConfig.versionCode}_" + buildType.name + ".apk"
-            //    outputFileName = "KeBaoBao-${releaseTime()}-v${defaultConfig.versionName}-" + buildType.name + ".apk"
+//             "${appName}_${releaseTime()}_v${defaultConfig.versionName}_vc${defaultConfig.versionCode}_" + buildType.name + ".apk"
+//                outputFileName = "KeBaoBao-${releaseTime()}-v${defaultConfig.versionName}-" + buildType.name + ".apk"
         }
     }
     // 指定jdk版本为1.8
@@ -281,11 +282,5 @@ dependencies {
     implementation 'com.amap.api:location:latest.integration'
     //数据库
     implementation 'org.greenrobot:greendao:3.2.2'
-
-    //okgo请求
-    //OkGo网络请求
-    implementation 'com.lzy.net:okgo:3.0.4'
-    implementation 'com.lzy.net:okrx2:2.0.2'
-    implementation 'com.lzy.net:okserver:2.0.5'
 
 }
