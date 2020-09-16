@@ -20,4 +20,5 @@ public class CommonParam {
      * 测试地址
      */
     public static final String TEST_BASE_URL = "http://192.168.0.39:9999//account/api";
+
 }

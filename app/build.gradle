@@ -185,6 +185,7 @@ dependencies {
     // gson解析
     implementation 'com.google.code.gson:gson:2.8.5'
 
+
     // butterknife 注解
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'

@@ -105,6 +105,4 @@ public class SharePreferencesHelper {
     public Map<String, ?> getAll() {
         return sharedPreferences.getAll();
     }
-
-
 }

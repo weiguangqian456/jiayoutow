@@ -42,6 +42,7 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
 
     public int payType = 0;
 
+
     /**
      * 全局唯一UID
      */
