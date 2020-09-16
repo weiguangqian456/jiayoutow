@@ -109,14 +109,14 @@ class RefuelKotilActivity : BaseMvpActivity() {
                     0 -> {
                         mSearchType = "1001"
                         et_search.hint = "请输入要搜索的目的地"
-                        if (et_search.text != null) {
+                        if (et_search.text.toString().isNotEmpty()) {
                             locationClient?.startLocation()
                         }
                     }
                     1 -> {
                         mSearchType = "1002"
                         et_search.hint = "请输入要搜索的加油站"
-                        if (et_search.text != null) {
+                        if (et_search.text.toString().isNotEmpty()) {
                             locationClient?.startLocation()
                         }
                     }
@@ -166,11 +166,13 @@ class RefuelKotilActivity : BaseMvpActivity() {
 
         //下拉刷新
         srl_load.setOnRefreshListener {
-            if (et_search.text !=null){
+            if (et_search.text.toString().isNotEmpty()){
                 mHttpPage = 1
+                Log.e("setLoadMoreListener","---"+ et_search.text.toString() +"--et_search.text.toString()-"+et_search.text.toString().length)
                 //签到只需调用startLocation即可
                 locationClient!!.startLocation()
             }else{
+                ToastUtil.showMsg("请输入搜索内容！")
                 srl_load.isRefreshing = false
             }
 
@@ -182,12 +184,11 @@ class RefuelKotilActivity : BaseMvpActivity() {
             mHttpPage++
             Log.e("setLoadMoreListener", mHttpPage.toString())
             refresh()?.let { it1 ->
+                Log.e("setLoadMoreListener",it1)
                 newHttpData("", "", mLongitude, mLatitude,
                         it1, "10", mHttpPage.toString(), "8.3.11", "%22%22")
             }
         }
-
-
 
     }
 
@@ -228,7 +229,9 @@ class RefuelKotilActivity : BaseMvpActivity() {
 
 
     private fun refresh(): String? {
+        mSearchText = et_search.text.toString()
         var searchContent = "$mSearchType@$mSearchText"
+        Log.e("setLoadMoreListener",searchContent)
         return Base64.encodeToString(searchContent.toByteArray(), Base64.NO_WRAP)
     }
 

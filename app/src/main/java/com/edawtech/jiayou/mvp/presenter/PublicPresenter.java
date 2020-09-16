@@ -286,6 +286,8 @@ public class PublicPresenter extends BasePresenter<PublicContract.View> implemen
                                     } else {
                                         getView().onSuccess(data);
                                     }
+                                }else {
+                                    task.onFailure(null, resultData.getCode(), resultData.getMsg(), false);
                                 }
 
 
