@@ -2,6 +2,7 @@ package com.edawtech.jiayou.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.alibaba.fastjson.JSON
 import com.amap.api.location.AMapLocation
 import com.amap.api.location.AMapLocationClient
@@ -29,9 +31,7 @@ import com.edawtech.jiayou.ui.adapter.BaseRecyclerHolder
 import com.edawtech.jiayou.ui.adapter.MoreRefuelAdapter
 import com.edawtech.jiayou.ui.custom.CommonPopupWindow
 import com.edawtech.jiayou.ui.dialog.RefuelFiltrateDialog
-import com.edawtech.jiayou.utils.tool.ArmsUtils
-import com.edawtech.jiayou.utils.tool.JsonHelper
-import com.edawtech.jiayou.utils.tool.ToastUtil
+import com.edawtech.jiayou.utils.tool.*
 import com.flyco.roundview.RoundTextView
 import kotlinx.android.synthetic.main.activity_more_re_list.*
 import java.io.Serializable
@@ -61,10 +61,13 @@ class MoreReListActivity : BaseMvpActivity() {
     private var brandBuilder: StringBuilder? = null
     var mBrandLisd: List<RefuelFiltrate> = ArrayList()
     private var mapPop: CommonPopupWindow? = null
+
     var option = AMapLocationClientOption()
     private var mLatitude = 0.00
     private var mLongitude = 0.00
 
+    private var mGoLatitude = 0.0
+    private var mGoLongitude = 0.0
 
     override val layoutId: Int
         get() = R.layout.activity_more_re_list
@@ -121,7 +124,11 @@ class MoreReListActivity : BaseMvpActivity() {
                 holder?.getView<TextView>(R.id.tv_navigation)?.text = data?.distance + "km"
                 holder?.getView<TextView>(R.id.tv_oil_price)?.text = data?.priceYfq.toString()
                 holder?.getView<LinearLayout>(R.id.Lv_navigation)?.setOnClickListener {
+                    mGoLatitude = data.gasAddressLatitude
+                    mGoLongitude =data.gasAddressLongitude
                     showMapPop(data)
+
+
                 }
                 holder?.getView<LinearLayout>(R.id.Lin_rll_item)?.setOnClickListener {
                     startActivity(Intent(context,RefuelDetailKTActivity().javaClass)?.putExtra("MoreReListRecords", JsonHelper.newtoJson(data)))
@@ -296,19 +303,55 @@ class MoreReListActivity : BaseMvpActivity() {
                       } }
                     baidumapCb.setOnCheckedChangeListener { buttonView, isChecked -> if (isChecked){
                         amapCb.isChecked = false } }
+
                     ensureBtn.setOnClickListener {
                         if (!baidumapCb.isChecked && !amapCb.isChecked)  ToastUtil.showMsg("请选择一种地图")
                         if (baidumapCb.isChecked) {
-                            if(StoreDetailActivity.mapisAvailable(this, "com.baidu.BaiduMap")){
-
+                            if(StoreDetailActivity.mapisAvailable(context, "com.baidu.BaiduMap")){
+                                navWithBaidu()
+                            }else{
+                                ToastUtil.showMsg("您尚未安装百度地图")
+                                val uri = Uri.parse("market://details?id=com.baidu.BaiduMap")
+                                intent = Intent(Intent.ACTION_VIEW, uri)
+                                startActivity(intent)
                             }
                         }
+                        if (amapCb.isChecked){
+                            if (StoreDetailActivity.mapisAvailable(context, "com.autonavi.minimap")) {
+                                navWithAmap()
+                            } else {
+                                Toast.makeText(context, "您尚未安装高德地图", Toast.LENGTH_LONG).show()
+                                val uri = Uri.parse("market://details?id=com.autonavi.minimap")
+                                intent = Intent(Intent.ACTION_VIEW, uri)
+                                startActivity(intent)
+                            }
+                        }
+                        if (rememberCb.isChecked && amapCb.isChecked) {
+                            SpUtils.putIntValue(context, "selectMapFlag", 0)
+                        } else if (rememberCb.isChecked && amapCb.isChecked) {
+                            SpUtils.putIntValue(context, "selectMapFlag", 1)
+                        }
+                        mapPop!!.dismiss() }
 
 
-                    }
+
 
 
                 }.setOutsideTouchable(true).create();
         mapPop?.showAtLocation(window.decorView.rootView, Gravity.CENTER, 0, 0)
     }
+private fun navWithBaidu() {
+    val bdGps = RxLocationUtils.GCJ02ToBD09(mGoLongitude, mGoLatitude)
+    val stringBuffer = StringBuffer("baidumap://map/navi?location=").append(bdGps.latitude).append(",").append(bdGps.longitude).append("&type=TIME")
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(stringBuffer.toString()))
+    startActivity(intent)
+}
+
+private fun navWithAmap() {
+    val intent = Intent("android.intent.action.VIEW", Uri.parse("androidamap://route?sourceApplication=appName&slat=&slon=&sname=我的位置&dlat=" + mGoLatitude +
+            "&dlon=" + mGoLongitude + "&dname=目的地&dev=0&t=2"))
+    startActivity(intent)
+}
+
+
 }

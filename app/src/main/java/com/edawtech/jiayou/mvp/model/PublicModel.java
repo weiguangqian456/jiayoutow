@@ -52,7 +52,7 @@ public class PublicModel {
     //        RxHttp.postJson(String)         //post请求   参数以{application/json; charset=utf-8}形式提交，发送Json对象
     //        RxHttp.postJsonArray(String)    //post请求   参数以{application/json; charset=utf-8}形式提交，发送Json数组
     //        RxHttp.putForm(String)          //put请求    参数以{application/x-www-form-urlencoded}形式提交
-    //        RxHttp.putJson(String)          //put请求    参数以{application/json; charset=utf-8}形式提交，发送Json对象
+        //        RxHttp.putJson(String)          //put请求    参数以{application/json; charset=utf-8}形式提交，发送Json对象
     //        RxHttp.putJsonArray(String)     //put请求    参数以{application/json; charset=utf-8}形式提交，发送Json数组
     //        RxHttp.patchForm(String)        //patch请求  参数以{application/x-www-form-urlencoded}形式提交
     //        RxHttp.patchJson(String)        //patch请求  参数以{application/json; charset=utf-8}形式提交，发送Json对象
@@ -235,5 +235,6 @@ public class PublicModel {
                     }
                 }, AndroidSchedulers.mainThread()); //指定主线程回调
     }
+
 
 }

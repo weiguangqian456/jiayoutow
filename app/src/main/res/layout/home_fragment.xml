@@ -62,17 +62,18 @@
                     android:layout_height="110dp">
 
                     <com.flyco.roundview.RoundLinearLayout
-                        android:id="@+id/rll_refuel"
+
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:visibility="gone"
+
                         app:rv_backgroundColor="@color/public_color_white"
                         app:rv_cornerRadius_BL="10dp"
                         app:rv_cornerRadius_BR="10dp"
                         app:rv_isRippleEnable="false">
 
                         <LinearLayout
+                            android:id="@+id/rll_refuel"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -175,23 +176,39 @@
 
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_navigation"
+                        <RelativeLayout
+                            android:id="@+id/Relat_navigation"
+                            android:orientation="vertical"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginRight="15dp"
-                            android:drawableTop="@drawable/ic_refuel_home_navigation"
-                            android:drawablePadding="2dp"
-                            android:gravity="center"
-                            android:text="4.74M"
-                            android:textColor="@color/public_color_EC6941"
-                            android:textSize="@dimen/w_10_dip" />
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:layout_marginRight="@dimen/dp15"
+                               android:layout_marginLeft="@dimen/dp15"
+                                android:id="@+id/iv_navigation"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/ic_refuel_home_navigation"
+                                android:layout_width="@dimen/dp25"
+                                android:layout_height="@dimen/dp25"/>
+                            <TextView
+                                android:layout_marginTop="@dimen/dp5"
+                                android:layout_below="@id/iv_navigation"
+                                android:layout_centerHorizontal="true"
+                                android:id="@+id/tv_navigation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawablePadding="2dp"
+                                android:gravity="center"
+                                android:text="4.74M"
+                                android:textColor="@color/public_color_EC6941"
+                                android:textSize="@dimen/w_10_dip" />
+
+                        </RelativeLayout>
+
 
                     </com.flyco.roundview.RoundLinearLayout>
 
                     <com.flyco.roundview.RoundLinearLayout
+
                         android:id="@+id/ll_error"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
