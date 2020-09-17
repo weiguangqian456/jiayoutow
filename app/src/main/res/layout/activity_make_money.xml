@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include android:id="@+id/rl_title" layout="@layout/temp_base_title_white"/>
+    <com.edawtech.jiayou.ui.custom.TitleView
+        android:id="@+id/title_main_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/TitleView_Height"
+        android:background="@color/colorWhite"
+        app:left_image="@mipmap/icon_titlebar_close"
+        app:title_gravity="center"
+        app:title_name="我要赚钱"
+        app:title_textStyle="bold"
+        app:title_text_color="@color/colorFontDark"
+        app:title_text_size="16sp"
+
+        />
+
 
     <ScrollView
         android:layout_width="match_parent"

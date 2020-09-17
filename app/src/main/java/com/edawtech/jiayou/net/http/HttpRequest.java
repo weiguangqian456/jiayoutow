@@ -46,17 +46,29 @@ public class HttpRequest {
         return params;
     }
 
-    public static String GetsearchContent(String mFuelOilType, String mFiltrate,List<RefuelFiltrate> mBrandList){
-        String searchContent = "@" + mFuelOilType + "@" + mFiltrate + "@" + TextUtils.join("#",mBrandList);
+    public static String GetsearchContent(String mFuelOilType, String mFiltrate, List<RefuelFiltrate> mBrandList) {
+        String searchContent = "@" + mFuelOilType + "@" + mFiltrate + "@" + TextUtils.join("#", mBrandList);
         String base64Str = Base64.encodeToString(searchContent.getBytes(), Base64.NO_WRAP);
         return base64Str;
     }
 
-    public static  String queryPrice(String gasId ,String phone ){
+    public static String queryPrice(String gasId, String phone) {
         HashMap<String, Object> params = new HashMap<>();
-        params.put("gasId",gasId);
+        params.put("gasId", gasId);
         params.put("phone", phone);
         return JsonHelper.newtoJson(params);
+    }
+
+    public static HashMap<String, Object> OrderRefurlist(String phone, String pageSize,
+                                                         String pageNum, String version) {
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("phone", phone);
+        params.put("pageSize", pageSize);
+        params.put("pageNum", pageNum);
+        params.put("version", version);
+        params.put("uid", MyApplication.UID);
+        params.put("appId", "dudu");
+        return params;
     }
 
 

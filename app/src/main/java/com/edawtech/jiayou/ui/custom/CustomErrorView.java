@@ -127,14 +127,14 @@ public class CustomErrorView extends FrameLayout {
         if (noContent != null) {
             MarginLayoutParams noContentLayoutParams = (MarginLayoutParams) noContent.getLayoutParams();
             noContentLayoutParams.topMargin = DensityUtils.dp2px(mContext, 40);
-            ;
+
             noContent.setLayoutParams(noContentLayoutParams);
         }
 
         if (noNet != null) {
             MarginLayoutParams noNetLayoutParams = (MarginLayoutParams) noNet.getLayoutParams();
             noNetLayoutParams.topMargin = DensityUtils.dp2px(mContext, 40);
-            ;
+
             noNet.setLayoutParams(noNetLayoutParams);
         }
 

@@ -48,6 +48,7 @@
     <string name="product">嘟嘟</string>
     <!-- 品牌id -->
     <string name="brandid">dudu</string>
+    <string name="my_account">我的账户</string>
 
     <!--分享链接地址-->
     <string name="url_share">http://route.edawtech.com/share</string>

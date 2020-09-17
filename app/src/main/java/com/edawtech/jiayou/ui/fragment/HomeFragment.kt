@@ -111,21 +111,24 @@ class HomeFragment : BaseMvpFragment() {
    //我的订单
         view?.findViewById<LinearLayout>(R.id.ll_refuel_order)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
-            if (MyApplication.isLogin){
-                startActivity(Intent(context, OrderRefurlActivity().javaClass))
-            }else{
-                startActivity(Intent(context,VsLoginActivity::class.java))
-            }
+
+            startActivity(Intent(context, OrderRefurlActivity().javaClass))
+//            if (MyApplication.isLogin){
+//                startActivity(Intent(context, OrderRefurlActivity().javaClass))
+//            }else{
+//                startActivity(Intent(context,VsLoginActivity::class.java))
+//            }
 
         }
         //我要赚钱
         view?.findViewById<LinearLayout>(R.id.ll_refuel_money)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
-            if (MyApplication.isLogin){
-                startActivity(Intent(context, MakeMoneyActivity().javaClass))
-            }else{
-                startActivity(Intent(context,VsLoginActivity::class.java))
-            }
+            startActivity(Intent(context, MakeMoneyActivity().javaClass))
+//            if (MyApplication.isLogin){
+//                startActivity(Intent(context, MakeMoneyActivity().javaClass))
+//            }else{
+//                startActivity(Intent(context,VsLoginActivity::class.java))
+//            }
 
         }
 

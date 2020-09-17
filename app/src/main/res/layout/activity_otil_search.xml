@@ -101,6 +101,9 @@
         app:xTabSelectedTextSize="@dimen/w_15_dip"
         app:xTabTextColor="#b8b8b8"
         app:xTabTextSize="@dimen/w_15_dip" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_load"
         android:layout_width="match_parent"
@@ -113,4 +116,11 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:overScrollMode="never" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!-- 异常界面 -->
+        <com.edawtech.jiayou.ui.custom.CustomErrorView
+            android:id="@+id/cev_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 </LinearLayout>

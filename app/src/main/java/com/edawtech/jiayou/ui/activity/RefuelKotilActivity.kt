@@ -30,11 +30,11 @@ import com.edawtech.jiayou.net.http.HttpURL
 import com.edawtech.jiayou.ui.adapter.BaseRecyclerAdapter
 import com.edawtech.jiayou.ui.adapter.BaseRecyclerHolder
 import com.edawtech.jiayou.ui.custom.CommonPopupWindow
+import com.edawtech.jiayou.ui.custom.CustomErrorView
 import com.edawtech.jiayou.utils.tool.*
+import com.edawtech.jiayou.utils.tool.unit.DensityUtils
 import com.flyco.roundview.RoundTextView
 import kotlinx.android.synthetic.main.activity_otil_search.*
-import kotlinx.android.synthetic.main.activity_otil_search.rv_load
-import kotlinx.android.synthetic.main.activity_otil_search.srl_load
 
 /**
  * 加油站搜索
@@ -49,6 +49,8 @@ class RefuelKotilActivity : BaseMvpActivity() {
 
     var locationClient: AMapLocationClient? = null
     var option = AMapLocationClientOption()
+
+    lateinit var layoutParams: ViewGroup.MarginLayoutParams
 
     private var mLatitude = 0.00
     private var mLongitude = 0.00
@@ -146,7 +148,11 @@ class RefuelKotilActivity : BaseMvpActivity() {
         }
 
 
+        layoutParams = cev_view.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.topMargin = DensityUtils.dp2px(this, 287f)
 
+        cev_view.layoutParams = layoutParams
+        cev_view.setShowView()
 
         baseRecyclerAdapter = object : BaseRecyclerAdapter<MoreReListBean.MoreReListRecords>(this, null, R.layout.item_more_refuel) {
             @SuppressLint("SetTextI18n")
@@ -219,13 +225,24 @@ class RefuelKotilActivity : BaseMvpActivity() {
             baseRecyclerAdapter?.setData(entity.data.records as MutableList<MoreReListBean.MoreReListRecords>?)
         } else {
             rv_load.loadMoreFinish(true, false)
+            if (mHttpPage == 1) {
+                cev_view?.initState(CustomErrorView.ERROR_VIEW_EMPTY)
+            } else {
+                cev_view?.initState(CustomErrorView.ERROR_NOT)
+            }
         }
 
     }
 
     override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
+
         srl_load.isRefreshing = false
         rv_load.loadMoreFinish(false, true)
+        if (mHttpPage == 1) {
+            cev_view?.initState(CustomErrorView.ERROR_VIEW_EMPTY)
+        } else {
+            cev_view?.initState(CustomErrorView.ERROR_NOT)
+        }
         //   ToastUtil.showMsg(msg)
     }
 

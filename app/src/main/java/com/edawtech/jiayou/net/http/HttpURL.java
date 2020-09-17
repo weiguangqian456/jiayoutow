@@ -1,8 +1,10 @@
 package com.edawtech.jiayou.net.http;
+
 import com.edawtech.jiayou.BuildConfig;
 
 import rxhttp.wrapper.annotation.DefaultDomain;
 import rxhttp.wrapper.annotation.Domain;
+
 /**
  * 请求接口。
  */
@@ -40,10 +42,29 @@ public class HttpURL {
 
     //加油站列表
     public final static String CheZhuBangControll = "/benefit/web/CheZhuBangController/queryGasStationInfoList";
-   //获取油站详情
-    public final static String queryPriceByPhone ="/benefit/web/CheZhuBangController/queryPriceByPhone";
+    //获取油站详情
+    public final static String queryPriceByPhone = "/benefit/web/CheZhuBangController/queryPriceByPhone";
 
 
+    //我邀请的收益
+    public final static String inviteIncome = "/route/benefit/api/userInfo/getWallet";
+    //获取我要邀请的人数
+    public final static String getUserLevel = "/benefit/api/userInfo/childAgentUserList";
+
+    //加油金额
+    public final static String refuelMoney = "/benefit/web/OrderController//selectGasStation";
+
+    public final static String  OrderZhuBangquery ="benefit/web/CheZhuBangController/queryOrderInfo";
+
+    // 验证是否有加油余额
+    public final static String isRefuelbalance = "route/benefit/web/OrderController/selectOrder";
+    //更新加油订单
+    public final static String updateRefuelOrder = "/route/benefit/web/OrderController/updateOrder";
+    //    记录加油用户信息
+    public final static String recordUserInfo = "/route/benefit/tGasStationReconciliation";
+
+    // 根据加油金额获取界面金额信息
+    public final static String queryPriceByGas = "benefit/web/OrderController/queryPriceByGas";
 
 
 
