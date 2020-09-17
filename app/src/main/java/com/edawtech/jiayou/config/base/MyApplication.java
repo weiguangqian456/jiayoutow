@@ -1,5 +1,6 @@
 package com.edawtech.jiayou.config.base;
 
+import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -31,6 +32,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
 
+
 public class MyApplication extends Application implements IApp, CameraXConfig.Provider {
     private static Context mContext;
     private static MyApplication mInstance;
@@ -39,6 +41,17 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
     public static Handler handler;
 
     public int payType = 0;
+
+
+    /**
+     * 全局唯一UID
+     */
+    public static int UID  = 0;
+
+    /**
+     * 是否登录
+     */
+    public static boolean isLogin = false;
 
     @Override
     public void onCreate() {
@@ -71,6 +84,8 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
             // Crash之后的一些操作可再此处理，没有就忽略...
         });
 
+        //64k方法限制
+        MultiDex.install(this);
 
     }
 

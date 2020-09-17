@@ -13,6 +13,8 @@
     <!-- 透明  -->
     <color name="colorEmpty">#00000000</color>
 
+    <color name="ripple">#f1f1f1</color>
+
     <!-- 主色调  -->
     <color name="colorMain">#ff0084FF</color>
     <!-- 主色调浅色  -->
@@ -471,5 +473,7 @@
     <color name="public_color_F5F6F7">#F6F5F8</color>
     <color name="public_color_E4E4E4">#E4E4E4</color>
     <color name="public_color_E21A38">#E21A38</color>
+    <color name="text_color">#1D1D1D</color>
+
 
 </resources>

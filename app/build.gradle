@@ -33,13 +33,18 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+
     }
+
     signingConfigs {
         myconfig {
             keyAlias 'key0'
             keyPassword 'jiayou123'
             storePassword 'jiayou123'
-            storeFile file("D:\\app\\jiayou\\jiayou.jks")
+//            storeFile file("D:\\app\\jiayou\\jiayou.jks")
+            storeFile file("D:\\work\\jiayoutow\\jiayou.jks")
         }
     }
     buildTypes {
@@ -101,8 +106,6 @@ android {
            signingConfig signingConfigs.myconfig
         }
     }
-
-
     sourceSets {
         main {
             // 配置.so文件路径---把so文件夹armeabi添加到libs中
@@ -113,8 +116,8 @@ android {
     android.applicationVariants.all { variant ->
         variant.outputs.all {
             // 这里修改apk文件名：
-            // "${appName}_${releaseTime()}_v${defaultConfig.versionName}_vc${defaultConfig.versionCode}_" + buildType.name + ".apk"
-            //    outputFileName = "KeBaoBao-${releaseTime()}-v${defaultConfig.versionName}-" + buildType.name + ".apk"
+//             "${appName}_${releaseTime()}_v${defaultConfig.versionName}_vc${defaultConfig.versionCode}_" + buildType.name + ".apk"
+//                outputFileName = "KeBaoBao-${releaseTime()}-v${defaultConfig.versionName}-" + buildType.name + ".apk"
         }
     }
     // 指定jdk版本为1.8
@@ -156,6 +159,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -179,6 +184,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     // gson解析
     implementation 'com.google.code.gson:gson:2.8.5'
+
 
     // butterknife 注解
     implementation 'com.jakewharton:butterknife:10.0.0'
@@ -260,7 +266,6 @@ dependencies {
 
     // 日志打印 依赖
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation files('libs/BDLBS_helper.jar')
 
     implementation 'com.bigkoo:convenientbanner:2.1.5'
 
@@ -273,8 +278,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
     implementation 'com.alibaba:fastjson:1.2.48'
-
     //定位功能
     implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.amap.api:location:latest.integration'
+    //数据库
+    implementation 'org.greenrobot:greendao:3.2.2'
 
 }

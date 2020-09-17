@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TimePicker;
 
 
 import com.blankj.utilcode.util.FileUtils;
 import com.edawtech.jiayou.BuildConfig;
 import com.edawtech.jiayou.R;
+import com.edawtech.jiayou.config.base.VsContactItem;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.GlobalVariables;
 import com.edawtech.jiayou.config.constant.VsUserConfig;
+import com.edawtech.jiayou.config.service.VsCoreService;
 import com.edawtech.jiayou.net.http.VsHttpTools;
+import com.edawtech.jiayou.utils.db.provider.VsPhoneCallHistory;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -191,13 +195,14 @@ public class CoreBusiness {
                 // }
                 // 记录线程id
                 GlobalFuntion.PrintValue("启动新的一个线程", "");
+                Log.e("fxx","target="+target);
                 if (GlobalVariables.INTERFACE_CONTACT_BACKUP.equals(target)) {
                     TreeMap<String, String> bizparams = new TreeMap<String, String>();
                     // 获取联系人信息放到线程中来做
                ///    bizparams.put("vcard_contacts", ContactSync.getInstance().getBakContactData(context));
-                //    httpAccess(context, actionName, target, authType, bizparams);
+                    httpAccess(context, actionName, target, authType, bizparams);
                 } else {
-                 //   httpAccess(context, actionName, target, authType, treeMap);
+                    httpAccess(context, actionName, target, authType, treeMap);
                 }
             }
         };
@@ -205,179 +210,185 @@ public class CoreBusiness {
         GlobalVariables.fixedThreadPool.execute(newRunable);
     }
 
-//    /**
-//     * @param mContext
-//     * @param actionName 传入的action name收到数据后发送广播给activity使用
-//     * @param target     获取数据地址
-//     * @param authType
-//     * @param treeMap    参数
-//     * @return
-//     */
-//    public Object httpAccess(Context mContext, String actionName, String target, String authType, TreeMap<String, String> treeMap) {
-//        JSONObject root = null;
-//        String json = DfineAction.defaultResult;
-//        String RealUrl = null;
-//        String paramStr = null;
-//        // 判断是否登陆，若没有登陆则不需要发请求，除了注册，登陆，静态配置，忘记密码，验证码；
-//        if (!(actionName.equals(GlobalVariables.actionFirUpdate) | actionName.equals(VsUserConfig.VS_ACTION_CHECK_USER) | actionName.equals(VsCoreService.VS_ACTION_LOGIN) |
-//                actionName.equals(GlobalVariables.actionDefaultConfig) | actionName.equals(VsUserConfig.VS_ACTION_SET_PASSWORD) | actionName.equals(VsUserConfig
-//                .VS_ACTION_RESETPWD_CODE) | actionName.equals(VsUserConfig.VS_ACTION_GET_CODE))) {
-//            if (!VsUtil.checkHasAccount(mContext)) {
-//                return null;
-//            }
-//        }
-//        try {
-//            if (GlobalVariables.netmode == 0) {
-//                return json;
-//            }
-//            // TODO Json
-//            if (actionName.equals(GlobalVariables.actionFirUpdate)) {
-//                RealUrl = "http://api.fir.im/apps/latest" + target;
-//            } else {
-//                // RealUrl = VsHttpTools.getInstance(mContext).getUri_prefix()
-//                // + "/" + DfineAction.uri_verson + "/" + DfineAction.brandid
-//                // + target;
-//                RealUrl = VsHttpTools.getInstance(mContext).getUri_prefix() + "/" + "8.0.1" + "/" + DfineAction.brand_id + target;
-//            }
-//            CustomLog.i("vsdebug", "url---" + RealUrl);
-//
-//
-//            if (actionName.equals(GlobalVariables.actionFirUpdate)) {
-//                paramStr = enmurParse(treeMap);
-//            } else {
-//                returnParamStr(mContext, treeMap, authType);
-//            }
-//            CustomLog.i("vsdebug", "paramStr---" + paramStr);
-//
-//
-//            if (actionName.equals(GlobalVariables.actionBackUp) || actionName.equals(GlobalVariables.actionCount) || actionName.equals(GlobalVariables.actionGetVsFriend)) {
-//                root = VsHttpTools.getInstance(mContext).sendPostRequest(RealUrl, mContext, paramStr);
-//                CustomLog.i("vsdebug", "RealUrl" + RealUrl + ",root=" + root);
-//            } else {
-//                // byte[] jsonData = paramStr.getBytes("utf-8");
-//                if (actionName.equals(GlobalVariables.actionFirUpdate)) {
-//                    root = VsHttpTools.getInstance(mContext).doGetMethod(RealUrl + "?" + paramStr, treeMap, RealUrl, authType);
-//                } else {
-//                    root = VsHttpTools.getInstance(mContext).sendPostRequesthttp(RealUrl, mContext, treeMap);
-//                }
-//            }
-//            //用于断点拦截相应的接口数据
-//            if(RealUrl.contains("/action/call_ready")){
-//                LogUtils.e("就是这里了");
-//            }
-//            if (root != null && root.length() > 0) json = root.toString();
-//            CustomLog.d("vsdebug", "json: " + json);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (actionName.equals(GlobalVariables.actionCount)) {
-//            } else if (actionName.equals(GlobalVariables.actionGetNumber)) {
-//                getSmPhoneNumber(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionRecordInstall)) {
-//                recordInstall(mContext, root, authType);
-//            } else if (actionName.equals(GlobalVariables.actionMoBind)) {
-//                return moBind(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionMoReg)) {
-//                return moReg(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionTempLateConfig)) {
-//                handleTemplateConfigInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionDefaultConfig)) {
-//                handleDefaultConfigInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionFirUpdate)) {
-//                FirUpdateInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionexchange)) {
-//                saveCardNoInfo(root, mContext);
-//            } else if (actionName.equals(GlobalVariables.actionupdate)) {
-//                saveUpgradeInfo(root, mContext);
-//            } else if (actionName.equals(GlobalVariables.actionGoodsConfig)) {
-//                CustomLog.i("lte", "action----" + GlobalVariables.actionGoodsConfig);
-//                handleGoodsConfigInfo(mContext, root, actionName);
-//            } else if (actionName.equals(GlobalVariables.actionHeartBeat)) {
-//                CustomLog.i("vsdebug", "action----heart---beat");
-//                setReportActiveTime(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionAdsConfig)) {
-//                // 广告
-//                handleAdConfigInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetOK)) {
-//                getOKInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionSignConfig)) {
-//                setSignInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetMyBank)) {
-//                getBankInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.adActionCount)) {
-//                // 统计用户点击广告行为
-//            } else if (actionName.equals(GlobalVariables.actionGiftPkgTime)) {
-//                // 绑定获取30分钟
-//                getRegisterGiftInfo(root, mContext);
-//            } else if (actionName.equals(GlobalVariables.VS_ACTION_CHECK_CONTACTS)) {
-//                setBakContactInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionReportPushInfo)) {
-//                setBakContactInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetmyInfo)) {
-//                getMyInfoText(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionPushmyInfo)) {
-//                pushMyInfo(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetMyCallMoney)) {
-//                getMyCallMoney(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionShareConfig)) {
-//                getMyshare(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetMyCallLog)) {
-//                getMyCallLog(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetMyRedLog)) {
-//                getMyRedLog(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetQrcode)) {
-//                getMyQrCode(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionSeaRchtaocan)) {
-//                getMyTaocan(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetMyRedMoney)) {
-//                getMyRedMoney(mContext, root);
-//            } else if (actionName.equals(GlobalVariables.actionGetToken)) {// 获取token
-//                CustomLog.i("vsdebugtoken", "vsdebugtokenjson" + json);
-//                if (root != null && !"".equals(root.toString()) && root.toString().length() > 1) {
-//                    if ("0".equals(VsJsonTool.GetStringFromJSON(root, "result"))) {
-//                        // 保存token
-//                        VsUserConfig.setData(mContext, VsUserConfig.JKEY_TOKEN, VsJsonTool.GetStringFromJSON(root, "token"));
-//                        // 拨打组件建立连接
-//                        // mContext.sendBroadcast(new Intent(
-//                        // UIDfineAction.ACTION_LOGIN).putExtra("sid_pwd",
-//                        // VsJsonTool.GetStringFromJSON(root, "token")));
-//                        CustomLog.i("vsdebugtoken", "token---" + VsJsonTool.GetStringFromJSON(root, "token"));
-//                    } else {
-//                        // Toast.makeText(mContext, "获取Token失败！", 0).show();
-//                        CustomLog.i("vsdebugtoken", "获取Token失败！");
-//                        // 获取token失败重链
-//                        // KcBizUtil.getInstance().getToken(mContext);
-//                    }
-//                }
-//            } else if (actionName.equals(GlobalVariables.actionGetVsFriend)) {
-//                CustomLog.i("actionGetVsFriend", "friend-----" + json);
-//                if (root != null && !"".equals(root.toString()) && root.toString().length() > 1) {
-//
-//                    if ("0".equals(VsJsonTool.GetStringFromJSON(root, "result"))) {
-//                        // 修改联系人信息VsJsonTool.GetStringFromJSON(root, "numbers")
-//                        VsUserConfig.setData(mContext, VsUserConfig.JKEY_GETVSUSERINFO, VsJsonTool.GetStringFromJSON(root, "numbers"));
-//                        changeContactsData(mContext, VsJsonTool.GetStringFromJSON(root, "numbers"));
-//                        VsUserConfig.setData(mContext, VsUserConfig.JKEY_GETVSUSERINFO_FLAG, VsJsonTool.GetStringFromJSON(root, "flag"));
-//                    } else {
-//                        // VsUserConfig.setData(mContext,
-//                        // VsUserConfig.JKEY_GETVSUSERINFO,
-//                        // VsJsonTool.GetStringFromJSON(root, "numbers"));
-//                        changeContactsData(mContext, VsUserConfig.getDataString(mContext, VsUserConfig.JKEY_GETVSUSERINFO));
-//                        CustomLog.i("actionGetVsFriend", "获取VS好友失败！");
-//                        mContext.sendBroadcast(new Intent(VsUserConfig.JKey_GET_VSUSER_FAIL));
-//                    }
-//                }
-//                // 没有网络等情况下
-//                else {
-//                    changeContactsData(mContext, VsUserConfig.getDataString(mContext, VsUserConfig.JKEY_GETVSUSERINFO));
-//                    CustomLog.i("actionGetVsFriend", "获取VS好友失败！");
-//                }
-//            } else {
-//                GlobalFuntion.SendBroadcastMsg(mContext, actionName, json);
-//            }
-//        }
-//        return null;
-//    }
+    /**
+     * @param mContext
+     * @param actionName 传入的action name收到数据后发送广播给activity使用
+     * @param target     获取数据地址
+     * @param authType
+     * @param treeMap    参数
+     * @return
+     */
+    public Object httpAccess(Context mContext, String actionName, String target, String authType, TreeMap<String, String> treeMap) {
+        JSONObject root = null;
+        String json = DfineAction.defaultResult;
+        String RealUrl = null;
+        String paramStr = null;
+        // 判断是否登陆，若没有登陆则不需要发请求，除了注册，登陆，静态配置，忘记密码，验证码；
+        if (!(actionName.equals(GlobalVariables.actionFirUpdate) | actionName.equals(VsUserConfig.VS_ACTION_CHECK_USER) | actionName.equals(VsCoreService.VS_ACTION_LOGIN) |
+                actionName.equals(GlobalVariables.actionDefaultConfig) | actionName.equals(VsUserConfig.VS_ACTION_SET_PASSWORD) | actionName.equals(VsUserConfig
+                .VS_ACTION_RESETPWD_CODE) | actionName.equals(VsUserConfig.VS_ACTION_GET_CODE))) {
+            if (!VsUtil.checkHasAccount(mContext)) {
+                return null;
+            }
+        }
+        try {
+            if (GlobalVariables.netmode == 0) {
+                return json;
+            }
+            // TODO Json
+            if (actionName.equals(GlobalVariables.actionFirUpdate)) {
+                RealUrl = "http://api.fir.im/apps/latest" + target;
+            } else {
+                // RealUrl = VsHttpTools.getInstance(mContext).getUri_prefix()
+                // + "/" + DfineAction.uri_verson + "/" + DfineAction.brandid
+                // + target;
+                RealUrl = VsHttpTools.getInstance(mContext).getUri_prefix() + "/" + "8.0.1" + "/" + DfineAction.brand_id + target;
+//                RealUrl = "http://paas.edawtech.com" + "/" + "8.0.1" + "/" + DfineAction.brand_id + target;
+
+            }
+            CustomLog.e("fxx","url="+RealUrl);
+            CustomLog.i("vsdebug", "url---" + RealUrl);
+
+
+            if (actionName.equals(GlobalVariables.actionFirUpdate)) {
+                paramStr = enmurParse(treeMap);
+            } else {
+                returnParamStr(mContext, treeMap, authType);
+            }
+            CustomLog.i("vsdebug", "paramStr---" + paramStr);
+
+
+            if (actionName.equals(GlobalVariables.actionBackUp) || actionName.equals(GlobalVariables.actionCount) || actionName.equals(GlobalVariables.actionGetVsFriend)) {
+                CustomLog.e("fxx","1");
+                root = VsHttpTools.getInstance(mContext).sendPostRequest(RealUrl, mContext, paramStr);
+                CustomLog.i("vsdebug", "RealUrl" + RealUrl + ",root=" + root);
+            } else {
+                CustomLog.e("fxx","2");
+
+                // byte[] jsonData = paramStr.getBytes("utf-8");
+                if (actionName.equals(GlobalVariables.actionFirUpdate)) {
+                    root = VsHttpTools.getInstance(mContext).doGetMethod(RealUrl + "?" + paramStr, treeMap, RealUrl, authType);
+                } else {
+                    root = VsHttpTools.getInstance(mContext).sendPostRequesthttp(RealUrl, mContext, treeMap);
+                }
+            }
+            //用于断点拦截相应的接口数据
+            if(RealUrl.contains("/action/call_ready")){
+                Log.e("TAG","就是这里了");
+            }
+            if (root != null && root.length() > 0) json = root.toString();
+            CustomLog.d("vsdebug", "json: " + json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (actionName.equals(GlobalVariables.actionCount)) {
+            } else if (actionName.equals(GlobalVariables.actionGetNumber)) {
+                getSmPhoneNumber(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionRecordInstall)) {
+                recordInstall(mContext, root, authType);
+            } else if (actionName.equals(GlobalVariables.actionMoBind)) {
+                return moBind(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionMoReg)) {
+                return moReg(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionTempLateConfig)) {
+                handleTemplateConfigInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionDefaultConfig)) {
+                handleDefaultConfigInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionFirUpdate)) {
+                FirUpdateInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionexchange)) {
+                saveCardNoInfo(root, mContext);
+            } else if (actionName.equals(GlobalVariables.actionupdate)) {
+                saveUpgradeInfo(root, mContext);
+            } else if (actionName.equals(GlobalVariables.actionGoodsConfig)) {
+                CustomLog.i("lte", "action----" + GlobalVariables.actionGoodsConfig);
+                handleGoodsConfigInfo(mContext, root, actionName);
+            } else if (actionName.equals(GlobalVariables.actionHeartBeat)) {
+                CustomLog.i("vsdebug", "action----heart---beat");
+                setReportActiveTime(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionAdsConfig)) {
+                // 广告
+                handleAdConfigInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetOK)) {
+                getOKInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionSignConfig)) {
+                setSignInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetMyBank)) {
+                getBankInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.adActionCount)) {
+                // 统计用户点击广告行为
+            } else if (actionName.equals(GlobalVariables.actionGiftPkgTime)) {
+                // 绑定获取30分钟
+                getRegisterGiftInfo(root, mContext);
+            } else if (actionName.equals(GlobalVariables.VS_ACTION_CHECK_CONTACTS)) {
+                setBakContactInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionReportPushInfo)) {
+                setBakContactInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetmyInfo)) {
+                getMyInfoText(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionPushmyInfo)) {
+                pushMyInfo(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetMyCallMoney)) {
+                getMyCallMoney(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionShareConfig)) {
+                getMyshare(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetMyCallLog)) {
+                getMyCallLog(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetMyRedLog)) {
+                getMyRedLog(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetQrcode)) {
+                getMyQrCode(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionSeaRchtaocan)) {
+                getMyTaocan(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetMyRedMoney)) {
+                getMyRedMoney(mContext, root);
+            } else if (actionName.equals(GlobalVariables.actionGetToken)) {// 获取token
+                CustomLog.i("vsdebugtoken", "vsdebugtokenjson" + json);
+                if (root != null && !"".equals(root.toString()) && root.toString().length() > 1) {
+                    if ("0".equals(VsJsonTool.GetStringFromJSON(root, "result"))) {
+                        // 保存token
+                        VsUserConfig.setData(mContext, VsUserConfig.JKEY_TOKEN, VsJsonTool.GetStringFromJSON(root, "token"));
+                        // 拨打组件建立连接
+                        // mContext.sendBroadcast(new Intent(
+                        // UIDfineAction.ACTION_LOGIN).putExtra("sid_pwd",
+                        // VsJsonTool.GetStringFromJSON(root, "token")));
+                        CustomLog.i("vsdebugtoken", "token---" + VsJsonTool.GetStringFromJSON(root, "token"));
+                    } else {
+                        // Toast.makeText(mContext, "获取Token失败！", 0).show();
+                        CustomLog.i("vsdebugtoken", "获取Token失败！");
+                        // 获取token失败重链
+                        // KcBizUtil.getInstance().getToken(mContext);
+                    }
+                }
+            } else if (actionName.equals(GlobalVariables.actionGetVsFriend)) {
+                CustomLog.i("actionGetVsFriend", "friend-----" + json);
+                if (root != null && !"".equals(root.toString()) && root.toString().length() > 1) {
+
+                    if ("0".equals(VsJsonTool.GetStringFromJSON(root, "result"))) {
+                        // 修改联系人信息VsJsonTool.GetStringFromJSON(root, "numbers")
+                        VsUserConfig.setData(mContext, VsUserConfig.JKEY_GETVSUSERINFO, VsJsonTool.GetStringFromJSON(root, "numbers"));
+                        changeContactsData(mContext, VsJsonTool.GetStringFromJSON(root, "numbers"));
+                        VsUserConfig.setData(mContext, VsUserConfig.JKEY_GETVSUSERINFO_FLAG, VsJsonTool.GetStringFromJSON(root, "flag"));
+                    } else {
+                        // VsUserConfig.setData(mContext,
+                        // VsUserConfig.JKEY_GETVSUSERINFO,
+                        // VsJsonTool.GetStringFromJSON(root, "numbers"));
+                        changeContactsData(mContext, VsUserConfig.getDataString(mContext, VsUserConfig.JKEY_GETVSUSERINFO));
+                        CustomLog.i("actionGetVsFriend", "获取VS好友失败！");
+                        mContext.sendBroadcast(new Intent(VsUserConfig.JKey_GET_VSUSER_FAIL));
+                    }
+                }
+                // 没有网络等情况下
+                else {
+                    changeContactsData(mContext, VsUserConfig.getDataString(mContext, VsUserConfig.JKEY_GETVSUSERINFO));
+                    CustomLog.i("actionGetVsFriend", "获取VS好友失败！");
+                }
+            } else {
+                GlobalFuntion.SendBroadcastMsg(mContext, actionName, json);
+            }
+        }
+        return null;
+    }
 
     private void saveCardNoInfo(JSONObject root, Context mContext) {
         if (root == null || root.length() == 0) {
@@ -533,102 +544,102 @@ public class CoreBusiness {
         }
     }
 
-//    /**
-//     * @param mContext
-//     * @param numbers
-//     * @instruction在联系人信息中加入VS好友
-//     * @author Sundy 兴
-//     * @version 创建时间：2014-12-16 下午05:24:15
-//     */
-//    public void changeContactsData(Context mContext, String numbers) {
-//        JSONObject jsonObject = null;
-//        try {
-//            CustomLog.i(TAG, "changeContactsData(), numbers is " + numbers);
-//
-//            jsonObject = new JSONObject(numbers);
-//        } catch (JSONException e) {
-//            isLoadVsContact = false;
-//            CustomLog.e(TAG, "changeContactsData, error is " + e);
-//        }
-//        isLoadVsContact = true;
-//        isLoadVsContactOver = false;
-//        String phone;
-//        VsPhoneCallHistory.VSCONTACTLIST.clear();
-//        if (!VsPhoneCallHistory.isloadContact && VsPhoneCallHistory.CONTACTLIST.size() > 0) {// 判断是否有联系人
-//            for (VsContactItem item : VsPhoneCallHistory.CONTACTLIST) {
-//                item.mContactUid.clear();// 确保 uid跟phone一一对应关系.
-//                for (int j = 0; j < item.phoneNumList.size(); j++) {
-//                    phone = VsUtil.filterPhoneNumber(item.phoneNumList.get(j));
-//                    if (numbers.contains(phone)) {
-//                        item.isVsUser = true;// 设置为VS好友
-//                        item.ISVsPhone.add(true);
-//                        String param = null;
-//                        if (null != jsonObject) {
-//                            try {
-//                                param = jsonObject.getString(phone);
-//                            } catch (JSONException ignored) {
-//                            }
-//                        }
-//                        if (TextUtils.isEmpty(param)) {
-//                            item.mContactCliendid.add("");
-//                            item.mContactUid.add("");
-//                            continue;
-//                        }
-//                        CustomLog.i(TAG, "changeContactsData(), param is " + param);
-//                        JSONObject jsonObject2 = null;
-//                        try {
-//                            jsonObject2 = new JSONObject(param);
-//                        } catch (JSONException ignored) {
-//                        }
-//
-//                        if (null == jsonObject2) {
-//                            item.mContactCliendid.add("");
-//                            item.mContactUid.add("");
-//                            continue;
-//                        }
-//
-//                        String uidString = null;
-//                        try {
-//                            uidString = jsonObject2.getString("user_id");
-//                        } catch (JSONException ignored) {
-//                        }
-//                        String clientid = null;
-//                        try {
-//                            clientid = jsonObject2.getString("client_id");
-//                        } catch (JSONException ignored) {
-//                        }
-//                        item.mContactCliendid.add(clientid);
-//                        item.mContactUid.add(uidString);
-//                        if (!VsPhoneCallHistory.VSCONTACTLIST.contains(item)) {
-//                            VsPhoneCallHistory.VSCONTACTLIST.add(item);// 加入到vs用户列表中
-//                        }
-//                    } else {
-//                        item.ISVsPhone.add(false);
-//                        item.mContactCliendid.add("");
-//                        item.mContactUid.add("");
-//                    }
-//                }
-//            }
-//        }
-//        CustomLog.i("actionGetVsFriend", "好友=" + VsPhoneCallHistory.VSCONTACTLIST.size());
-//
-//        if (null != VsPhoneCallHistory.IMCONTACTLIST) {
-//            VsPhoneCallHistory.IMCONTACTLIST.clear();
-//            VsPhoneCallHistory.IMCONTACTLIST = null;
-//        }
-//        VsPhoneCallHistory.IMCONTACTLIST = Collections.synchronizedList(new ArrayList<VsContactItem>(VsPhoneCallHistory.VSCONTACTLIST));
-//
-//        Intent intent = new Intent(VsUserConfig.JKey_GET_VSUSER_OK);
-//        intent.setPackage(mContext.getPackageName());
-//        mContext.sendBroadcast(intent);
-//        // isLoadVsContactOver = VsPhoneCallHistory.IMCONTACTLIST.size() >=
-//        // (null == jsonObject? 0 :jsonObject.length());
-//        isLoadVsContactOver = true;
-//        CustomLog.i(TAG, "isLoadVsContactOver = " + isLoadVsContactOver + ", VsPhoneCallHistory.IMCONTACTLIST.size = " + VsPhoneCallHistory.IMCONTACTLIST.size() + ", " +
-//                "VsPhoneCallHistory.VSCONTACTLIST.size = " + VsPhoneCallHistory.VSCONTACTLIST.size());
-//
-//        isLoadVsContact = false;
-//    }
+    /**
+     * @param mContext
+     * @param numbers
+     * @instruction在联系人信息中加入VS好友
+     * @author Sundy 兴
+     * @version 创建时间：2014-12-16 下午05:24:15
+     */
+    public void changeContactsData(Context mContext, String numbers) {
+        JSONObject jsonObject = null;
+        try {
+            CustomLog.i(TAG, "changeContactsData(), numbers is " + numbers);
+
+            jsonObject = new JSONObject(numbers);
+        } catch (JSONException e) {
+            isLoadVsContact = false;
+            CustomLog.e(TAG, "changeContactsData, error is " + e);
+        }
+        isLoadVsContact = true;
+        isLoadVsContactOver = false;
+        String phone;
+        VsPhoneCallHistory.VSCONTACTLIST.clear();
+        if (!VsPhoneCallHistory.isloadContact && VsPhoneCallHistory.CONTACTLIST.size() > 0) {// 判断是否有联系人
+            for (VsContactItem item : VsPhoneCallHistory.CONTACTLIST) {
+                item.mContactUid.clear();// 确保 uid跟phone一一对应关系.
+                for (int j = 0; j < item.phoneNumList.size(); j++) {
+                    phone = VsUtil.filterPhoneNumber(item.phoneNumList.get(j));
+                    if (numbers.contains(phone)) {
+                        item.isVsUser = true;// 设置为VS好友
+                        item.ISVsPhone.add(true);
+                        String param = null;
+                        if (null != jsonObject) {
+                            try {
+                                param = jsonObject.getString(phone);
+                            } catch (JSONException ignored) {
+                            }
+                        }
+                        if (TextUtils.isEmpty(param)) {
+                            item.mContactCliendid.add("");
+                            item.mContactUid.add("");
+                            continue;
+                        }
+                        CustomLog.i(TAG, "changeContactsData(), param is " + param);
+                        JSONObject jsonObject2 = null;
+                        try {
+                            jsonObject2 = new JSONObject(param);
+                        } catch (JSONException ignored) {
+                        }
+
+                        if (null == jsonObject2) {
+                            item.mContactCliendid.add("");
+                            item.mContactUid.add("");
+                            continue;
+                        }
+
+                        String uidString = null;
+                        try {
+                            uidString = jsonObject2.getString("user_id");
+                        } catch (JSONException ignored) {
+                        }
+                        String clientid = null;
+                        try {
+                            clientid = jsonObject2.getString("client_id");
+                        } catch (JSONException ignored) {
+                        }
+                        item.mContactCliendid.add(clientid);
+                        item.mContactUid.add(uidString);
+                        if (!VsPhoneCallHistory.VSCONTACTLIST.contains(item)) {
+                            VsPhoneCallHistory.VSCONTACTLIST.add(item);// 加入到vs用户列表中
+                        }
+                    } else {
+                        item.ISVsPhone.add(false);
+                        item.mContactCliendid.add("");
+                        item.mContactUid.add("");
+                    }
+                }
+            }
+        }
+        CustomLog.i("actionGetVsFriend", "好友=" + VsPhoneCallHistory.VSCONTACTLIST.size());
+
+        if (null != VsPhoneCallHistory.IMCONTACTLIST) {
+            VsPhoneCallHistory.IMCONTACTLIST.clear();
+            VsPhoneCallHistory.IMCONTACTLIST = null;
+        }
+        VsPhoneCallHistory.IMCONTACTLIST = Collections.synchronizedList(new ArrayList<VsContactItem>(VsPhoneCallHistory.VSCONTACTLIST));
+
+        Intent intent = new Intent(VsUserConfig.JKey_GET_VSUSER_OK);
+        intent.setPackage(mContext.getPackageName());
+        mContext.sendBroadcast(intent);
+        // isLoadVsContactOver = VsPhoneCallHistory.IMCONTACTLIST.size() >=
+        // (null == jsonObject? 0 :jsonObject.length());
+        isLoadVsContactOver = true;
+        CustomLog.i(TAG, "isLoadVsContactOver = " + isLoadVsContactOver + ", VsPhoneCallHistory.IMCONTACTLIST.size = " + VsPhoneCallHistory.IMCONTACTLIST.size() + ", " +
+                "VsPhoneCallHistory.VSCONTACTLIST.size = " + VsPhoneCallHistory.VSCONTACTLIST.size());
+
+        isLoadVsContact = false;
+    }
 
     /**
      * 临时解析返回字符串
@@ -1437,7 +1448,7 @@ public class CoreBusiness {
     }
 
     @SuppressWarnings("rawtypes")
-    private String getSign(TreeMap<String, String> map, String pwd, Context context) {
+    public String getSign(TreeMap<String, String> map, String pwd, Context context) {
         TreeMap<String, String> treemapsign = new TreeMap<String, String>();
         treemapsign.putAll(map);
         treemapsign.put("key", "($*key*$)");

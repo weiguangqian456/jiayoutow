@@ -1,5 +1,6 @@
 package com.edawtech.jiayou.utils.tool;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
@@ -8,15 +9,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -40,9 +38,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.Parcelable;
-import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.RawContacts;
 import android.provider.Settings;
@@ -60,7 +56,6 @@ import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -83,28 +78,29 @@ import com.alibaba.fastjson.JSON;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
-import com.blankj.utilcode.util.ToastUtils;
 import com.edawtech.jiayou.BuildConfig;
 import com.edawtech.jiayou.R;
+import com.edawtech.jiayou.config.base.MyApplication;
+import com.edawtech.jiayou.config.base.VsContactItem;
 import com.edawtech.jiayou.config.bean.RefuelDetail;
 import com.edawtech.jiayou.config.bean.ResultEntity;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.GlobalVariables;
 import com.edawtech.jiayou.config.constant.Resource;
 import com.edawtech.jiayou.config.constant.VsUserConfig;
+import com.edawtech.jiayou.config.home.dialog.HintMessageDialog;
+import com.edawtech.jiayou.config.home.dialog.HintMessageNotV4Dialog;
 import com.edawtech.jiayou.retrofit.RetrofitClient;
 import com.edawtech.jiayou.ui.activity.LoginActivity;
 import com.edawtech.jiayou.ui.activity.MainActivity;
+import com.edawtech.jiayou.ui.activity.VsLoginActivity;
 import com.edawtech.jiayou.ui.activity.WeiboShareWebViewActivity;
 import com.edawtech.jiayou.ui.adapter.HomePageBannerViewHolder;
 import com.edawtech.jiayou.ui.dialog.CustomDialog;
 import com.edawtech.jiayou.ui.dialog.PromptDialog;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeConfig;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-
-import com.umeng.socialize.media.UMImage;
+import com.edawtech.jiayou.utils.ActivityCollector;
+import com.edawtech.jiayou.utils.db.provider.VsPhoneCallHistory;
+import com.edawtech.jiayou.widgets.CustomDialogActivity;
 
 
 import org.json.JSONException;
@@ -122,7 +118,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.ParseException;
@@ -130,7 +125,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -600,7 +594,7 @@ public class VsUtil {
             mContext.registerReceiver(getOReceiver, Filter);
             String caller = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_PhoneNumber);
             String uid = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_KcId);
-            //      VsBizUtil.getInstance().getOK(mContext, caller, number, getCallType(mContext), uid);
+      //      VsBizUtil.getInstance().getOK(mContext, caller, number, getCallType(mContext), uid);
         }
     }
 
@@ -629,41 +623,85 @@ public class VsUtil {
                                   final String dialType,
                                   final boolean checkFree,
                                   final FragmentManager fragmentManager, boolean isV4) {
-//        if (!VsUtil.checkHasAccount(VsApplication.getContext())) {
-//         ToastUtil.showMsg("请先登录哦！");
-//            return;
-//        }
+        if (!VsUtil.checkHasAccount(MyApplication.getContext())) {
+            ToastUtil.showMsg("请先登录哦！");
+            return;
+        }
         String phoneNumber = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_PhoneNumber);
         Map<String, String> map = new HashMap<>();
         map.put("phone", phoneNumber);
-//        RetrofitClient.getInstance(mContext)
-//                .Api()
-//                .getPhoneMag(map)
-//                .enqueue(new Callback<ResultEntity>() {
-//                    @Override
-//                    public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
-//                        ResultEntity body = response.body();
-//                        if (body != null && body.getCode() == 0) {
-//                            VsUtil.httpCallNumber(name, number, local, mContext, dialType, checkFree);
-//                            if (!TextUtils.isEmpty(body.getMsg())) {
-//                                 ToastUtil.showMsg(body.getMsg());
-//                            }
-//                        } else {
-//                            String msg = body != null && !TextUtils.isEmpty(body.getMsg()) ? body.getMsg() : "服务器异常";
-//                            //HintMessageDialog dialog = new HintMessageDialog().setMessage(msg);
-//                            if (fragmentManager != null) {
-//                              //  dialog.show(fragmentManager, "TAG");
-//                            } else {
-//                                ToastUtil.showMsg(msg);
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResultEntity> call, Throwable t) {
-//                        ToastUtil.showMsg("服务器异常");
-//                    }
-//                });
+        RetrofitClient.getInstance(mContext)
+                .Api()
+                .getPhoneMag(map)
+                .enqueue(new Callback<ResultEntity>() {
+                    @Override
+                    public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
+                        ResultEntity body = response.body();
+                        if (body != null && body.getCode() == 0) {
+                            VsUtil.httpCallNumber(name, number, local, mContext, dialType, checkFree);
+                            if (!TextUtils.isEmpty(body.getMsg())) {
+                                ToastUtil.showMsg(body.getMsg());
+                            }
+                        } else {
+                            String msg = body != null && !TextUtils.isEmpty(body.getMsg()) ? body.getMsg() : "服务器异常";
+                            HintMessageDialog dialog = new HintMessageDialog().setMessage(msg);
+                            if (fragmentManager != null) {
+                                dialog.show(fragmentManager, "TAG");
+                            } else {
+                                ToastUtil.showMsg(msg);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResultEntity> call, Throwable t) {
+                        ToastUtil.showMsg("服务器异常");
+                    }
+                });
+    }
+
+    public static void callNumber(final String name,
+                                  final String number,
+                                  final String local,
+                                  final Context mContext,
+                                  final String dialType,
+                                  final boolean checkFree,
+                                  final android.app.FragmentManager fragmentManager) {
+        if (!VsUtil.checkHasAccount(MyApplication.getContext())) {
+            ToastUtil.showMsg("请先登录哦");
+            return;
+        }
+        String phoneNumber = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_PhoneNumber);
+        Map<String, String> map = new HashMap<>();
+        map.put("phone", phoneNumber);
+        RetrofitClient.getInstance(mContext)
+                .Api()
+                .getPhoneMag(map)
+                .enqueue(new Callback<ResultEntity>() {
+                    @Override
+                    public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
+                        ResultEntity body = response.body();
+                        if (body != null && body.getCode() == 0) {
+                            VsUtil.httpCallNumber(name, number, local, mContext, dialType, checkFree);
+                            if (!TextUtils.isEmpty(body.getMsg())) {
+                                ToastUtil.showMsg(body.getMsg());
+                            }
+                        } else {
+                            String msg = body != null && !TextUtils.isEmpty(body.getMsg()) ? body.getMsg() : "服务器异常";
+                            HintMessageNotV4Dialog dialog = new HintMessageNotV4Dialog().setMessage(msg);
+                            if (fragmentManager != null) {
+                                dialog.show(fragmentManager, "TAG");
+                            } else {
+                                ToastUtil.showMsg(msg);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResultEntity> call, Throwable t) {
+                        ToastUtil.showMsg("服务器异常");
+                    }
+                });
     }
 
 
@@ -725,6 +763,9 @@ public class VsUtil {
         }
         return phone;
     }
+
+
+
 
 
     /**
@@ -904,7 +945,6 @@ public class VsUtil {
 
     /**
      * 查询电话号码是否为VS好友
-     *
      * @return
      */
     public static boolean checheNumberIsVsUser(Context context, String phoneNum) {
@@ -936,34 +976,35 @@ public class VsUtil {
      * @param actionType
      */
 
-//    public static void skipForTarget(String url, Activity context, int activityId, String actionType) {
-//        if (url == null || context == null) {
-//            return;
-//        }
-//        // 如果不是协议跳转 url即为界面编号 直接启动即可
-//        if (activityId != 0 && actionType != null) {
-//            // 动作统计 activityId界面id ,actionType 界面类型
-//            // KcAction.insertAction(activityId, actionType,
-//            // String.valueOf(System.currentTimeMillis() / 1000), "0",
-//            // context);
-//        }
-//        url = URLDecoder.decode(url);
-//        // 判断是否是协议跳转
-//        if (url.indexOf(DfineAction.scheme_head) == -1) {
-//            if (VsApplication.getInstance().getActivitySize() == 0) {
-//                // 如果软件没启动。要启动主页面
-//                // 这里启动主页面。注意：启动主页面模式设置成singleTask
+    public static void skipForTarget(String url, Activity context, int activityId, String actionType) {
+        if (url == null || context == null) {
+            return;
+        }
+        // 如果不是协议跳转 url即为界面编号 直接启动即可
+        if (activityId != 0 && actionType != null) {
+            // 动作统计 activityId界面id ,actionType 界面类型
+            // KcAction.insertAction(activityId, actionType,
+            // String.valueOf(System.currentTimeMillis() / 1000), "0",
+            // context);
+        }
+        url = URLDecoder.decode(url);
+        // 判断是否是协议跳转
+        if (url.indexOf(DfineAction.scheme_head) == -1) {
+            if (ActivityCollector.getInstance().size() == 0) {
+                // 如果软件没启动。要启动主页面
+                // 这里启动主页面。注意：启动主页面模式设置成singleTask
 //                Intent intent = new Intent(DfineAction.goMainAction);
-//                intent.putExtra("messagelink", url);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                VsApplication.getContext().startActivity(intent);
-//            } else {
-//                startActivity(url, context, null);
-//            }
-//        } else {
-//            skipForScheme(url, context, null);
-//        }
-//    }
+                Intent intent = new Intent(context,MainActivity.class);
+                intent.putExtra("messagelink", url);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                MyApplication.getContext().startActivity(intent);
+            } else {
+                startActivity(url, context, null);
+            }
+        } else {
+            skipForScheme(url, context, null);
+        }
+    }
 
     /**
      * 根据协议跳转不同的方法
@@ -1276,12 +1317,12 @@ public class VsUtil {
 //        }
 //    }
 //
-    /**
-     //     * 设置共用的参数到Bundle
-     //     *
-     //     * @param bund
-     //     * @param context
-     //     */
+ /**
+//     * 设置共用的参数到Bundle
+//     *
+//     * @param bund
+//     * @param context
+//     */
 //    public static void setValueToBundle(Bundle bund, Context context) {
 //        bund.putString("brandid", DfineAction.brandid);
 //        bund.putString("uid", VsUserConfig.getDataString(context, VsUserConfig.JKey_KcId));
@@ -1333,7 +1374,7 @@ public class VsUtil {
     /**
      * 根据给定的Intent进行Activity跳转
      *
-     * @param intent 要传递的Intent对象
+     * @param intent   要传递的Intent对象
      */
     public static void startActivity(Context mContext, Intent intent) {
         mContext.startActivity(intent);
@@ -1361,7 +1402,7 @@ public class VsUtil {
             GlobalVariables.curIndicator = 1;
             intent.setClass(mContext, MainActivity.class);
         } else if (link.equals("40002")) {// 个人信息界面
-            //    intent.setClass(mContext, VsMyInfoTextActivity.class);
+        //    intent.setClass(mContext, VsMyInfoTextActivity.class);
         } else if (link.equals("30002")) {// 赚钱计划界面
             String urlTo = "http://www.wind163.com/help/money_plan.html";
             String[] aboutBusiness = new String[]{"赚钱计划", "", urlTo};
@@ -1374,43 +1415,43 @@ public class VsUtil {
             intent.setClass(mContext, WeiboShareWebViewActivity.class);
         } else if (link.equals("40003")) {// 我的余额界面
             intent.putExtra("flag", "3");
-            //   intent.setClass(mContext, VsMyBalanceDetailActivity.class);
+         //   intent.setClass(mContext, VsMyBalanceDetailActivity.class);
         } else if (link.equals("40004")) {// 我的套餐界面
             intent.putExtra("flag", "2");
-            //   intent.setClass(mContext, VsMyBalanceDetailActivity.class);
+         //   intent.setClass(mContext, VsMyBalanceDetailActivity.class);
         } else if (link.equals("40005")) {// 我的红包界面
-            //    intent.setClass(mContext, VsMyRedPagActivity.class);
+        //    intent.setClass(mContext, VsMyRedPagActivity.class);
         } else if (link.equals("40006")) {// 我的二维码界面
-            //   intent.setClass(mContext, KcMyQcodeActivity.class);
+         //   intent.setClass(mContext, KcMyQcodeActivity.class);
         } else if (link.equals("40008")) {// 设置界面
-            //    intent.setClass(mContext, VsSetingActivity.class);
+        //    intent.setClass(mContext, VsSetingActivity.class);
         } else if (link.equals("40009")) {// 拨打方式界面
-            //    intent.setClass(mContext, VsCallTypeSetingActivity.class);
+        //    intent.setClass(mContext, VsCallTypeSetingActivity.class);
         } else if (link.equals("40010")) {// 关于界面
-            //    intent.setClass(mContext, KcQcodeActivity.class);
+        //    intent.setClass(mContext, KcQcodeActivity.class);
         } else if (link.equals("40007")) {// 扫码绑定界面
             intent.putExtra("code", "2");
-            //    intent.setClass(mContext, CaptureActivity.class);
+        //    intent.setClass(mContext, CaptureActivity.class);
         }
         // 话费界面
         else if (link.equals("0301") || link.equals("30001")) {
             intent.putExtra("indicator", 2);
             GlobalVariables.curIndicator = 2;
-            //    intent.setClass(mContext, VsMainActivity.class);
+        //    intent.setClass(mContext, VsMainActivity.class);
         } else if (link.equals("40001")) {
             intent.putExtra("indicator", 3);
             GlobalVariables.curIndicator = 3;
-            // intent.setClass(mContext, VsMainActivity.class);
+           // intent.setClass(mContext, VsMainActivity.class);
         } else if (link.equals("3027")) {// 迷你小游戏
-            // intent.setClass(mContext, VsMiniGameActivity.class);
+           // intent.setClass(mContext, VsMiniGameActivity.class);
         } else if (link.equals("4002") || link.equals("30004")) {// 扫描二维码
-            intent.putExtra("code", "0");
-            //   intent.setClass(mContext, CaptureActivity.class);
+           intent.putExtra("code", "0");
+         //   intent.setClass(mContext, CaptureActivity.class);
         } else if (link.equals("4001")) {// 手势密码
 
-            //  intent.setClass(mContext, KcUnlockedActivity.class);
+          //  intent.setClass(mContext, KcUnlockedActivity.class);
         } else if (link.equals("3035")) {
-            //  intent.setClass(mContext, VsSetingVoicePianoActivity.class);
+          //  intent.setClass(mContext, VsSetingVoicePianoActivity.class);
         }
         // 充值方式
         else if (link.equals("0302") || link.equals("2000")) {
@@ -1431,16 +1472,16 @@ public class VsUtil {
                     e.printStackTrace();
                 }
             }
-            //  intent.setClass(mContext, VsRechargePayTypes.class);
+          //  intent.setClass(mContext, VsRechargePayTypes.class);
         }
         // 余额
         else if (link.equals("0401") || link.equals("3016")) {
             if (!isLogin(mContext.getResources().getString(R.string.seach_balance_login_prompt), mContext))
                 return;
-            //    intent.setClass(mContext, VsBalanceActivity.class);
+        //    intent.setClass(mContext, VsBalanceActivity.class);
         } // 赚话费
         else if (link.equals("3002") || link.equals("3002")) {
-            //   intent.setClass(mContext, VsMakeMoneyActivity.class);
+        //   intent.setClass(mContext, VsMakeMoneyActivity.class);
         }
 
         // 资费说明页面
@@ -1475,7 +1516,7 @@ public class VsUtil {
         }
         // 联系客服页面
         else if (link.equals("3018")) {
-            //  intent.setClass(mContext, VsAboutActivity.class);
+          //  intent.setClass(mContext, VsAboutActivity.class);
         }
         // 帮助中心页面
         else if (link.equals("3019")) {
@@ -1521,11 +1562,11 @@ public class VsUtil {
          */
         // 在线升级页面
         else if (link.equals("3020")) {
-            // intent.setClass(mContext, VsSetingActivity.class);
+           // intent.setClass(mContext, VsSetingActivity.class);
         }
         // 签到---
         else if (link.equals("3006")) {
-            // intent.setClass(mContext, VsSignInFirstActivity.class);
+           // intent.setClass(mContext, VsSignInFirstActivity.class);
         }
         // 查询话单页面
         else if (link.equals("3024")) {
@@ -1545,14 +1586,14 @@ public class VsUtil {
             if (!isLogin(mContext.getResources().getString(R.string.call_display_login_prompt), mContext)) {
                 return;
             }
-            //      intent.setClass(mContext, VsCallerIdentificationActivity.class);
+      //      intent.setClass(mContext, VsCallerIdentificationActivity.class);
         }
         // 赚话费任务界面---
         else if (link.equals("040201")) {
             if (item != null) {
-                //    intent.putExtra("vsInviteItem", (VsInviteItem) item);
+            //    intent.putExtra("vsInviteItem", (VsInviteItem) item);
             }
-            //   intent.setClass(mContext, VsMakeMoneyTaskActivity.class);
+         //   intent.setClass(mContext, VsMakeMoneyTaskActivity.class);
 
         } else if (link.contains("http://")) {
             String urlTo = link;
@@ -1594,7 +1635,7 @@ public class VsUtil {
             DialogInterface.OnClickListener okListener = new OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // VsUtil.callNumber("", phone, "", context, "", false, null);
+                   // VsUtil.callNumber("", phone, "", context, "", false, null);
                 }
             };
             DialogInterface.OnClickListener cancel = new OnClickListener() {
@@ -1638,7 +1679,7 @@ public class VsUtil {
     public static void showInView(String url, Context context, int activityId, String actionType) {
         // 如果不是协议跳转 url即为界面编号 直接启动即可
         if (activityId != 0 && actionType != null) {
-            // VsAction.insertAction(activityId, actionType, String.valueOf(System.currentTimeMillis() / 1000), "0", context);
+           // VsAction.insertAction(activityId, actionType, String.valueOf(System.currentTimeMillis() / 1000), "0", context);
         }
         try {
             url = URLDecoder.decode(url);
@@ -1704,7 +1745,7 @@ public class VsUtil {
             // .getString(R.string.ok),
             // mContext.getResources().getString(R.string.cancel), new
             // LoginBtnClickListener(mContext), null, mContext);
-            Intent it = new Intent(mContext, LoginActivity.class);
+            Intent it = new Intent(mContext, VsLoginActivity.class);
             mContext.startActivity(it);
         } else {
             retbool = true;
@@ -1856,7 +1897,7 @@ public class VsUtil {
     public static void setAlarmForActivity(Context mContext, Long Time, String title, String url) {
         AlarmManager alarm = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent();
-        //  intent.setAction(VsCoreService.VS_ACTION_ALARM_ACTIVITY);
+      //  intent.setAction(VsCoreService.VS_ACTION_ALARM_ACTIVITY);
         intent.putExtra("packname", mContext.getPackageName());
         intent.putExtra("title", title);
         intent.putExtra("url", url);
@@ -1875,7 +1916,7 @@ public class VsUtil {
      */
     public static void closeAlarm(Context mContext) {
         Intent intent = new Intent();
-        //   intent.setAction(VsCoreService.VS_ACTION_ALARM_ACTIVITY);
+     //   intent.setAction(VsCoreService.VS_ACTION_ALARM_ACTIVITY);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         CustomLog.i("GDK", "取消闹铃:" + alarmManager.toString() + "pendingIntent=" + pendingIntent);
@@ -1961,18 +2002,18 @@ public class VsUtil {
      * @return
      */
     public static String getNetTypeString() {
-        //   int net_type = VsNetWorkTools.getSelfNetworkType(VsApplication.getContext());
+        int net_type = VsNetWorkTools.getSelfNetworkType(MyApplication.getContext());
         String netType = "";
-//        if (net_type == 1) {
-//            netType = "wifi"; // wifi
-//        } else if (net_type == 2) {
-//            netType = "3g";// 3g
-//        } else if (net_type == 3) {
-//            netType = "gprs";// gprs 2g
-//        } else if (net_type == 4) {
-//            netType = "4g";
-//        }
-//        CustomLog.i(TAG, "net_type=" + net_type);
+        if (net_type == 1) {
+            netType = "wifi"; // wifi
+        } else if (net_type == 2) {
+            netType = "3g";// 3g
+        } else if (net_type == 3) {
+            netType = "gprs";// gprs 2g
+        } else if (net_type == 4) {
+            netType = "4g";
+        }
+        CustomLog.i(TAG, "net_type=" + net_type);
         return netType;
     }
 
@@ -2130,6 +2171,7 @@ public class VsUtil {
 
     /**
      * 一段String字体大小不一处理
+     *
      */
     public static String setTextTypeStyles(HashMap<String, ArrayList<String>> hashMap) {
         StringBuffer msp_content = new StringBuffer();
@@ -2229,7 +2271,7 @@ public class VsUtil {
                     StringBuffer regxString = new StringBuffer();
                     try {
                         for (int j = 0; j < input.length(); j++) {
-                            //     regxString.append("[" + VsSearchSql.array[input.charAt(j) - '2'] + "]");
+                       //     regxString.append("[" + VsSearchSql.array[input.charAt(j) - '2'] + "]");
                         }
                     } catch (Exception e) {
                     }
@@ -2705,25 +2747,25 @@ public class VsUtil {
         }
         return false;
     }
-//
-//    /**
-//     * 获取电话号码
-//     *
-//     * @return
-//     */
-//    public static String getPhoneNumber(Context context) {
-//        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-//        String phonenumber = tm.getLine1Number();
-//        if (phonenumber == null) {
-//            return "";
-//        }
-//        if (phonenumber.startsWith("+86")) {
-//            phonenumber = phonenumber.substring(3);
-//        } else if (phonenumber.startsWith("86")) {
-//            phonenumber = phonenumber.substring(2);
-//        }
-//        return phonenumber;
-//    }
+
+    /**
+     * 获取电话号码
+     *
+     * @return
+     */
+    public static String getPhoneNumber(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        @SuppressLint("MissingPermission") String phonenumber = tm.getLine1Number();
+        if (phonenumber == null) {
+            return "";
+        }
+        if (phonenumber.startsWith("+86")) {
+            phonenumber = phonenumber.substring(3);
+        } else if (phonenumber.startsWith("86")) {
+            phonenumber = phonenumber.substring(2);
+        }
+        return phonenumber;
+    }
 
     /**
      * 检测是否有账号
@@ -3111,7 +3153,7 @@ public class VsUtil {
 
     /**
      * 比较当前时间与指定时间的差
-     *
+
      * @return
      */
     public static int compareDate(Context context, String vaild_date) {
@@ -3278,22 +3320,22 @@ public class VsUtil {
         return getInt;
     }
 
-//    /**
-//     * 判断当前网络是否可用
-//     *
-//     * @param context
-//     * @return
-//     */
-//    public static boolean isCurrentNetworkAvailable(Context context) {
-//        if (VsUserConfig.getDataInt(context, VsUserConfig.JKEY_TestAccessPointState) != 0) {
-//            Intent intent = new Intent(context, CustomDialogActivity.class);
-//            intent.putExtra("business", "NetworkError");
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            context.startActivity(intent);
-//            return false;
-//        }
-//        return true;
-//    }
+    /**
+     * 判断当前网络是否可用
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isCurrentNetworkAvailable(Context context) {
+        if (VsUserConfig.getDataInt(context, VsUserConfig.JKEY_TestAccessPointState) != 0) {
+            Intent intent = new Intent(context, CustomDialogActivity.class);
+            intent.putExtra("business", "NetworkError");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+            return false;
+        }
+        return true;
+    }
 
     /**
      * 判断是否安装了apk包
@@ -3717,7 +3759,7 @@ public class VsUtil {
 
     /**
      * 手机号码类型判断
-     *
+
      * @return
      */
     public static String checkMobileType(String phoneNum) {
@@ -3902,19 +3944,19 @@ public class VsUtil {
      * @param phone
      * @return
      */
-//    public static String getContactsName(String phone) {
-//        // ArrayList<KcContactItem> list = (ArrayList<KcContactItem>)
-//        // ((ArrayList<KcContactItem>)
-//        // KcPhoneCallHistory.CONTACTLIST).clone();
-//        if (VsPhoneCallHistory.CONTACTLIST.size() > 0) {
-//            for (VsContactItem item : VsPhoneCallHistory.CONTACTLIST) {
-//                if (item.phoneNumList.contains(phone)) {
-//                    return item.mContactName;
-//                }
-//            }
-//        }
-//        return null;
-//    }
+    public static String getContactsName(String phone) {
+        // ArrayList<KcContactItem> list = (ArrayList<KcContactItem>)
+        // ((ArrayList<KcContactItem>)
+        // KcPhoneCallHistory.CONTACTLIST).clone();
+        if (VsPhoneCallHistory.CONTACTLIST.size() > 0) {
+            for (VsContactItem item : VsPhoneCallHistory.CONTACTLIST) {
+                if (item.phoneNumList.contains(phone)) {
+                    return item.mContactName;
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * 字符输入流处理
@@ -3986,13 +4028,13 @@ public class VsUtil {
         }
     }
 
-//    public static void getUpdate(Context mContext) {
-//        // 拉取升级信息
-//        TreeMap<String, String> treeMap = new TreeMap<String, String>();
-//        // treeMap.put("package_name", mContext.getPackageName());
-//        treeMap.put("netmode", VsNetWorkTools.getNetMode(mContext));
-//        CoreBusiness.getInstance().startThread(mContext, GlobalVariables.UPDATE_CONFIG, DfineAction.authType_AUTO, treeMap, GlobalVariables.actionupdate);
-//    }
+    public static void getUpdate(Context mContext) {
+        // 拉取升级信息
+        TreeMap<String, String> treeMap = new TreeMap<String, String>();
+        // treeMap.put("package_name", mContext.getPackageName());
+        treeMap.put("netmode", VsNetWorkTools.getNetMode(mContext));
+        CoreBusiness.getInstance().startThread(mContext, GlobalVariables.UPDATE_CONFIG, DfineAction.authType_AUTO, treeMap, GlobalVariables.actionupdate);
+    }
 
     /**
      * 保存日志到本地sdkard
@@ -4096,7 +4138,7 @@ public class VsUtil {
         }
     }
 
-    public static void setPase(ConvenientBanner mCbBanner, List<Object> list) {
+    public static  void setPase( ConvenientBanner mCbBanner ,List<Object> list){
         mCbBanner.setPages(new CBViewHolderCreator() {
             @Override
             public Holder createHolder(View itemView) {
@@ -4105,10 +4147,8 @@ public class VsUtil {
 
             @Override
             public int getLayoutId() {
-                return R.layout.homepage_banner;
+                return  R.layout.homepage_banner;
             }
-        }, list);
+        },list);
     }
-
-
 }

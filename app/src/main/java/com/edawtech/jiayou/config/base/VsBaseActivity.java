@@ -55,6 +55,7 @@ import com.edawtech.jiayou.config.constant.VsUserConfig;
 import com.edawtech.jiayou.ui.activity.WeiboShareWebViewActivity;
 import com.edawtech.jiayou.ui.adapter.XmlParserHandler;
 import com.edawtech.jiayou.ui.dialog.CustomDialog;
+import com.edawtech.jiayou.utils.ActivityCollector;
 import com.edawtech.jiayou.utils.tool.VsUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -68,6 +69,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -146,6 +148,12 @@ public class VsBaseActivity extends Activity {
      * jPush参数end
      */
 
+    /**
+     * 弱引用实例
+     */
+    private WeakReference<Activity> weakRefActivity;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +187,13 @@ public class VsBaseActivity extends Activity {
 //        }
 
 //        registerMessageReceiver();  //接收jpush广播消息
+
+        //初始化
+        weakRefActivity = new WeakReference<>(this);
+
+        //添加实例
+        ActivityCollector collector = ActivityCollector.getInstance();
+        collector.add(weakRefActivity);
     }
 
     /**
@@ -321,9 +336,6 @@ public class VsBaseActivity extends Activity {
         mRightLine = (ImageView) findViewById(R.id.title_line_right);
         small_title = (RelativeLayout) findViewById(R.id.small_title);
         mRightImage = (ImageView) findViewById(R.id.title_right_image);
-
-
-        // Tips
     }
 
     /**
@@ -528,6 +540,9 @@ public class VsBaseActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterKcBroadcast();
+        //移除Activity管理器
+        ActivityCollector collector = ActivityCollector.getInstance();
+        collector.remove(weakRefActivity);
     }
 
     // /**

@@ -9,6 +9,7 @@ import com.edawtech.jiayou.R
 import com.edawtech.jiayou.config.base.BaseMvpActivity
 import com.edawtech.jiayou.config.event.MainFragmentEvent
 import com.edawtech.jiayou.ui.fragment.HomeFragment
+import com.edawtech.jiayou.ui.fragment.MineFragment
 import com.edawtech.jiayou.ui.fragment.MyFragment
 import com.edawtech.jiayou.ui.statusbar.StatusBarUtil
 import com.edawtech.jiayou.utils.tool.SoftHideKeyBoardUtil
@@ -69,7 +70,8 @@ class MainActivity : BaseMvpActivity() {
     private fun initFragment() {
         // 初始化Fragment。
         TabFragment1 = HomeFragment()
-        TabFragment2 = MyFragment()
+//        TabFragment2 = MyFragment()
+        TabFragment2 = MineFragment()
 
         /**
          * getFragmentManager();注：如果使用Android3.0以下的版本，需要引入v4的包，

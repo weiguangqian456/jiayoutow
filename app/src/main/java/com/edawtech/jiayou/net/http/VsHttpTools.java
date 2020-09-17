@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Environment;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 
 import com.edawtech.jiayou.config.constant.GlobalVariables;
@@ -217,6 +218,7 @@ public class VsHttpTools {
 	 */
 	@SuppressWarnings("deprecation")
 	public JSONObject sendPostRequest(String uri, Context mContext, String paramStr) {
+		Log.e("fxx","sendPostRequest");
 		JSONObject jsonOuter = null;
 		String jsonstr = null;
 		try {
