@@ -43,7 +43,8 @@
         tools:ignore="AllowBackup"
         tools:replace="android:label"
         tools:targetApi="n">
-
+        <activity android:name=".ui.activity.OrderRefurlActivity"></activity>
+        <activity android:name=".ui.activity.OrderRefuelActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/NoTitle">
@@ -116,22 +117,22 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- 加油站详情 -->
+            android:windowSoftInputMode="adjustPan" /> <!-- 加油站详情 -->
         <activity
             android:name=".ui.activity.RefuelDetailKTActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan"/>
-        <!--   加油站搜索 -->
-        <activity android:name=".ui.activity.RefuelKotilActivity"
+            android:windowSoftInputMode="adjustPan" /> <!-- 加油站搜索 -->
+        <activity
+            android:name=".ui.activity.RefuelKotilActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="27IY4EmCGG7t974j3BK2eSlSe02rXKou" />
