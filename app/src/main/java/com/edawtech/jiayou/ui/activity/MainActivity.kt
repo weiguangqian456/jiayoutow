@@ -7,11 +7,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.edawtech.jiayou.R
 import com.edawtech.jiayou.config.base.BaseMvpActivity
+import com.edawtech.jiayou.config.base.MyApplication
 import com.edawtech.jiayou.config.event.MainFragmentEvent
 import com.edawtech.jiayou.ui.fragment.HomeFragment
 import com.edawtech.jiayou.ui.fragment.MineFragment
 import com.edawtech.jiayou.ui.fragment.MyFragment
 import com.edawtech.jiayou.ui.statusbar.StatusBarUtil
+import com.edawtech.jiayou.utils.CommonParam
+import com.edawtech.jiayou.utils.LogUtils
+import com.edawtech.jiayou.utils.sp.SharePreferencesHelper
 import com.edawtech.jiayou.utils.tool.SoftHideKeyBoardUtil
 import com.edawtech.jiayou.utils.tool.ViewSetUtils
 import com.permissionx.guolindev.PermissionX
@@ -27,7 +31,6 @@ class MainActivity : BaseMvpActivity() {
     private var showFragmentPage = -1
     private lateinit var TabFragment1: Fragment
     private lateinit var TabFragment2: Fragment
-
 
 
     override val layoutId: Int
@@ -53,7 +56,16 @@ class MainActivity : BaseMvpActivity() {
             resetBtn()
             switchFragment(1)
         }
-
+        //拿到本地用户信息  赋值全局
+        val sp = SharePreferencesHelper(mContext, CommonParam.SP_NAME)
+        val uid = sp.getSharePreference("uid","")
+        val isLogin = sp.getSharePreference("isLogin",false)
+        val mobile = sp.getSharePreference("mobile","")
+        LogUtils.e("fxx", "uid=$uid   isLogin=$isLogin     mobile=$mobile")
+        if (uid != "" || isLogin != false || mobile != "")
+            MyApplication.UID = uid as String?
+            MyApplication.isLogin = isLogin as Boolean
+            MyApplication.MOBILE = mobile as String?
     }
 
     override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
@@ -155,7 +167,7 @@ class MainActivity : BaseMvpActivity() {
                 .request { allGranted, grantedList, deniedList ->
                     //finish();
                     if (allGranted) {
-                    //    Toast.makeText(this@MainActivity, "所有申请的权限都已通过", Toast.LENGTH_SHORT).show();
+                        //    Toast.makeText(this@MainActivity, "所有申请的权限都已通过", Toast.LENGTH_SHORT).show();
                     } else {
                     }
                 }
@@ -170,7 +182,6 @@ class MainActivity : BaseMvpActivity() {
     }
 
     var onHideKeyboardListener: OnHideKeyboardListener? = null
-
 
 
     /**
@@ -189,7 +200,6 @@ class MainActivity : BaseMvpActivity() {
             true
         } else onTouchEvent(ev)
     }
-
 
 
 }

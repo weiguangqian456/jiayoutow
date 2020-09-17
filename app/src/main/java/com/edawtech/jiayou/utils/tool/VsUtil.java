@@ -1600,17 +1600,7 @@ public class VsUtil {
             String[] aboutBusiness = new String[]{(String) item, "", urlTo};
             intent.putExtra("AboutBusiness", aboutBusiness);
             intent.setClass(mContext, WeiboShareWebViewActivity.class);
-            // JSONObject json = (JSONObject) item;
-            // String[] aboutBusiness;
-            // try {
-            // aboutBusiness = new String[] { json.getString("title"),
-            // json.getString("title"), urlTo };
-            // intent.putExtra("AboutBusiness", aboutBusiness);
-            // intent.setClass(mContext, WeiboShareWebViewActivity.class);
-            // } catch (JSONException e) {
-            // // TODO Auto-generated catch block
-            // e.printStackTrace();
-            // }
+
         } else if (link.equals("3026")) {// 什么是回拨
             String urlTo = VsUserConfig.getDataString(mContext, VsUserConfig.JKEY_URL_CALLBACK);
             if (urlTo.indexOf("?") == -1) {

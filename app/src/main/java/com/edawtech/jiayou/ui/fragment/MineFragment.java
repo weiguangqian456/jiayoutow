@@ -3,7 +3,6 @@ package com.edawtech.jiayou.ui.fragment;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
@@ -37,6 +36,7 @@ import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.config.base.VsBaseFragment;
 import com.edawtech.jiayou.config.base.common.VsBizUtil;
 import com.edawtech.jiayou.config.base.common.VsUpdateAPK;
+import com.edawtech.jiayou.config.bean.LoginInfo;
 import com.edawtech.jiayou.config.bean.RedBagEntity;
 import com.edawtech.jiayou.config.bean.ResultEntity;
 import com.edawtech.jiayou.config.constant.DfineAction;
@@ -68,11 +68,13 @@ import com.edawtech.jiayou.ui.activity.VsSetingActivity;
 import com.edawtech.jiayou.ui.activity.WeiboShareWebViewActivity;
 import com.edawtech.jiayou.ui.view.BadgeView;
 import com.edawtech.jiayou.ui.view.CircleImageView;
+import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.FitStateUtils;
 import com.edawtech.jiayou.utils.ImageFileUtils;
 import com.edawtech.jiayou.utils.PreferencesUtils;
 import com.edawtech.jiayou.utils.ToastUtils;
 import com.edawtech.jiayou.utils.db.provider.VsNotice;
+import com.edawtech.jiayou.utils.sp.SharePreferencesHelper;
 import com.edawtech.jiayou.utils.tool.ArmsUtils;
 import com.edawtech.jiayou.utils.tool.CheckLoginStatusUtils;
 import com.edawtech.jiayou.utils.tool.CoreBusiness;
@@ -97,6 +99,9 @@ import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -118,49 +123,17 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     private static final String TAG = MineFragment.class.getSimpleName();
     private View mParent;
     private FragmentActivity mActivity;
-    public BadgeView badge = null;
-    private RelativeLayout rl_my_account, vs_seting_exit;
-    private ImageView iv_red_dot, my_code_icon;
-    public static ImageView iv_yellow_new;
-    private TextView iv_upgrade, balance_textview_05;
-    private TextView vs_cate_update_tv;
-    private RelativeLayout vs_rj_qcode;
-    private RelativeLayout vs_my_qcode, vs_my_saoma;
+    private TextView balance_textview_05;
     private String mRecommendInfo = "http://fir.im/phonevoice";
     private CircleImageView header_img;
-    private String url = null;
     private RelativeLayout rl_become_qishou;
     private RelativeLayout rl_voice;
-//    public FragmentIndicator mIndicator = null;
 
-    /**
-     * 帮助中心
-     */
-    private RelativeLayout vs_about_help;
     /**
      * 更新检测
      */
     private static final char MSG_ID_SendUpgradeMsg = 71;
-    /**
-     * 升级标志
-     */
-    private boolean updateFlag = false;
-    /**
-     * 有版本更新
-     */
-    private TextView vs_about_update_tv;
-    /**
-     * 更新
-     */
-    private RelativeLayout vs_about_update;
-    /**
-     * 是否进入余额界面
-     */
-    private boolean isToBalance = false;
-    /**
-     * 余额
-     */
-    private TextView my_balance_tv;
+
     /**
      * 查询余额成功
      */
@@ -193,23 +166,9 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     private final char MYSELF_INVITE_2 = 201;
     private final char MYSELF_RICH_MESSAGE_3 = 300;
     private final char MYSELF_UPDATE_4 = 400;
-    /**
-     * 查询余额成功
-     */
-    private final char MYSELF_SEARCH_BALANCE_SUCC = 401;
-    /**
-     * 查询余额失败
-     */
-    private final char MYSELF_SEARCH_BALANCE_FAIL = 402;
-    /**
-     * 第一次点击事件
-     */
-    private long startTime = 0;
 
 
-    private LinearLayout checkMoreOrderLl;
-    private LinearLayout waitPayLl, waitSendLl, waitReceiveLl, doneOrderLl;
-    private LinearLayout ll_address, ll_recharge, ll_share, ll_scan_bind,ll_shop_manage, ll_my_code, ll_setting, ll_help, ll_elec_deal, collectionLl;
+    private LinearLayout ll_address, ll_recharge, ll_share, ll_scan_bind, ll_shop_manage, ll_my_code, ll_setting, ll_help, ll_elec_deal, collectionLl;
 
     private LinearLayout user_status;
     private ImageView iv_user_status;
@@ -226,7 +185,6 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     private int receiver2_flag = -1;
     public final char MSG_ID_CheckMoneySucceed = 92;
     public final char MSG_ID_CheckMoneyFail = 93;
-    private String saveBalance = null;
 
     /**
      * 红包套餐相关
@@ -235,14 +193,6 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     private TextView balance_textview_01, balance_textview_02, balance_textview_03, more_textview_07;
 
     public MainActivity activity;
-//    public FragmentIndicator fragmentIndicator=new FragmentIndicator();
-
-//    public FragmentIndicator.OnIndicateListener   onIndicateListener=new FragmentIndicator.OnIndicateListener() {
-//        @Override
-//        public void onIndicate(View v, int which) {
-//
-//        }
-//    };
 
 
     private SocializeListeners.SnsPostListener mShareListener = new SocializeListeners.SnsPostListener() {
@@ -291,19 +241,6 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     private UMSocialService mController;
     private boolean isInit = false;
     private FragmentManager supportFragmentManager;
-    private Fragment fragment;
-
-    /**
-     * 主界面
-     */
-    private MainActivity vsMain;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.vsMain = (MainActivity) activity;
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -318,7 +255,8 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        //注册EventBus
+        EventBus.getDefault().register(this);
         CustomLog.i(TAG, "MainFragment------onActivityCreated(),...");
     }
 
@@ -331,46 +269,8 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     @Override
     public void onResume() {
         super.onResume();
-
-        int level = PreferencesUtils.getInt(MyApplication.getContext(), VsUserConfig.JKey_MyInfo_Level);
-        String levelName = PreferencesUtils.getString(MyApplication.getContext(), VsUserConfig.JKey_MyInfo_LevelName);
-        Log.e("付小歆","level="+level+"        levelName="+levelName);
-
-        if (tv_user_status != null) {
-            String nickname = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_MyInfo_Nickname);
-            String phone = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_PhoneNumber);
-
-            if (nickname != null && nickname.length() > 0) {
-                vs_myselft_account.setText(nickname);
-            } else {
-                if (phone != null) vs_myselft_account.setText(phone);
-            }
-
-            tv_user_status.setText(levelName);
-            switch (level) {
-                case 0:
-                    iv_user_status.setImageResource(R.drawable.mall_user_normal);
-                    break;
-                case 1:
-                    iv_user_status.setImageResource(R.drawable.mall_user_masonry);
-                    break;
-                case 2:
-                    iv_user_status.setImageResource(R.drawable.mall_user_goad);
-                    break;
-                case 3:
-                    iv_user_status.setImageResource(R.drawable.mall_user_silver);
-                    break;
-                default:
-                    break;
-            }
-
-            if (VsUserConfig.getDataString(mContext, VsUserConfig.JKey_KcId, "").isEmpty()) {
-                user_status.setVisibility(View.GONE);
-            } else {
-                user_status.setVisibility(View.VISIBLE);
-            }
-        }
-
+        //显示用户信息
+        showUserInfo();
         // 拉取个人信息
         VsBizUtil.getInstance().getMyInfoText(mContext);
         // 分享内容拉取
@@ -413,6 +313,7 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
                 }
             }
         });
+        //签到
         mParent.findViewById(R.id.tv_sign).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -423,7 +324,8 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
                 }
             }
         });
-        header_img = (CircleImageView) mParent.findViewById(R.id.myself_head);
+        //头像
+        header_img = mParent.findViewById(R.id.myself_head);
         Glide.with(mContext)
                 .load(CheckLoginStatusUtils.isLogin() ? new File(ImageFileUtils.mSaveHeadPortraitPath) : null)
                 .apply(new RequestOptions()
@@ -431,17 +333,6 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
                         .skipMemoryCache(true)//不使用内存缓存
                         .diskCacheStrategy(DiskCacheStrategy.NONE))//不使用本地缓存
                 .into(header_img);
-//        String path = "";
-//        if (uid != null && uid.length() > 0) {
-//            path = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_MyInfo_photo, "");
-//        }
-//
-//        if (fileIsExists(path) && path.contains(uid)) {
-//            header_img.setImageBitmap(BitmapFactory.decodeFile(path));
-//        }
-
-        CustomLog.i(TAG, "MainFragment------onResume(),...");
-//        setCustomerServiceBadgeView(VsApplication.getInstance().getNoReadMsg());   //智齿
 
         setCustomerServiceBadgeView(getEaseMobNoReadMsgCount());  //环信
         getUserInfo();
@@ -451,7 +342,53 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     }
 
     /**
-     *  消息未读数
+     * 显示用户基本信息
+     */
+    private void showUserInfo() {
+        SharePreferencesHelper sp = new SharePreferencesHelper(activity, CommonParam.SP_NAME);
+        int level = (int) sp.getSharePreference("level", 0);
+        String levelName = (String) sp.getSharePreference("levelName", "");
+        Log.e("fxx", "level=" + level + "        levelName=" + levelName);
+
+        if (tv_user_status != null) {
+            String nickname = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_MyInfo_Nickname);
+            String phone = MyApplication.MOBILE;
+
+            if (nickname != null && nickname.length() > 0) {
+                vs_myselft_account.setText(nickname);
+            } else {
+                if (phone != null) vs_myselft_account.setText(phone);
+            }
+
+            tv_user_status.setText(levelName);
+            switch (level) {
+                case 0:
+                    iv_user_status.setImageResource(R.drawable.mall_user_normal);
+                    break;
+                case 1:
+                    iv_user_status.setImageResource(R.drawable.mall_user_masonry);
+                    break;
+                case 2:
+                    iv_user_status.setImageResource(R.drawable.mall_user_goad);
+                    break;
+                case 3:
+                    iv_user_status.setImageResource(R.drawable.mall_user_silver);
+                    break;
+                default:
+                    break;
+            }
+
+            if (MyApplication.isLogin) {
+                user_status.setVisibility(View.VISIBLE);
+            } else {
+                user_status.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
+     * 消息未读数
+     *
      * @return
      */
     private int getEaseMobNoReadMsgCount() {
@@ -500,6 +437,8 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
         if (shareReceiver != null && receiver2_flag == 0) {
             unIntentFilter(mContext, shareReceiver);
         }
+        //注销EventBus
+        EventBus.getDefault().unregister(this);
 
         super.onDestroy();
     }
@@ -546,17 +485,17 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
                     return;
                 }
                 ResultEntity result = response.body();
-                LogUtils.e("获取个人数据 -> result:",response.toString());
+                LogUtils.e("获取个人数据 -> result:", response.toString());
                 if (REQUEST_CODE == result.getCode()) {
                     RedBagEntity entity = JSON.parseObject(result.getData().toString(), RedBagEntity.class);
                     String userLevel = entity.getLevel();
                     if (TextUtils.isEmpty(userLevel)) {
                         PreferencesUtils.putInt(MyApplication.getContext(), VsUserConfig.JKey_MyInfo_Level, Integer.parseInt(userLevel));
                     }
-                    if(entity.getRider() != null) {
-                        PreferencesUtils.putBoolean(MyApplication.getContext(),VsUserConfig.JKey_MyInfo_Rider,true);
-                    }else {
-                        PreferencesUtils.putBoolean(MyApplication.getContext(),VsUserConfig.JKey_MyInfo_Rider,false);
+                    if (entity.getRider() != null) {
+                        PreferencesUtils.putBoolean(MyApplication.getContext(), VsUserConfig.JKey_MyInfo_Rider, true);
+                    } else {
+                        PreferencesUtils.putBoolean(MyApplication.getContext(), VsUserConfig.JKey_MyInfo_Rider, false);
                     }
                     String levelName = entity.getLevelName();
                     PreferencesUtils.putString(MyApplication.getContext(), VsUserConfig.JKey_MyInfo_LevelName, levelName);
@@ -989,30 +928,24 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * 顶部布局
-     */
-    private LinearLayout mHeaderLayout;
 
     /**
      * 初始化界面
      */
     private void initView() {
-//        vs_about_update_tv = (TextView) mParent.findViewById(R.id.vs_about_update_tv);
-//        vs_about_update = (RelativeLayout) mParent.findViewById(R.id.vs_about_update);
-        user_status = (LinearLayout) mParent.findViewById(R.id.user_status);
+        user_status = mParent.findViewById(R.id.user_status);
 
         // 我的基本信息
-        vs_myselft_qcodelayout = (RelativeLayout) mParent.findViewById(R.id.vs_myselft_qcodelayout);
+        vs_myselft_qcodelayout = mParent.findViewById(R.id.vs_myselft_qcodelayout);
         // 个人基本信息，帐号
-        balance_textview_05 = (TextView) mParent.findViewById(R.id.balance_textview_05);
-        vs_myselft_account = (TextView) mParent.findViewById(R.id.vs_myselft_account);
+        balance_textview_05 = mParent.findViewById(R.id.balance_textview_05);
+        vs_myselft_account = mParent.findViewById(R.id.vs_myselft_account);
 
-        iv_user_status = (ImageView) mParent.findViewById(R.id.iv_user_status);
-        tv_user_status = (TextView) mParent.findViewById(R.id.tv_user_status);
-        rl_become_qishou = (RelativeLayout) mParent.findViewById(R.id.rl_become_qishou);
-        rl_voice = (RelativeLayout) mParent.findViewById(R.id.rl_voice);
-        ll_shop_manage = (LinearLayout) mParent.findViewById(R.id.ll_shop_manage);
+        iv_user_status = mParent.findViewById(R.id.iv_user_status);
+        tv_user_status = mParent.findViewById(R.id.tv_user_status);
+        rl_become_qishou = mParent.findViewById(R.id.rl_become_qishou);
+        rl_voice = mParent.findViewById(R.id.rl_voice);
+        ll_shop_manage = mParent.findViewById(R.id.ll_shop_manage);
 
 
         String nickname = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_MyInfo_Nickname);
@@ -1403,7 +1336,6 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
         }
     }
 
-    Timer time;
 
     @Override
     protected void handleBaseMessage(Message msg) {
@@ -1589,8 +1521,6 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     }
 
 
-
-
     @Override
     public void onClick(View v) {
         int order_flag = 0;
@@ -1600,19 +1530,22 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
         }
         switch (v.getId()) {
             case R.id.ll_recharge:        // 充值中心
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.login_prompt3), mContext)) {
+                if (MyApplication.isLogin) {
                     startActivity(mContext, VsRechargeActivity.class);
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt3));
                 }
                 break;
             case R.id.ll_shop_manage:       //商家管理
-                ToastUtils.show(getContext(),"该模块正在开发中，敬请期待！");
+                ToastUtil.showMsg("该模块正在开发中，敬请期待！");
 //                if (VsUtil.isLogin(mContext.getResources().getString(R.string.nologin_auto_hint), mContext)) {
 // //                   Toast.makeText(mActivity, "版本开发中....", Toast.LENGTH_SHORT).show();
 //                    startActivity(mContext, MerchantInfoActivity.class);
 //                }
                 break;
             case R.id.rl_become_qishou:     //骑手
-                startActivity(activity, MyLoginActivity.class);
+                ToastUtil.showMsg("该模块正在开发中，敬请期待！");
 //                ToastUtils.show(getContext(),"该模块正在开发中，敬请期待！");
 //                    if(VsUtil.isLogin(mContext.getResources().getString(R.string.nologin_auto_hint),mContext)) {
 //                        if(PreferencesUtils.getBoolean(VsApplication.getContext(),VsUserConfig.JKey_MyInfo_Rider)) {
@@ -1656,7 +1589,11 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
 //                }
                 break;
             case R.id.ll_help:  //帮助中心
-                VsUtil.startActivity("http://paas.edawtech.com/help/dudu_help.html", mContext, mContext.getResources().getString(R.string.help));
+                Intent helperIntent = new Intent();
+                String[] aboutBusiness = new String[]{mContext.getResources().getString(R.string.help), "", "http://paas.edawtech.com/help/dudu_help.html"};
+                helperIntent.putExtra("AboutBusiness", aboutBusiness);
+                helperIntent.setClass(mContext, WeiboShareWebViewActivity.class);
+                startActivity(helperIntent);
                 break;
             case R.id.ll_elec_deal:     //电子协议
                 final String dealUrl = "file:///android_asset/shop_service_terms.html";
@@ -1672,10 +1609,12 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
                 startActivity(intent);
                 break;
             case R.id.ll_collection:        //我的收藏
-//                startActivity(getActivity(), VsLoginActivity.class);
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.nologin_auto_hint), mContext)) {
+                if (MyApplication.isLogin) {
                     Intent intent_address = new Intent(mContext, CollectionActivity.class);
                     startActivity(intent_address);
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
                 }
                 break;
             case R.id.ll_customservice:  //未读客服消息
@@ -1691,54 +1630,76 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
 //                    }
                 }
                 break;
-
             case R.id.vs_myselft_qcodelayout:// 进入我的个人信息
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.login_prompt4), mContext)) {
+                if (MyApplication.isLogin) {
                     startActivity(new Intent(mContext, VsMyInfoTextActivity.class));
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt4));
                 }
                 break;
             case R.id.ll_share:     //分享
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.nologin_auto_hint), mContext)) {
+                if (MyApplication.isLogin) {
                     toShare();
+                } else {
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
                 }
                 break;
             case R.id.ll_my_code:       //我的二维码
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.nologin_auto_hint), mContext)) {
+                if (MyApplication.isLogin) {
                     SkipPageUtils.getInstance(mContext).skipPage(KcMyQcodeActivity.class, "code", mRecommendInfo);
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
                 }
                 break;
             case R.id.ll_scan_bind:     //扫码绑定
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.nologin_auto_hint), mContext)) {
+                if (MyApplication.isLogin) {
                     SkipPageUtils.getInstance(mContext).skipPage(CaptureActivity.class, "code", "2");
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
                 }
                 break;
             case R.id.balance_layout_01:    //成长金
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.login_prompt2), mContext)) {
-
-                    ArmsUtils.startActivity(mContext, GrowMoneyActivity.class);
+                if (MyApplication.isLogin) {
+                    startActivity(new Intent(mContext,GrowMoneyActivity.class));
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt2));
                 }
                 break;
             case R.id.balance_layout_02:    //会员权益
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.login_prompt2), mContext)) {
-                    SkipPageUtils.getInstance(mContext).skipPage(VsMyBalanceDetailActivity.class, "flag", "2");
+                if (MyApplication.isLogin) {
+                    Intent myBablanceDetailIntent = new Intent(mContext,VsMyBalanceDetailActivity.class);
+                    myBablanceDetailIntent.putExtra("flag","2");
+                    startActivity(myBablanceDetailIntent);
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt2));
                 }
                 break;
             case R.id.balance_layout_03:     //我的积分
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.login_prompt2), mContext)) {
-                    ArmsUtils.startActivity(mContext, RefuelBalanceActivity.class);
+                if (MyApplication.isLogin) {
+                    startActivity(new Intent(mContext,RefuelBalanceActivity.class));
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt2));
                 }
                 break;
             case R.id.ll_address:           //收货地址
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.nologin_auto_hint), mContext)) {
-                    SkipPageUtils.getInstance(mContext).skipPage(AddressListActivity.class);
+                if (MyApplication.isLogin) {
+                    startActivity(new Intent(mContext,AddressListActivity.class));
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
                 }
                 break;
             default:
                 break;
         }
     }
-
-
 
 
 //    private void loginEaseMob() {
@@ -1818,5 +1779,29 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
                 .initEntity(new CustomShareEntity(content, url, product, compressBitmap(iconMap)))
                 .setShareActivity(new ShareListener())
                 .show(getFragmentManager(), "");
+    }
+
+    /**
+     * EventBus 回调，登录成功后  刷新用户信息
+     *
+     * @param info
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshUserInfo(LoginInfo.DataBean info) {
+        LogUtils.e("fxx", "登录成功  刷新用户信息");
+        showUserInfo();
+    }
+
+    /**
+     * 退出登录后   刷新用户信息
+     *
+     * @param isRefresh
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshUserInfo(boolean isRefresh) {
+        LogUtils.e("fxx", "退出登录成功  刷新用户信息");
+        if (isRefresh) {
+
+        }
     }
 }

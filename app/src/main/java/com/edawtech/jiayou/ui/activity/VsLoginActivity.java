@@ -13,14 +13,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseMvpActivity;
+import com.edawtech.jiayou.config.base.MyApplication;
+import com.edawtech.jiayou.config.bean.LoginInfo;
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
+import com.edawtech.jiayou.utils.ActivityCollector;
 import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.FitStateUtils;
+import com.edawtech.jiayou.utils.sp.SharePreferencesHelper;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
 
 
+import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -45,10 +51,11 @@ public class VsLoginActivity extends BaseMvpActivity {
     ImageView ivClose;
     @BindView(R.id.iv_look)
     ImageView ivLook;
-    private PublicPresenter publicPresenter;
 
     //是否可见
     private boolean isLook = false;
+    //数据绑定
+    private PublicPresenter publicPresenter;
 
     @Override
     public int getLayoutId() {
@@ -58,7 +65,14 @@ public class VsLoginActivity extends BaseMvpActivity {
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
 
-        Log.e("fxx", "VsLoginActivity  登录");
+        Intent it = getIntent();
+        //修改密码成功后，需要将之前Activity实例清除
+        boolean isClearOtherActivity = it.getBooleanExtra("isClearOtherActivity", false);
+        if (isClearOtherActivity){
+            //清除其他Activity实例
+            ActivityCollector collector = ActivityCollector.getInstance();
+            collector.finishOtherActivity(VsLoginActivity.class);
+        }
 
         FitStateUtils.setImmersionStateMode(this, R.color.public_color_EC6941);
         tvTitle.setText("登录");
@@ -133,7 +147,7 @@ public class VsLoginActivity extends BaseMvpActivity {
                 startActivity(intent);
                 break;
             case R.id.tv_register:// 免费注册
-                Intent intent2 = new Intent(mContext, VsRegisterActivity.class);
+                Intent intent2 = new Intent(mContext, RegisterActivity.class);
                 startActivity(intent2);
                 break;
             case R.id.bt_login:// 登录
@@ -169,18 +183,34 @@ public class VsLoginActivity extends BaseMvpActivity {
         map.put("appId", CommonParam.APP_ID);
         map.put("account", account);
         map.put("password", pwd);
-
         publicPresenter.netWorkRequestPost(CommonParam.TEST_BASE_URL + "/user/login", map);
     }
 
     @Override
     public void onSuccess(String data) {
         Log.e("fxx", "登录成功data=" + data);
+        LoginInfo info = JSONObject.parseObject(data, LoginInfo.class);
+        ToastUtil.showMsg("登录成功");
+        //保存全局消息
+        MyApplication.isLogin = true;
+        MyApplication.UID = info.getData().getUid();
+        MyApplication.MOBILE = info.getData().getPhone();
+        //保存至本地
+        SharePreferencesHelper sp = new SharePreferencesHelper(mContext, CommonParam.SP_NAME);
+        sp.put("uid", info.getData().getUid());
+        sp.put("mobile", info.getData().getPhone());
+        sp.put("isLogin", true);
+        sp.put("level", info.getData().getLevel());
+        sp.put("levelName", info.getData().getLevelName());
+        finish();
+        //EventBus通知我的页面更新用户数据
+        EventBus.getDefault().post(info.getData());
     }
 
     @Override
     public void onFailure(Throwable e, int code, String msg, boolean isNetWorkError) {
         Log.e("fxx", "登录失败 code=" + code + "     msg=" + msg + "         isNetWorkError=" + isNetWorkError);
-
+        etPassword.setText("");
+        ToastUtil.showMsg(msg);
     }
 }

@@ -11,16 +11,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edawtech.jiayou.R;
+import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.config.base.VsBaseActivity;
 import com.edawtech.jiayou.config.base.common.VsUpdateAPK;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.VsUserConfig;
 import com.edawtech.jiayou.json.me.JSONException;
 import com.edawtech.jiayou.json.me.JSONObject;
+import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.FitStateUtils;
 import com.edawtech.jiayou.utils.db.provider.VsNotice;
+import com.edawtech.jiayou.utils.sp.SharePreferencesHelper;
 import com.edawtech.jiayou.utils.tool.CheckLoginStatusUtils;
+import com.edawtech.jiayou.utils.tool.ToastUtil;
 import com.edawtech.jiayou.utils.tool.VsUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * 设置
@@ -234,49 +240,53 @@ public class VsSetingActivity extends VsBaseActivity implements View.OnClickList
                 startActivity(v_intent);
                 break;
             case R.id.vs_seting_pwd:    //修改密码
-                if (VsUtil.isLogin(mContext.getResources().getString(R.string.nologin_auto_hint), mContext)) {
+                if (MyApplication.isLogin){
                     startActivity(mContext, VsSetPhoneActivity.class);
+                } else {
+                    startActivity(mContext,VsLoginActivity.class);
+                    ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
                 }
                 break;
             case R.id.vs_seting_exit:   //退出登录
-                if(CheckLoginStatusUtils.isLogin()) {
-                    showYesNoDialog(null, getResources().getString(R.string.vs_setiong_exit_dialog_hint), getResources().getString(R.string.ok), getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_KcId, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_Password, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_ISLOGOUTBUTTON, true);
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_RegAwardSwitch, true);
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_VipValidtime, "");
-                            // 清空Token
-                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_GETVSUSERINFO, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_APPSERVER_DEFAULT_CONFIG_FLAG, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_TOKEN, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_TOKEN_RONGYUN, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_TOKEN_RONGYUN_RESULT, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_CALLSERVER_FLAG, false);
-
-                            // 清空个人信息资料
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_Nickname, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_Gender, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_Birth, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_Province, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_City, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_MailBox, "");
-                            VsUserConfig.setData(mContext, VsUserConfig.JKey_PhoneNumber, "");
-                            // 注销
-                            // 关闭通话服务
-                            startActivity(new Intent(VsSetingActivity.this, VsLoginActivity.class));
-
-                            //注销客服
-//                            SobotApi.exitSobotChat(mContext);
-                            finish();
-                        }
-                    }, null, null);
-                }else {
-                    mToast.show("您目前尚未登录，请先登录");
-                }
+                logout();
+//                if(MyApplication.isLogin) {
+//                    showYesNoDialog(null, getResources().getString(R.string.vs_setiong_exit_dialog_hint), getResources().getString(R.string.ok), getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+//
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_KcId, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_Password, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_ISLOGOUTBUTTON, true);
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_RegAwardSwitch, true);
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_VipValidtime, "");
+//                            // 清空Token
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_GETVSUSERINFO, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_APPSERVER_DEFAULT_CONFIG_FLAG, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_TOKEN, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_TOKEN_RONGYUN, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_TOKEN_RONGYUN_RESULT, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKEY_CALLSERVER_FLAG, false);
+//
+//                            // 清空个人信息资料
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_Nickname, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_Gender, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_Birth, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_Province, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_City, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_MyInfo_MailBox, "");
+//                            VsUserConfig.setData(mContext, VsUserConfig.JKey_PhoneNumber, "");
+//                            // 注销
+//                            // 关闭通话服务
+//                            startActivity(new Intent(VsSetingActivity.this, VsLoginActivity.class));
+//
+//                            //注销客服
+////                            SobotApi.exitSobotChat(mContext);
+//                            finish();
+//                        }
+//                    }, null, null);
+//                }else {
+//                    mToast.show("您目前尚未登录，请先登录");
+//                }
                 break;
 //            case R.id.vs_seting_backup:     //备份联系人
 //                startActivity(mContext, VsContactBackUpActivity.class);
@@ -309,6 +319,31 @@ public class VsSetingActivity extends VsBaseActivity implements View.OnClickList
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 退出登录
+     */
+    private void logout(){
+        if(MyApplication.isLogin) {
+            showYesNoDialog(null, getResources().getString(R.string.vs_setiong_exit_dialog_hint), getResources().getString(R.string.ok), getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //刷新我的页面数据信息
+                    EventBus.getDefault().post(true);
+                    MyApplication.isLogin = false;
+                    MyApplication.UID = "";
+                    //清空保存的数据
+                    SharePreferencesHelper sp = new SharePreferencesHelper(mContext, CommonParam.SP_NAME);
+                    sp.clear();
+                    // 注销
+                    startActivity(new Intent(VsSetingActivity.this, VsLoginActivity.class));
+                    finish();
+                }
+            }, null, null);
+        }else {
+            mToast.show("您目前尚未登录，请先登录");
         }
     }
 }

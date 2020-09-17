@@ -43,6 +43,8 @@ abstract class BaseActivity : AppCompatActivity(), PermissionCallbacks {
     protected var mContext: Context? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //去掉title
+
         // 设置布局
         setContentView(layoutId)
         mContext = this

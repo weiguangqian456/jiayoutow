@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.edawtech.jiayou">
+    package="com.edawtech.jiayou" >
     <!-- Android 8.0+，那你需要多加一个权限，否则无法跳转到安装页 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 允许一个程序安装packages（静默安装需要此权限） -->
     <uses-permission
@@ -42,13 +42,21 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup"
         tools:replace="android:label"
-        tools:targetApi="n">
+        tools:targetApi="n" >
 
         <activity android:name=".ui.activity.MyLoginActivity" />
+        <!-- 注册 -->
+        <activity android:name=".ui.activity.RegisterActivity"
+            android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitle"
+            android:windowSoftInputMode="adjustPan"/>
+
         <activity
             android:name=".ui.activity.MainActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/NoTitle">
+            android:theme="@style/NoTitle" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,7 +83,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 加油站订单 -->
+            android:windowSoftInputMode="adjustPan" /> <!-- 登录页面 -->
+        <!-- 加油站订单 -->
         <activity
             android:name=".ui.activity.RefuelOrderActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
@@ -140,283 +149,312 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 新增/修改收货地址 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 新增/修改收货地址 -->
         <activity
             android:name=".ui.activity.AddressAddActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 收货地址列表 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 收货地址列表 -->
         <activity
             android:name=".ui.activity.AddressListActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 扫码界面 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 扫码界面 -->
         <activity
             android:name=".ui.activity.CaptureActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 我的收藏 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 我的收藏 -->
         <activity
             android:name=".ui.activity.CollectionActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 我的成长金 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 我的成长金 -->
         <activity
             android:name=".ui.activity.GrowMoneyActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 加油明细 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 加油明细 -->
         <activity
             android:name=".ui.activity.InviteDetailActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 我的二维码 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 我的二维码 -->
         <activity
             android:name=".ui.activity.KcMyQcodeActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 关于我们 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 关于我们 -->
         <activity
             android:name=".ui.activity.KcQcodeActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 红包成长金 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 红包成长金 -->
         <activity
             android:name=".ui.activity.MyScoresActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 确认订单页面 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 确认订单页面 -->
         <activity
             android:name=".ui.activity.OrderEnsureActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 订单支付成功 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 订单支付成功 -->
         <activity
             android:name=".ui.activity.PayDoneActivity"
-            android:windowSoftInputMode="adjustPan" /> <!-- 加油站详情 -->
-        <activity
-            android:name=".ui.activity.RefuelDetailKTActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 加油站搜索 -->
-        <activity
-            android:name=".ui.activity.RefuelKotilActivity"
-            android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 我的积分 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 我的积分 -->
         <activity
             android:name=".ui.activity.RefuelBalanceActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 会员权益 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 会员权益 -->
         <activity
             android:name=".ui.activity.TwitterEquitiesActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- VIP会员权益 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- VIP会员权益 -->
         <activity
             android:name=".ui.activity.VipMemberActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 余额明细 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 余额明细 -->
         <activity
             android:name=".ui.activity.VsBalanceMoney"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 来电显示操作 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 来电显示操作 -->
         <activity
             android:name=".ui.activity.VsCallerIdentificationActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 通话记录 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 通话记录 -->
         <activity
             android:name=".ui.activity.VsCallLogActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 拨打设置类 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 拨打设置类 -->
         <activity
             android:name=".ui.activity.VsCallTypeSetingActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 充值卡列表 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 充值卡列表 -->
         <activity
             android:name=".ui.activity.VsChangeListActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 绑定手机号/改绑手机号 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 绑定手机号/改绑手机号 -->
         <activity
             android:name=".ui.activity.VsChangePhoneActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 话单查询 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 话单查询 -->
         <activity
             android:name=".ui.activity.VsCheckPhoneActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 登录 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 登录 -->
         <activity
             android:name=".ui.activity.VsLoginActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 我的套餐/我的余额 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 我的套餐/我的余额 -->
         <activity
             android:name=".ui.activity.VsMyBalanceDetailActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 个人中心 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 个人中心 -->
         <activity
             android:name=".ui.activity.VsMyInfoTextActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 我的套餐 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 我的套餐 -->
         <activity
             android:name=".ui.activity.VsMyMealActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 我的红包 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 我的红包 -->
         <activity
             android:name=".ui.activity.VsMyRedPagActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 提现 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 提现 -->
         <activity
             android:name=".ui.activity.VsMyRedPopActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 设置详情 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 设置详情 -->
         <activity
             android:name=".ui.activity.VsMyTextDetailActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 充值中心 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 充值中心 -->
         <activity
             android:name=".ui.activity.VsRechargeActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 积分充值卡 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 积分充值卡 -->
         <activity
             android:name=".ui.activity.VsRechargeBangbangCard"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 多卡充值 卡记录 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 多卡充值 卡记录 -->
         <activity
             android:name=".ui.activity.VsRechargeCardList"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 移动充值卡充值 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 移动充值卡充值 -->
         <activity
             android:name=".ui.activity.VsRechargeMobileCard"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 充值类型 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 充值类型 -->
         <activity
             android:name=".ui.activity.VsRechargePayTypes"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 绑定微信号步骤 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 绑定微信号步骤 -->
         <activity
             android:name=".ui.activity.VsredinfoActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 注册 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 注册 -->
         <activity
             android:name=".ui.activity.VsRegisterActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 设置 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 设置 -->
         <activity
             android:name=".ui.activity.VsSetingActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 自动接听、拨打按键音设置 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 自动接听、拨打按键音设置 -->
         <activity
             android:name=".ui.activity.VsSetingVoiceHangActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 重置密码 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 重置密码 -->
         <activity
             android:name=".ui.activity.VsSetPhoneActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 第三方信息 -->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 第三方信息 -->
         <activity
             android:name=".ui.activity.VsthirdTypeActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
@@ -439,18 +477,20 @@
             android:value="1e83b290e755fa5f7661ece7598583c7" />
 
         <service android:name="com.amap.api.location.APSService" />
-        <service android:name=".config.service.VsCoreService">
+        <service android:name=".config.service.VsCoreService" >
             <intent-filter>
                 <action android:name="com.weiwei.dataprovider.KcCoreService" />
 
                 <category android:name="android.intent.category.default" />
             </intent-filter>
         </service>
-        <service android:name=".config.service.VsCallNotificationService">
+        <service android:name=".config.service.VsCallNotificationService" >
             <intent-filter>
                 <action android:name="com.weiwei.callnotification_Service" />
             </intent-filter>
-        </service> <!-- =====================================友盟配置========================================== -->
+        </service>
+
+        <!-- =====================================友盟配置========================================== -->
         <!-- 分享编辑页 -->
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
@@ -463,7 +503,7 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true">
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -504,7 +544,7 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.VIEW" /> -->

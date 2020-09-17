@@ -1,6 +1,5 @@
 package com.edawtech.jiayou.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -141,10 +140,6 @@ public class VsRegisterActivity extends VsBaseActivity implements View.OnClickLi
         mTitleTextView.setText(R.string.vs_reghist_title_hint);
         showLeftNavaBtn(R.drawable.icon_back);
         initView();
-
-
-
-//        VsApplication.getInstance().addActivity(this);
     }
 
     @Override

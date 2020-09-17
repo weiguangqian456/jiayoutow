@@ -12,6 +12,11 @@ package com.edawtech.jiayou.utils;
 public class CommonParam {
 
     /**
+     * sp储存名
+     */
+    public static final String SP_NAME = "JIA_YOU_USER_INFO";
+
+    /**
      * 全局APP_ID
      */
     public static final String APP_ID = "JIA_YOU";

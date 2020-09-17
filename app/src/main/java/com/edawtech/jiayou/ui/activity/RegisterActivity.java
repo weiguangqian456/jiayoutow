@@ -1,76 +1,61 @@
 package com.edawtech.jiayou.ui.activity;
 
-
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Message;
+import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseMvpActivity;
-import com.edawtech.jiayou.config.base.MyApplication;
-import com.edawtech.jiayou.config.base.VsBaseActivity;
-import com.edawtech.jiayou.config.constant.DfineAction;
-import com.edawtech.jiayou.config.constant.GlobalVariables;
-import com.edawtech.jiayou.config.constant.VsUserConfig;
-import com.edawtech.jiayou.config.service.VsCoreService;
-import com.edawtech.jiayou.json.me.JSONObject;
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
 import com.edawtech.jiayou.net.observer.TaskCallback;
-import com.edawtech.jiayou.ui.dialog.CustomDialog;
 import com.edawtech.jiayou.utils.AutoCodeUtil;
 import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.FitStateUtils;
 import com.edawtech.jiayou.utils.LogUtils;
 import com.edawtech.jiayou.utils.StringUtils;
-import com.edawtech.jiayou.utils.sp.SharePreferencesHelper;
-import com.edawtech.jiayou.utils.tool.CoreBusiness;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
-import com.edawtech.jiayou.utils.tool.VsNetWorkTools;
-import com.edawtech.jiayou.utils.tool.VsRc4;
-import com.edawtech.jiayou.utils.tool.VsUtil;
-import com.flyco.roundview.RoundTextView;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 /**
- * 重置密码
+ * 注册
  */
-public class VsSetPhoneActivity extends BaseMvpActivity {
+public class RegisterActivity extends BaseMvpActivity {
+
     @BindView(R.id.tv_title)
     TextView tvTitle;
-    @BindView(R.id.iv_close)
-    ImageView ivClose;
     @BindView(R.id.et_mobile)
     EditText etMobile;
-    @BindView(R.id.tv_get_code)
-    TextView tvGetCode;
     @BindView(R.id.et_code)
     EditText etCode;
+    @BindView(R.id.et_password)
+    EditText etPassword;
+    @BindView(R.id.et_invite)
+    EditText etInvite;
+    @BindView(R.id.tv_get_code)
+    TextView tvGetCode;
+    @BindView(R.id.iv_close)
+    ImageView ivClose;
     @BindView(R.id.iv_look)
     ImageView ivLook;
-    @BindView(R.id.et_new_password)
-    EditText etNewPassword;
 
     //是否可见
     private boolean isLook = false;
@@ -79,17 +64,13 @@ public class VsSetPhoneActivity extends BaseMvpActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_vs_set_phone;
+        return R.layout.activity_register;
     }
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
         FitStateUtils.setImmersionStateMode(this, R.color.public_color_EC6941);
-        if (MyApplication.isLogin) {
-            tvTitle.setText(R.string.vs_set_phone_title_hint1);
-        } else {
-            tvTitle.setText(R.string.for_get_password);
-        }
+        tvTitle.setText("注册");
         publicPresenter = new PublicPresenter(this, true, "请求中...");
         publicPresenter.attachView(this);
         initListener();
@@ -134,7 +115,7 @@ public class VsSetPhoneActivity extends BaseMvpActivity {
         super.onDestroy();
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_close, R.id.tv_get_code, R.id.iv_look, R.id.bt_sure})
+    @OnClick({R.id.iv_back, R.id.iv_close, R.id.tv_get_code, R.id.iv_look, R.id.bt_sure, R.id.tv_deal})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -151,21 +132,32 @@ public class VsSetPhoneActivity extends BaseMvpActivity {
             case R.id.iv_look:          //密码可见
                 if (isLook) {
                     ivLook.setImageResource(R.drawable.vs_checked_yes);
-                    etNewPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    etNewPassword.setSelection(etNewPassword.getText().toString().length());
+                    etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    etPassword.setSelection(etPassword.getText().toString().length());
                     isLook = false;
                 } else {
                     ivLook.setImageResource(R.drawable.vs_checked_no);
-                    etNewPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    etNewPassword.setSelection(etNewPassword.getText().toString().length());
+                    etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    etPassword.setSelection(etPassword.getText().toString().length());
                     isLook = true;
                 }
                 break;
-            case R.id.bt_sure:      //重置密码
+            case R.id.bt_sure:          //注册
                 mobile = etMobile.getText().toString();
                 String code = etCode.getText().toString();
-                String newPassword = etNewPassword.getText().toString();
-                resetPassword(mobile, code, newPassword);
+                String pwd = etPassword.getText().toString();
+                String invite = etInvite.getText().toString();
+                register(mobile, code, pwd, invite);
+                break;
+            case R.id.tv_deal:          //电子协议
+                final String urlTo = "file:///android_asset/shop_service_terms.html";
+                Intent intent = new Intent();
+                intent.setClass(mContext, WeiboShareWebViewActivity.class);
+                String[] aboutBusiness = new String[]{mContext.getString(R.string.welcome_main_elecdeal), "service", urlTo};
+                intent.putExtra("AboutBusiness", aboutBusiness);
+                startActivity(intent);
+                break;
+            default:
                 break;
         }
     }
@@ -187,24 +179,22 @@ public class VsSetPhoneActivity extends BaseMvpActivity {
         Map<String, Object> map = new HashMap<>();
 //        map.put("mobile",mobile);
         map.put("mobile", "13312388345");
-        //type = 2 修改/忘记密码
-        map.put("type",2);
+        //type  = 1 注册
+        map.put("type",1);
         //按钮计时
         AutoCodeUtil.start(tvGetCode);
         publicPresenter.netWorkRequestGet(CommonParam.TEST_BASE_URL + "/sms/code", map);
     }
 
     /**
-     * 重置密码
-     *
-     * @param
+     * 注册
      */
-    private void resetPassword(String mobile, String code, String newPassword) {
-        if (StringUtils.isEmpty(mobile)) {
+    private void register(String phone, String code, String pwd, String invite) {
+        if (StringUtils.isEmpty(phone)) {
             ToastUtil.showMsg("请输入手机号码");
             return;
         }
-        if (mobile.length() != 11) {
+        if (phone.length() != 11) {
             ToastUtil.showMsg("手机号码不正确");
             return;
         }
@@ -212,46 +202,45 @@ public class VsSetPhoneActivity extends BaseMvpActivity {
             ToastUtil.showMsg("验证码不能为空");
             return;
         }
-        if (StringUtils.isEmpty(newPassword)) {
-            ToastUtil.showMsg("新密码不能为空");
+        if (StringUtils.isEmpty(pwd)) {
+            ToastUtil.showMsg("密码不能为空");
             return;
         }
-        if (newPassword.length() < 8 || newPassword.length() > 14) {
-            ToastUtil.showMsg("请输入8-14位新密码");
+        if (pwd.length() < 8 || pwd.length() > 14) {
+            ToastUtil.showMsg("请输入8-14位密码");
             return;
         }
+        if (StringUtils.isEmpty(invite)) {
+            ToastUtil.showMsg("邀请码不能为空");
+            return;
+        }
+
+        long time = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<>();
-        map.put("phone",mobile);
-        map.put("newPassword",newPassword);
-        map.put("verifyCode",code);
-        publicPresenter.netWorkRequestPost(CommonParam.TEST_BASE_URL + "/user/retrievePaw", map, new TaskCallback() {
+        map.put("agenId", "jiayou");
+        map.put("appId", CommonParam.APP_ID);
+        map.put("code", code);
+        map.put("invitationCode", invite);
+        map.put("password", pwd);
+//        map.put("phone", phone);
+        map.put("phone", "13312388345");
+        map.put("pv", "android");
+        map.put("v", "1.0");
+        map.put("first_pay_time", String.valueOf(time));
+
+        publicPresenter.netWorkRequestPost(CommonParam.TEST_BASE_URL + "/register", map, new TaskCallback() {
             @Override
             public void onSuccess(String data) {
-                LogUtils.e("fxx", "修改成功   data=" + data);
-                //是否登录过   用于判断是从哪个入口进入重置密码页面    true 修改密码进入   false  忘记密码进入
-//                boolean isLogin = MyApplication.isLogin;
-//                if (isLogin) {
-//                    //清除本地保存信息
-//                    SharePreferencesHelper sp = new SharePreferencesHelper(VsSetPhoneActivity.this, CommonParam.SP_NAME);
-//                    sp.clear();
-//                    //清除全局信息
-//                    MyApplication.isLogin = false;
-//                    MyApplication.UID = "";
-//                    MyApplication.MOBILE = "";
-//
-//                    //修改密码进入
-//                    Intent intent = new Intent(VsSetPhoneActivity.this, VsLoginActivity.class);
-//                    intent.putExtra("isClearOtherActivity", true);
-//                    startActivity(intent);
-//                }
-//                finish();
+                LogUtils.e("fxx", "注册成功   data=" + data);
+                ToastUtil.showMsg("注册成功");
+                finish();
             }
 
             @Override
             public void onFailure(Throwable e, int code, String msg, boolean isNetWorkError) {
-                LogUtils.e("fxx", "修改失败   data=" + msg + "       code=" + code + "       isNetWorkError=" + isNetWorkError);
+                LogUtils.e("fxx", "注册失败   data=" + msg + "       code=" + code + "       isNetWorkError=" + isNetWorkError);
                 ToastUtil.showMsg(msg);
-                etNewPassword.setText("");
+                etPassword.setText("");
                 //获取验证码按钮获取点击焦点
                 AutoCodeUtil.cancel();
                 tvGetCode.setEnabled(true);
@@ -259,11 +248,13 @@ public class VsSetPhoneActivity extends BaseMvpActivity {
                 tvGetCode.setTextColor(getResources().getColor(R.color.White));
             }
         });
+
     }
+
 
     @Override
     public void onSuccess(String data) {
-        com.edawtech.jiayou.utils.LogUtils.e("fxx", "获取验证码成功   data=" + data);
+        LogUtils.e("fxx", "获取验证码成功   data=" + data);
         ToastUtil.showMsg("发送成功，请注意查收！");
     }
 
