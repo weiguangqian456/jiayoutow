@@ -309,7 +309,7 @@ public class MineFragment extends VsBaseFragment implements android.view.View.On
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         CustomLog.i(TAG, "MainFragment------onCreateView(),...");
         View view = inflater.inflate(R.layout.my_frament, container, false);
-        FitStateUtils.setImmersionStateMode(getActivity(), R.color.public_color_EC6941);
+     //  FitStateUtils.setImmersionStateMode(getActivity(), R.color.public_color_EC6941);
         //如果是用的v4的包，则用getActivity().getSuppoutFragmentManager();
         supportFragmentManager = getActivity().getSupportFragmentManager();
         return view;

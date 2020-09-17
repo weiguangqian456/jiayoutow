@@ -22,6 +22,7 @@ import com.amap.api.location.AMapLocationClientOption
 import com.androidkun.xtablayout.XTabLayout
 import com.edawtech.jiayou.R
 import com.edawtech.jiayou.config.base.BaseMvpActivity
+import com.edawtech.jiayou.config.base.MyApplication
 import com.edawtech.jiayou.config.bean.MoreReListBean
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter
 import com.edawtech.jiayou.net.http.HttpRequest
@@ -35,7 +36,10 @@ import kotlinx.android.synthetic.main.activity_otil_search.*
 import kotlinx.android.synthetic.main.activity_otil_search.rv_load
 import kotlinx.android.synthetic.main.activity_otil_search.srl_load
 
-
+/**
+ * 加油站搜索
+ *
+ * */
 class RefuelKotilActivity : BaseMvpActivity() {
 
     private var mSearchType = "1001"
@@ -74,8 +78,8 @@ class RefuelKotilActivity : BaseMvpActivity() {
                     mLongitude = it.longitude
 
                     refresh()?.let { it1 ->
-                        newHttpData("", "", mLongitude, mLatitude,
-                                it1, "10", mHttpPage.toString(), "8.3.11", "%22%22")
+                        newHttpData("", "1002", mLongitude, mLatitude,
+                                it1, "10", mHttpPage.toString(), "8.3.11", MyApplication.UID)
                     }
 
                 }
@@ -110,6 +114,7 @@ class RefuelKotilActivity : BaseMvpActivity() {
                         mSearchType = "1001"
                         et_search.hint = "请输入要搜索的目的地"
                         if (et_search.text.toString().isNotEmpty()) {
+                            mHttpPage = 1
                             locationClient?.startLocation()
                         }
                     }
@@ -117,6 +122,7 @@ class RefuelKotilActivity : BaseMvpActivity() {
                         mSearchType = "1002"
                         et_search.hint = "请输入要搜索的加油站"
                         if (et_search.text.toString().isNotEmpty()) {
+                            mHttpPage = 1
                             locationClient?.startLocation()
                         }
                     }
@@ -134,7 +140,10 @@ class RefuelKotilActivity : BaseMvpActivity() {
         })
 
         iv_search_close.setOnClickListener { et_search.setText("") }
-        tv_serach.setOnClickListener { }
+        tv_serach.setOnClickListener {
+            mHttpPage = 1
+            locationClient?.startLocation()
+        }
 
 
 
@@ -151,13 +160,13 @@ class RefuelKotilActivity : BaseMvpActivity() {
                 holder?.getView<TextView>(R.id.tv_oil_price)?.text = data?.priceYfq.toString()
                 holder?.getView<LinearLayout>(R.id.Lv_navigation)?.setOnClickListener {
                     mGoLatitude = data.gasAddressLatitude
-                    mGoLongitude =data.gasAddressLongitude
+                    mGoLongitude = data.gasAddressLongitude
                     showMapPop(data)
 
 
                 }
                 holder?.getView<LinearLayout>(R.id.Lin_rll_item)?.setOnClickListener {
-                    startActivity(Intent(context,RefuelDetailKTActivity().javaClass)?.putExtra("MoreReListRecords", JsonHelper.newtoJson(data)))
+                    startActivity(Intent(context, RefuelDetailKTActivity().javaClass)?.putExtra("MoreReListRecords", JsonHelper.newtoJson(data)))
                 }
 
             }
@@ -166,12 +175,12 @@ class RefuelKotilActivity : BaseMvpActivity() {
 
         //下拉刷新
         srl_load.setOnRefreshListener {
-            if (et_search.text.toString().isNotEmpty()){
+            if (et_search.text.toString().isNotEmpty()) {
                 mHttpPage = 1
-                Log.e("setLoadMoreListener","---"+ et_search.text.toString() +"--et_search.text.toString()-"+et_search.text.toString().length)
+                Log.e("setLoadMoreListener", "---" + et_search.text.toString() + "--et_search.text.toString()-" + et_search.text.toString().length)
                 //签到只需调用startLocation即可
                 locationClient!!.startLocation()
-            }else{
+            } else {
                 ToastUtil.showMsg("请输入搜索内容！")
                 srl_load.isRefreshing = false
             }
@@ -184,7 +193,7 @@ class RefuelKotilActivity : BaseMvpActivity() {
             mHttpPage++
             Log.e("setLoadMoreListener", mHttpPage.toString())
             refresh()?.let { it1 ->
-                Log.e("setLoadMoreListener",it1)
+                Log.e("setLoadMoreListener", it1)
                 newHttpData("", "", mLongitude, mLatitude,
                         it1, "10", mHttpPage.toString(), "8.3.11", "%22%22")
             }
@@ -217,21 +226,22 @@ class RefuelKotilActivity : BaseMvpActivity() {
     override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
         srl_load.isRefreshing = false
         rv_load.loadMoreFinish(false, true)
-        ToastUtil.showMsg(msg)
+        //   ToastUtil.showMsg(msg)
     }
 
     private fun newHttpData(
             phone: String, searchType: String, userAddressLongitude: Double,
             userAddressLatitude: Double, searchContent: String, pageSize: String,
-            pageNum: String, version: String, uid: String) {
-        Inform_Target?.netWorkRequestGet(HttpURL.CheZhuBangControll,HttpRequest.CheZhuBang(phone,searchType,userAddressLongitude,userAddressLatitude,searchContent,pageSize,pageNum,version,uid))
+            pageNum: String, version: String, uid: String
+    ) {
+        Inform_Target?.netWorkRequestGet(HttpURL.CheZhuBangControll, HttpRequest.CheZhuBang(phone, searchType, userAddressLongitude, userAddressLatitude, searchContent, pageSize, pageNum, version, uid))
     }
 
 
     private fun refresh(): String? {
         mSearchText = et_search.text.toString()
         var searchContent = "$mSearchType@$mSearchText"
-        Log.e("setLoadMoreListener",searchContent)
+        Log.e("setLoadMoreListener", searchContent)
         return Base64.encodeToString(searchContent.toByteArray(), Base64.NO_WRAP)
     }
 
@@ -244,25 +254,30 @@ class RefuelKotilActivity : BaseMvpActivity() {
                     val rememberCb = view.findViewById<View>(R.id.cb_remember) as CheckBox
                     val ensureBtn = view.findViewById<View>(R.id.btn_ensure) as TextView
 
-                    amapCb.setOnCheckedChangeListener { buttonView, isChecked -> if (isChecked){
-                        baidumapCb.isChecked = false
-                    } }
-                    baidumapCb.setOnCheckedChangeListener { buttonView, isChecked -> if (isChecked){
-                        amapCb.isChecked = false } }
+                    amapCb.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if (isChecked) {
+                            baidumapCb.isChecked = false
+                        }
+                    }
+                    baidumapCb.setOnCheckedChangeListener { buttonView, isChecked ->
+                        if (isChecked) {
+                            amapCb.isChecked = false
+                        }
+                    }
 
                     ensureBtn.setOnClickListener {
-                        if (!baidumapCb.isChecked && !amapCb.isChecked)  ToastUtil.showMsg("请选择一种地图")
+                        if (!baidumapCb.isChecked && !amapCb.isChecked) ToastUtil.showMsg("请选择一种地图")
                         if (baidumapCb.isChecked) {
-                            if(StoreDetailActivity.mapisAvailable(context, "com.baidu.BaiduMap")){
+                            if (StoreDetailActivity.mapisAvailable(context, "com.baidu.BaiduMap")) {
                                 navWithBaidu()
-                            }else{
+                            } else {
                                 ToastUtil.showMsg("您尚未安装百度地图")
                                 val uri = Uri.parse("market://details?id=com.baidu.BaiduMap")
                                 intent = Intent(Intent.ACTION_VIEW, uri)
                                 startActivity(intent)
                             }
                         }
-                        if (amapCb.isChecked){
+                        if (amapCb.isChecked) {
                             if (StoreDetailActivity.mapisAvailable(context, "com.autonavi.minimap")) {
                                 navWithAmap()
                             } else {
@@ -277,15 +292,14 @@ class RefuelKotilActivity : BaseMvpActivity() {
                         } else if (rememberCb.isChecked && amapCb.isChecked) {
                             SpUtils.putIntValue(context, "selectMapFlag", 1)
                         }
-                        mapPop!!.dismiss() }
-
-
-
+                        mapPop!!.dismiss()
+                    }
 
 
                 }.setOutsideTouchable(true).create();
         mapPop?.showAtLocation(window.decorView.rootView, Gravity.CENTER, 0, 0)
     }
+
     private fun navWithBaidu() {
         val bdGps = RxLocationUtils.GCJ02ToBD09(mGoLongitude, mGoLatitude)
         val stringBuffer = StringBuffer("baidumap://map/navi?location=").append(bdGps.latitude).append(",").append(bdGps.longitude).append("&type=TIME")

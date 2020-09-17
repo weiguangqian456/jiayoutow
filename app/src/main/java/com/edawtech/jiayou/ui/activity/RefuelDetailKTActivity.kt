@@ -24,7 +24,7 @@ import com.edawtech.jiayou.utils.tool.GsonUtils
 import com.edawtech.jiayou.utils.tool.SoftHideKeyBoardUtil
 import kotlinx.android.synthetic.main.activity_refuel_detail.*
 import kotlin.math.abs
-
+//加油站详情
 class RefuelDetailKTActivity : BaseMvpActivity() {
     // 请求数据
     private var Inform_Target: PublicPresenter? = null

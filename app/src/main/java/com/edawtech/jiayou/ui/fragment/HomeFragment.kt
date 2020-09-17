@@ -19,6 +19,7 @@ import com.baidu.location.LocationClient
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.edawtech.jiayou.R
 import com.edawtech.jiayou.config.base.BaseMvpFragment
+import com.edawtech.jiayou.config.base.MyApplication
 import com.edawtech.jiayou.config.bean.BannerDataEntity
 import com.edawtech.jiayou.config.bean.MoreReListBean
 import com.edawtech.jiayou.config.bean.ResultEntity
@@ -29,11 +30,10 @@ import com.edawtech.jiayou.net.http.HttpURL
 import com.edawtech.jiayou.net.observer.TaskCallback
 import com.edawtech.jiayou.net.test.RetrofitCallback
 import com.edawtech.jiayou.retrofit.RetrofitClient
-import com.edawtech.jiayou.ui.activity.MoreReListActivity
-import com.edawtech.jiayou.ui.activity.RefuelDetailKTActivity
-import com.edawtech.jiayou.ui.activity.StoreDetailActivity
+import com.edawtech.jiayou.ui.activity.*
 import com.edawtech.jiayou.ui.custom.CommonPopupWindow
 import com.edawtech.jiayou.ui.dialog.CustomProgressDialog
+import com.edawtech.jiayou.ui.statusbar.StatusBarUtil
 import com.edawtech.jiayou.utils.tool.*
 import com.service.helper.BDLBSMapHelper
 import kotlinx.android.synthetic.main.activity_more_re_list.*
@@ -77,6 +77,8 @@ class HomeFragment : BaseMvpFragment() {
         get() = R.layout.home_fragment
 
     override fun initView(view: View?, savedInstanceState: Bundle?) {
+
+
         Inform_Target = PublicPresenter(context, false, "")
         Inform_Target?.attachView(this)
 
@@ -106,13 +108,25 @@ class HomeFragment : BaseMvpFragment() {
             startActivity(Intent(context, MoreReListActivity::class.java))
 
         }
+   //我的订单
         view?.findViewById<LinearLayout>(R.id.ll_refuel_order)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
+            if (MyApplication.isLogin){
+                startActivity(Intent(context, OrderRefurlActivity().javaClass))
+            }else{
+                startActivity(Intent(context,VsLoginActivity::class.java))
+            }
 
         }
-
+        //我要赚钱
         view?.findViewById<LinearLayout>(R.id.ll_refuel_money)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
+            if (MyApplication.isLogin){
+                startActivity(Intent(context, MakeMoneyActivity().javaClass))
+            }else{
+                startActivity(Intent(context,VsLoginActivity::class.java))
+            }
+
         }
 
         //附近加油站

@@ -34,10 +34,6 @@ abstract class BaseMvpActivity : BaseActivity(), BaseView, PublicContract.View {
         registerBroadcastReceivers(application)
         // 注册电量广播监听。
         registerReceiverLevel()
-        /**
-         * 小米政企服务系统权限控制。
-         */
-        //systemPermissionControl();
     }
 
     override fun getContext(): Context {

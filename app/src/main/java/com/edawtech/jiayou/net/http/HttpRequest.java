@@ -3,6 +3,7 @@ package com.edawtech.jiayou.net.http;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.config.bean.RefuelFiltrate;
 import com.edawtech.jiayou.utils.tool.IntentJumpUtils;
 import com.edawtech.jiayou.utils.tool.JsonHelper;
@@ -40,7 +41,7 @@ public class HttpRequest {
         params.put("pageSize", pageSize);
         params.put("pageNum", pageNum);
         params.put("version", version);
-        params.put("uid", uid);
+        params.put("uid", MyApplication.UID);
         params.put("appId", "dudu");
         return params;
     }

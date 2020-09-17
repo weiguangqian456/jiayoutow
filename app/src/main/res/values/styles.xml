@@ -224,6 +224,14 @@
         <!-- Defines closed handle (drawable/color). -->
         <attr name="closedHandle" format="reference|color" />
     </declare-styleable>
+    <!--我要赚钱的图片描述信息-->
+    <style name="MakeMoneyIntroStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
 
 
 </resources>

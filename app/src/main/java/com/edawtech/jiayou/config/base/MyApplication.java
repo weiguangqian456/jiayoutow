@@ -46,7 +46,7 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
     /**
      * 全局唯一UID
      */
-    public static int UID  = 0;
+    public static String  UID  = "%22%22";
 
     /**
      * 是否登录

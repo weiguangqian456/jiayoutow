@@ -43,8 +43,8 @@ android {
             keyAlias 'key0'
             keyPassword 'jiayou123'
             storePassword 'jiayou123'
-//            storeFile file("D:\\app\\jiayou\\jiayou.jks")
-            storeFile file("D:\\work\\jiayoutow\\jiayou.jks")
+            storeFile file("D:\\app\\jiayou\\jiayou.jks")
+            //           storeFile file("D:\\work\\jiayoutow\\jiayou.jks")
         }
     }
     buildTypes {
