@@ -39,7 +39,8 @@ public class HomePageBannerViewHolder extends Holder<BannerImageEntity> {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showMsg("点击了轮播图");
+                CustomSkipUtils.toSkip(MyApplication.getContext(),data);
+            //    ToastUtil.showMsg("点击了轮播图");
             }
         });
 

@@ -81,7 +81,7 @@ public class CustomSkipUtils {
         if (entrance == null || TextUtils.isEmpty(entrance.getAndroidClassName())) return;
         if (entrance.getAndroidClassName().contains("SimBackActivity")) {
             String clazz = entrance.getAndroidClassName().trim();
-        //2    toSimActivity(context, clazz, null);
+       //   toSimActivity(context, clazz, null);
         } else {
             final String className = entrance.getAndroidClassName().trim();
             final String params = entrance.getAndroidParams();

@@ -78,7 +78,7 @@ public class RefuelOrderActivity extends BaseRecycleActivity {
     @Override
     protected Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
-        params.put("phone", VsUserConfig.getDataString(mContext, VsUserConfig.JKey_PhoneNumber));
+        params.put("phone", "13380391613");
         return params;
     }
 

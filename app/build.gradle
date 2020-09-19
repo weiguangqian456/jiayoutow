@@ -13,11 +13,12 @@ android {
     def appID = '"888888"'
 
     // 开发环境 --- API接口地址：
-    def API_DEV_HOST = '"https://route.edawtech.com"'
+   // def API_DEV_HOST = '"https://route.edawtech.com"'
+    def API_DEV_HOST = '"http://cyjxh.natapp1.cc"'
     // 测试环境 --- API接口地址：
     def API_TEST_HOST = '"http://192.168.5.230:8089"'
     // 正式环境 --- API接口地址：
-    def API_RELEASE_HOST = '"https://route.edawtech.com"'
+    def API_RELEASE_HOST = '"http://cyjxh.natapp1.cc"'
     // API接口版本前缀： '"/api"' (目前为空)
     def API_URL_dynamic = '""'
     // API接口数据取第几条：

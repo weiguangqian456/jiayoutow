@@ -5,6 +5,7 @@ import android.util.Base64;
 
 import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.config.bean.RefuelFiltrate;
+import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.tool.IntentJumpUtils;
 import com.edawtech.jiayou.utils.tool.JsonHelper;
 
@@ -42,7 +43,7 @@ public class HttpRequest {
         params.put("pageNum", pageNum);
         params.put("version", version);
         params.put("uid", MyApplication.UID);
-        params.put("appId", "dudu");
+        params.put("appId", CommonParam.APP_ID);
         return params;
     }
 
@@ -67,8 +68,16 @@ public class HttpRequest {
         params.put("pageNum", pageNum);
         params.put("version", version);
         params.put("uid", MyApplication.UID);
-        params.put("appId", "dudu");
+        params.put("appId",CommonParam.APP_ID);
         return params;
+    }
+
+    // 验证是否有加油余额
+    public static HashMap<String, Object> Refuelbalance(String phone){
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("phone",phone);
+        params.put("appId", CommonParam.APP_ID);
+        return params;//13380391613
     }
 
 

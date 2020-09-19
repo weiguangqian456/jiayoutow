@@ -80,7 +80,7 @@ class RefuelKotilActivity : BaseMvpActivity() {
                     mLongitude = it.longitude
 
                     refresh()?.let { it1 ->
-                        newHttpData("", "1002", mLongitude, mLatitude,
+                        newHttpData(MyApplication.MOBILE, "1002", mLongitude, mLatitude,
                                 it1, "10", mHttpPage.toString(), "8.3.11", MyApplication.UID)
                     }
 
@@ -200,7 +200,7 @@ class RefuelKotilActivity : BaseMvpActivity() {
             Log.e("setLoadMoreListener", mHttpPage.toString())
             refresh()?.let { it1 ->
                 Log.e("setLoadMoreListener", it1)
-                newHttpData("", "", mLongitude, mLatitude,
+                newHttpData(MyApplication.MOBILE, "", mLongitude, mLatitude,
                         it1, "10", mHttpPage.toString(), "8.3.11", "%22%22")
             }
         }

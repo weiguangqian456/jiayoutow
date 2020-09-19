@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
 
     <com.edawtech.jiayou.ui.custom.TitleView
         android:id="@+id/title_main_tv"
@@ -35,177 +36,185 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/w_612_dip"
                 android:background="@drawable/share_commission">
+
                 <ImageView
                     android:id="@+id/iv_invite"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/w_48_dip"
-                    android:src="@drawable/invitation_btn"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/w_78_dip"/>
+                    android:layout_marginBottom="@dimen/w_78_dip"
+                    android:src="@drawable/invitation_btn" />
+
                 <ImageView
                     android:id="@+id/iv_line_btn"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/w_48_dip"
-                    android:src="@drawable/invitation_line_btn"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/w_20_dip"/>
+                    android:layout_marginBottom="@dimen/w_20_dip"
+                    android:src="@drawable/invitation_line_btn" />
             </RelativeLayout>
 
             <ImageView
                 android:id="@+id/iv_my_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/my_income"
                 android:layout_below="@id/rl_invitation"
-                android:layout_marginTop="@dimen/w_29_dip"/>
+                android:layout_marginTop="@dimen/w_29_dip"
+                android:src="@drawable/my_income" />
 
             <LinearLayout
                 android:id="@+id/ll_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_below="@id/iv_my_income"
                 android:layout_marginTop="32dp"
+                android:orientation="horizontal"
                 android:paddingLeft="14.5dp"
                 android:paddingRight="14.5dp">
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@drawable/income_card">
 
                     <LinearLayout
                         android:id="@+id/one_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="22dp">
+                        android:layout_marginTop="22dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/tv_red"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.00"
+                            android:gravity="bottom"
                             android:maxLines="1"
-                            android:textSize="@dimen/w_14_dip"
+                            android:text="0.00"
                             android:textColor="#FA3D37"
-                            android:textStyle="bold"
-                            android:gravity="bottom"/>
+                            android:textSize="@dimen/w_14_dip"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="元"
+                            android:gravity="bottom"
                             android:maxLines="1"
+                            android:text="元"
                             android:textColor="#FA3D37"
-                            android:textStyle="bold"
                             android:textSize="@dimen/w_10_dip"
-                            android:gravity="bottom"/>
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="待提现奖励"
                         android:layout_below="@id/one_card"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
+                        android:text="待提现奖励"
                         android:textColor="#665A5A"
-                        android:textSize="9.48sp"/>
+                        android:textSize="9.48sp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@drawable/income_card">
 
                     <LinearLayout
                         android:id="@+id/second_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="22dp">
+                        android:layout_marginTop="22dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/tv_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0.00"
+                            android:gravity="bottom"
                             android:maxLines="1"
-                            android:textSize="@dimen/w_14_dip"
+                            android:text="0.00"
                             android:textColor="#FA3D37"
-                            android:textStyle="bold"
-                            android:gravity="bottom"/>
+                            android:textSize="@dimen/w_14_dip"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="元"
+                            android:gravity="bottom"
                             android:maxLines="1"
+                            android:text="元"
                             android:textColor="#FA3D37"
-                            android:textStyle="bold"
                             android:textSize="@dimen/w_10_dip"
-                            android:gravity="bottom"/>
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="累计奖励"
                         android:layout_below="@id/second_card"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
+                        android:text="累计奖励"
                         android:textColor="#665A5A"
-                        android:textSize="9.48sp"/>
+                        android:textSize="9.48sp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@drawable/income_card">
 
                     <LinearLayout
                         android:id="@+id/third_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="22dp">
+                        android:layout_marginTop="22dp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/tv_personNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/w_14_dip"
-                            android:textColor="#FA3D37"
+                            android:gravity="bottom"
                             android:text="0"
-                            android:textStyle="bold"
-                            android:gravity="bottom"/>
+                            android:textColor="#FA3D37"
+                            android:textSize="@dimen/w_14_dip"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="人"
+                            android:gravity="bottom"
                             android:maxLines="1"
+                            android:text="人"
                             android:textColor="#FA3D37"
-                            android:textStyle="bold"
                             android:textSize="@dimen/w_10_dip"
-                            android:gravity="bottom"/>
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:text="邀请用户数"
                         android:layout_below="@id/third_card"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
+                        android:text="邀请用户数"
                         android:textColor="#665A5A"
-                        android:textSize="9.48sp"/>
+                        android:textSize="9.48sp" />
 
                 </RelativeLayout>
 
@@ -216,47 +225,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/w_41_dip"
                 android:layout_below="@id/ll_card"
-                android:background="@drawable/my_account"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/w_24_dip"
-                android:layout_marginBottom="@dimen/w_22_dip">
+                android:layout_marginBottom="@dimen/w_22_dip"
+                android:background="@drawable/my_account">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/my_account"
                     android:layout_centerInParent="true"
+                    android:text="@string/my_account"
                     android:textColor="@color/White"
-                    android:textSize="@dimen/w_14_dip"/>
+                    android:textSize="@dimen/w_14_dip" />
             </RelativeLayout>
 
             <ImageView
                 android:id="@+id/iv_intro1"
                 style="@style/MakeMoneyIntroStyle"
-                android:src="@drawable/intro1"
+                android:layout_below="@id/rl_account"
                 android:layout_margin="@dimen/w_15_dip"
-                android:layout_below="@id/rl_account"/>
+                android:src="@drawable/intro1" />
 
             <ImageView
                 android:id="@+id/iv_intro2"
                 style="@style/MakeMoneyIntroStyle"
-                android:src="@drawable/intro2"
+                android:layout_below="@id/iv_intro1"
                 android:layout_marginLeft="@dimen/w_15_dip"
                 android:layout_marginRight="@dimen/w_15_dip"
-                android:layout_below="@id/iv_intro1"/>
+                android:src="@drawable/intro2" />
 
             <ImageView
                 android:id="@+id/iv_intro3"
                 style="@style/MakeMoneyIntroStyle"
-                android:src="@drawable/intro3"
+                android:layout_below="@id/iv_intro2"
                 android:layout_margin="@dimen/w_15_dip"
-                android:layout_below="@id/iv_intro2"/>
+                android:src="@drawable/intro3" />
 
             <ImageView
                 style="@style/MakeMoneyIntroStyle"
-                android:src="@drawable/intro4"
-                android:layout_marginRight="@dimen/w_15_dip"
+                android:layout_below="@id/iv_intro3"
                 android:layout_marginLeft="@dimen/w_15_dip"
-                android:layout_below="@id/iv_intro3"/>
+                android:layout_marginRight="@dimen/w_15_dip"
+                android:src="@drawable/intro4" />
 
         </RelativeLayout>
 

@@ -1,5 +1,6 @@
 package com.edawtech.jiayou.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -226,27 +227,27 @@ public class RefuelCouponMoneyActivity extends BaseActivity implements PayResult
         Gson gson = new Gson();
         String s = gson.toJson(params);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), s);
-//        RetrofitClient.getInstance(this).Api()
-//                .queryPriceByGas(body)
-//                .enqueue(new RetrofitCallback<ResultEntity>() {
-//                    @Override
-//                    protected void onNext(ResultEntity result) {
-//                        RefuelCoupon data = JSON.parseObject(result.getData().toString(), RefuelCoupon.class);
-//                        mLitre = data.litre;
-//                        mCouponMoney = data.couponMoney;
-//                        mActualAmount = data.actualAmount;
-//                        mTvLitre.setText("约" + mLitre + "L");
-//                        mTvDropMoney.setText("￥" + mCouponMoney);
-//
-//                        //隐藏键盘
-//                        mllInput.setVisibility(View.GONE);
-//                        mLlActualMoney.setVisibility(View.VISIBLE);
-//                        DecimalFormat dFormat = new DecimalFormat("#.00");
-//                        mTvTotalAmount.setText("￥" + dFormat.format(Double.parseDouble(mInput)));
-//                        mTvCouponAmount.setText("￥" + mCouponMoney);
-//                        mTvActualAmount.setText("￥" + mActualAmount);
-//                    }
-//                });
+        RetrofitClient.getInstance(this).Api()
+                .queryPriceByGas(body)
+                .enqueue(new RetrofitCallback<ResultEntity>() {
+                    @Override
+                    protected void onNext(ResultEntity result) {
+                        RefuelCoupon data = JSON.parseObject(result.getData().toString(), RefuelCoupon.class);
+                        mLitre = data.litre;
+                        mCouponMoney = data.couponMoney;
+                        mActualAmount = data.actualAmount;
+                        mTvLitre.setText("约" + mLitre + "L");
+                        mTvDropMoney.setText("￥" + mCouponMoney);
+
+                        //隐藏键盘
+                        mllInput.setVisibility(View.GONE);
+                        mLlActualMoney.setVisibility(View.VISIBLE);
+                        DecimalFormat dFormat = new DecimalFormat("#.00");
+                        mTvTotalAmount.setText("￥" + dFormat.format(Double.parseDouble(mInput)));
+                        mTvCouponAmount.setText("￥" + mCouponMoney);
+                        mTvActualAmount.setText("￥" + mActualAmount);
+                    }
+                });
 
 
     }
@@ -508,21 +509,21 @@ public class RefuelCouponMoneyActivity extends BaseActivity implements PayResult
     }
 
     private void httpGetPayInfo(){
-//        RetrofitClient.getInstance(this).Api()
-//                .queryPay(mGasId)
-//                .enqueue(new RetrofitCallback<ResultEntity>() {
-//
-//                    @Override
-//                    protected void onNext(ResultEntity result) {
-//                        Object data = result.getData();
-//                        if(data != null){
-//                            String d = (String)data ;
-//                            String str = AESUtils.decrypt("1234567890123456",d);
-//                            mPayBackEntity = new Gson().fromJson(str, PayBackEntity.class);
-//                            showPaymentPop();
-//                        }
-//                    }
-//                });
+        RetrofitClient.getInstance(this).Api()
+                .queryPay(mGasId)
+                .enqueue(new RetrofitCallback<ResultEntity>() {
+
+                    @Override
+                    protected void onNext(ResultEntity result) {
+                        Object data = result.getData();
+                        if(data != null){
+                            String d = (String)data ;
+                            String str = AESUtils.decrypt("1234567890123456",d);
+                            mPayBackEntity = new Gson().fromJson(str, PayBackEntity.class);
+                            showPaymentPop();
+                        }
+                    }
+                });
 
 
     }
@@ -559,53 +560,54 @@ public class RefuelCouponMoneyActivity extends BaseActivity implements PayResult
         Gson gson = new Gson();
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), gson.toJson(params));
 
-//        RetrofitClient.getInstance(this).Api()
-//                .placeOrder(body)
-//                .enqueue(new RetrofitCallback<ResultEntity>() {
-//                    @Override
-//                    protected void onNext(ResultEntity result) {
-//                        Log.d("code++++++", "onNext: " + result.getCode());
-//                        switch (mPayType) {
-//                            case 0:     //微信
-//                                if (REQUEST_CODE == result.getCode()) {
-//                                    WxPayEntity entity = JSON.parseObject(result.getData().toString(), WxPayEntity.class);
-//                                    String code = entity.getCode();
-//                                    String sign = entity.getSign();
-//                                    String prepay_id = entity.getPrepayid();
-//                                    String notifyurl = entity.getNotifyurl();
-//                                    if (!StringUtils.isEmpty(prepay_id)) {
-//                                        Message msg = mHandler.obtainMessage();
-//                                        msg.what = 0;
-//                                        msg.obj = prepay_id;
-//                                        mHandler.sendMessage(msg);
-//                                    } else {
-//                                        String msg_res = "服务器生成订单失败.";
-//                                        Toast.makeText(mContext, msg_res, Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                                break;
-//                            case 1:    //支付宝
-//                                if (REQUEST_CODE == result.getCode()) {
-//                                    JSONObject orderJSON = JSON.parseObject(result.getData().toString());
-//                                    String orderInfo = orderJSON.getString("aliPay");
-//                                    Log.d("", "onNext: " + orderInfo.toString());
-//                                    Message msg = mHandler.obtainMessage();
-//                                    msg.what = 1;
-//                                    msg.obj = orderInfo;
-//                                    mHandler.sendMessage(msg);
-//                                } else {
-//                                    Toast.makeText(mContext, result.getMsg(), Toast.LENGTH_SHORT).show();
-//                                }
-//                                break;
-//                            default:
-//                                break;
-//                        }
-//                    }
-//                });
+        RetrofitClient.getInstance(this).Api()
+                .placeOrder(body)
+                .enqueue(new RetrofitCallback<ResultEntity>() {
+                    @Override
+                    protected void onNext(ResultEntity result) {
+                        Log.d("code++++++", "onNext: " + result.getCode());
+                        switch (mPayType) {
+                            case 0:     //微信
+                                if (REQUEST_CODE == result.getCode()) {
+                                    WxPayEntity entity = JSON.parseObject(result.getData().toString(), WxPayEntity.class);
+                                    String code = entity.getCode();
+                                    String sign = entity.getSign();
+                                    String prepay_id = entity.getPrepayid();
+                                    String notifyurl = entity.getNotifyurl();
+                                    if (!StringUtils.isEmpty(prepay_id)) {
+                                        Message msg = mHandler.obtainMessage();
+                                        msg.what = 0;
+                                        msg.obj = prepay_id;
+                                        mHandler.sendMessage(msg);
+                                    } else {
+                                        String msg_res = "服务器生成订单失败.";
+                                        Toast.makeText(mContext, msg_res, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                break;
+                            case 1:    //支付宝
+                                if (REQUEST_CODE == result.getCode()) {
+                                    JSONObject orderJSON = JSON.parseObject(result.getData().toString());
+                                    String orderInfo = orderJSON.getString("aliPay");
+                                    Log.d("", "onNext: " + orderInfo.toString());
+                                    Message msg = mHandler.obtainMessage();
+                                    msg.what = 1;
+                                    msg.obj = orderInfo;
+                                    mHandler.sendMessage(msg);
+                                } else {
+                                    Toast.makeText(mContext, result.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
 //
 
     }
 
+    @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

@@ -18,7 +18,7 @@ import butterknife.Unbinder
  */
 abstract class BaseFragment : Fragment() {
     private var unBinder: Unbinder? = null
-    private var mContext: Context? = null
+    protected var mContext: Context? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

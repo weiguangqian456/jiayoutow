@@ -57,7 +57,7 @@ public class HttpURL {
     public final static String  OrderZhuBangquery ="benefit/web/CheZhuBangController/queryOrderInfo";
 
     // 验证是否有加油余额
-    public final static String isRefuelbalance = "route/benefit/web/OrderController/selectOrder";
+    public final static String isRefuelbalance = "/benefit/web/OrderController/selectOrder";
     //更新加油订单
     public final static String updateRefuelOrder = "/route/benefit/web/OrderController/updateOrder";
     //    记录加油用户信息

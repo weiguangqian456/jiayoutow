@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseActivity;
+import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.config.bean.ResultEntity;
 import com.edawtech.jiayou.config.constant.VsUserConfig;
 import com.edawtech.jiayou.retrofit.RetrofitClient;
@@ -83,7 +84,8 @@ public class WebPageNavigationActivity extends BaseActivity {
         mOilStationName = getIntent().getStringExtra("OIL_STATION_NAME");
         mOilNnme = getIntent().getStringExtra("OIL_NAME");
         mGunNo = getIntent().getStringExtra("GUN_NO");
-        mPhone = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_PhoneNumber);
+
+        mPhone =MyApplication.MOBILE;
 
         //加载的url按规定的使用即可
         mX5Webview.loadUrl("https://open.czb365.com/redirection/todo/?platformType=92655483&platformCode=" + mPhone + "&gasId=" + mOilStationId + "&gunNo=" + mGunNo + "");
@@ -170,19 +172,19 @@ public class WebPageNavigationActivity extends BaseActivity {
         Gson gson = new Gson();
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), gson.toJson(params));
 
-//        RetrofitClient.getInstance(this).Api()
-//                .recordUserInfo(body)
-//                .enqueue(new Callback<ResultEntity>() {
-//                    @Override
-//                    public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<ResultEntity> call, Throwable t) {
-//
-//                    }
-//                });
+        RetrofitClient.getInstance(this).Api()
+                .recordUserInfo(body)
+                .enqueue(new Callback<ResultEntity>() {
+                    @Override
+                    public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResultEntity> call, Throwable t) {
+
+                    }
+                });
 
     }
 
