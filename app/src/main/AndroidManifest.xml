@@ -112,18 +112,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name=".ui.activity.OrderDetailActivity"
+        <activity
+            android:name=".ui.activity.OrderDetailActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ui.activity.RefuelOrderDetailActivity"
-            android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".ui.activity.MyQcodeActivity"
+
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" />
         <activity

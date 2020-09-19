@@ -1,5 +1,6 @@
 package com.edawtech.jiayou.ui.activity
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
@@ -14,7 +15,7 @@ class MakeMoneyActivity : BaseMvpActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         title_main_tv.leftBackImageTv.setOnClickListener { finish() }
-
+        iv_line_btn.setOnClickListener { startActivity(Intent(this@MakeMoneyActivity,MyQcodeActivity().javaClass)) }
 
     }
 

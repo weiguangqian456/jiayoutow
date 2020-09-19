@@ -1,5 +1,6 @@
 package com.edawtech.jiayou.jpay;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import com.alipay.sdk.app.PayTask;
 import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.event.MessageEvent;
+import com.edawtech.jiayou.ui.activity.OrderRefurlActivity;
 import com.edawtech.jiayou.ui.activity.RefuelOrderActivity;
 import com.edawtech.jiayou.utils.tool.LogUtils;
 import com.edawtech.jiayou.utils.tool.MD5;
@@ -60,8 +62,9 @@ public class RefuelPayUtil {
         mContext = context;
         return instance;
     }
-
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
+       
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -75,7 +78,8 @@ public class RefuelPayUtil {
                         Toast.makeText(mContext, "支付成功", Toast.LENGTH_SHORT).show();
                         switch (flag) {
                             case 0: //默认支付
-                                SkipPageUtils.getInstance(mContext).skipPageAndFinish(RefuelOrderActivity.class);
+                                SkipPageUtils.getInstance(mContext).skipPageAndFinish(OrderRefurlActivity.class);
+                           
                                 break;
                             case 1:  //支付宝充值
                                 sendPaySuccedMsg();
@@ -91,12 +95,14 @@ public class RefuelPayUtil {
                             Toast.makeText(mContext, "支付失败", Toast.LENGTH_SHORT).show();
                             switch (flag) {
                                 case 0: //默认支付
-                                    SkipPageUtils.getInstance(mContext).skipPageAndFinish(RefuelOrderActivity.class);
+                                    SkipPageUtils.getInstance(mContext).skipPageAndFinish(OrderRefurlActivity.class);
                                     break;
                             }
                         }
                     }
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + msg.what);
             }
         }
     };

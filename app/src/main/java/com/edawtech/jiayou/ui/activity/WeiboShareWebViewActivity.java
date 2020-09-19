@@ -29,6 +29,7 @@ import com.edawtech.jiayou.config.base.VsContactItem;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.VsUserConfig;
 import com.edawtech.jiayou.net.http.VsHttpTools;
+import com.edawtech.jiayou.utils.db.provider.VsPhoneCallHistory;
 import com.edawtech.jiayou.utils.tool.CustomLog;
 import com.edawtech.jiayou.utils.tool.SendNoteObserver;
 import com.edawtech.jiayou.utils.tool.VsJsonTool;
@@ -248,9 +249,9 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
                 try {
                     curUrl = URLDecoder.decode(curUrl);
                     JSONObject json = new JSONObject(curUrl.replace(DfineAction.scheme_head + "business?param=", ""));
-//                    WebViewcallBack(json.getString("callback"), json.getString("callbacktype"),
-//                            VsPhoneCallHistory.loadHistoryContact(mContext, VsJsonTool.GetIntegerFromJSON(json, "num"),
-//                                    false), mWebView);
+                    WebViewcallBack(json.getString("callback"), json.getString("callbacktype"),
+                            VsPhoneCallHistory.loadHistoryContact(mContext, VsJsonTool.GetIntegerFromJSON(json, "num"),
+                                    false), mWebView);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -268,6 +269,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
     /**
      * 处理业务
      */
+    @SuppressLint("JavascriptInterface")
     private void handleBusiness() {
         CustomLog.i(TAG, "Entering WeiboShareWebViewActivity.handleBusiness()...");
 
@@ -518,7 +520,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
                 mWebView.reload();
             }
         });
-        //  mWebView.addJavascriptInterface(new KcWebView(), "KcWebView");
+         mWebView.addJavascriptInterface(new KcWebView(), "KcWebView");
         mBaseHandler.sendEmptyMessageDelayed(MSG_SHOW_ANIMATION, 500);
 
     }
