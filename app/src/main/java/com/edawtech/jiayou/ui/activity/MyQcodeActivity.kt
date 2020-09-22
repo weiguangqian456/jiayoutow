@@ -18,7 +18,7 @@ class MyQcodeActivity : BaseMvpActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
 
-        // 生成二维码。
+        // 生成二维码
         try {
             val mBitmap = QRCodeEncoder.syncEncodeQRCode("https://www.163.com/", DensityUtil.dip2px(context, 200f),
                     Color.parseColor("#333333"))

@@ -201,7 +201,7 @@ class RefuelKotilActivity : BaseMvpActivity() {
             refresh()?.let { it1 ->
                 Log.e("setLoadMoreListener", it1)
                 newHttpData(MyApplication.MOBILE, "", mLongitude, mLatitude,
-                        it1, "10", mHttpPage.toString(), "8.3.11", "%22%22")
+                        it1, "10", mHttpPage.toString(), "8.3.11", MyApplication.UID)
             }
         }
 

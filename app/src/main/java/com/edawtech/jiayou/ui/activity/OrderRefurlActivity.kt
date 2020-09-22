@@ -12,6 +12,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.edawtech.jiayou.R
 import com.edawtech.jiayou.config.base.BaseMvpActivity
+import com.edawtech.jiayou.config.base.MyApplication
 import com.edawtech.jiayou.config.bean.OrderRefurlBean
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter
 import com.edawtech.jiayou.net.http.HttpRequest
@@ -131,7 +132,7 @@ class OrderRefurlActivity : BaseMvpActivity() {
         }
     }
   fun newData(){
-      Inform_Target?.netWorkRequestGet(HttpURL.OrderZhuBangquery, HttpRequest.OrderRefurlist("13380391613", "10", "1", "8.3.11"))
+      Inform_Target?.netWorkRequestGet(HttpURL.OrderZhuBangquery, HttpRequest.OrderRefurlist(MyApplication.MOBILE, "10", "1", "8.3.11"))
 
   }
 }

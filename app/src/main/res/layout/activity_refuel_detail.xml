@@ -340,7 +340,7 @@
             <LinearLayout
                 android:id="@+id/ll_title"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal">
 
                 <FrameLayout
@@ -349,8 +349,8 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:layout_width="@dimen/dp20"
-                        android:layout_height="@dimen/dp30"
+                        android:layout_width="@dimen/dp15"
+                        android:layout_height="@dimen/dp20"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/dp15"
                         android:src="@drawable/ic_seckill_back" />

@@ -46,14 +46,14 @@ class HomeFragment : BaseMvpFragment() {
     lateinit var banner: BannerDataEntity
     private var mParams: Map<String, String> = ArrayMap()
     private var mIsLocationSuccess = false
-    private lateinit var loadingDialog: CustomProgressDialog
+  //  private lateinit var loadingDialog: CustomProgressDialog
 
     private var mLatitude = 0.0
     private var mLongitude = 0.0
     private var mGoLatitude = 0.0
     private var mGoLongitude = 0.0
 
-    private var locationClient: AMapLocationClient? = null
+   private var locationClient: AMapLocationClient? = null
 
     // 请求数据
     private var Inform_Target: PublicPresenter? = null
@@ -77,20 +77,13 @@ class HomeFragment : BaseMvpFragment() {
         get() = R.layout.home_fragment
 
     override fun initView(view: View?, savedInstanceState: Bundle?) {
-
-
-        Inform_Target = PublicPresenter(context, false, "")
+        Inform_Target = PublicPresenter(context, false, "加载中....")
         Inform_Target?.attachView(this)
 
         mLocationClient = LocationClient(context)
-        loadingDialog = CustomProgressDialog(context, "正在加载中...", R.drawable.loading_frame)
-        loadingDialog.window!!.setBackgroundDrawable(ColorDrawable())
-        loadingDialog.setLoadingDialogShow()
-
         option.locationPurpose = AMapLocationClientOption.AMapLocationPurpose.SignIn
         locationClient = AMapLocationClient(context)
         locationClient!!.setLocationOption(option)
-
         locationClient?.setLocationListener {
             when (it.errorCode) {
                 AMapLocation.LOCATION_SUCCESS -> {
@@ -112,23 +105,22 @@ class HomeFragment : BaseMvpFragment() {
         view?.findViewById<LinearLayout>(R.id.ll_refuel_order)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
 
-            startActivity(Intent(context, OrderRefurlActivity().javaClass))
-//            if (MyApplication.isLogin){
-//                startActivity(Intent(context, OrderRefurlActivity().javaClass))
-//            }else{
-//                startActivity(Intent(context,VsLoginActivity::class.java))
-//            }
+       //     startActivity(Intent(context, OrderRefurlActivity().javaClass))
+            if (MyApplication.isLogin){
+                startActivity(Intent(context, OrderRefurlActivity().javaClass))
+            }else{
+                startActivity(Intent(context,VsLoginActivity::class.java))
+            }
 
         }
         //我要赚钱
         view?.findViewById<LinearLayout>(R.id.ll_refuel_money)?.setOnClickListener {
             ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
-            startActivity(Intent(context, MakeMoneyActivity().javaClass))
-//            if (MyApplication.isLogin){
-//                startActivity(Intent(context, MakeMoneyActivity().javaClass))
-//            }else{
-//                startActivity(Intent(context,VsLoginActivity::class.java))
-//            }
+            if (MyApplication.isLogin){
+                startActivity(Intent(context, MakeMoneyActivity().javaClass))
+            }else{
+                startActivity(Intent(context,VsLoginActivity::class.java))
+            }
 
         }
 
@@ -155,7 +147,7 @@ class HomeFragment : BaseMvpFragment() {
         RetrofitClient.getInstance(context).Api().banners.enqueue(object : RetrofitCallback<ResultEntity>() {
             @SuppressLint("LogNotTimber")
             override fun onNext(result: ResultEntity?) {
-                loadingDialog.setLoadingDialogDismiss()
+           //     loadingDialog.setLoadingDialogDismiss()
                 banner = JSON.parseObject(result!!.data.toString(), BannerDataEntity::class.java)
                 Log.d("RetrofitClient", banner.oil.get(0).imageUrl)
                 if (banner.oil == null || banner.oil.size === 0) {

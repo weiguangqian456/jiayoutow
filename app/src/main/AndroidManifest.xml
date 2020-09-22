@@ -138,6 +138,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" />
+         <!-- 加油站搜索 -->
+            <activity
+            android:name=".ui.activity.RefuelKotilActivity"
+            android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitle"
+            android:windowSoftInputMode="adjustPan" />
+
+
         <activity
             android:name=".ui.activity.WebPageNavigationActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"

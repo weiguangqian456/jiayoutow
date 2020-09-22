@@ -6,19 +6,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.activity.MoreReListActivity">
+
  <com.edawtech.jiayou.ui.custom.TitleView
      android:id="@+id/title_main_tv"
      android:layout_width="match_parent"
      android:layout_height="@dimen/TitleView_Height"
      android:background="@color/colorWhite"
      app:left_image="@mipmap/icon_titlebar_close"
+     app:right_image="@drawable/ic_more_refuel_serach"
      app:title_gravity="center"
      app:title_name="加油"
      app:title_textStyle="bold"
      app:title_text_color="@color/colorFontDark"
-     app:title_text_size="16sp"
-     app:right_image="@drawable/ic_more_refuel_serach"
-     />
+     app:title_text_size="16sp" />
+
  <LinearLayout
      android:id="@+id/ll_refuel_filtrate"
      android:layout_width="match_parent"
