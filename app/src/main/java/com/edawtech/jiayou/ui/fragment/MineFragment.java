@@ -136,6 +136,7 @@ public class MineFragment extends BaseMvpFragment {
         titles[10] = "售后客服";
     }
 
+
     /**
      * 适配器监听
      */
