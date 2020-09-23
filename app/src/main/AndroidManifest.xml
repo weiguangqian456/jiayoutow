@@ -103,10 +103,6 @@
             android:windowSoftInputMode="adjustPan" /> <!-- 我要赚钱 -->
         <activity
             android:name=".ui.activity.MakeMoneyActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <!-- 我要赚钱 -->
-        <activity
-            android:name=".ui.activity.MakeMoneyActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

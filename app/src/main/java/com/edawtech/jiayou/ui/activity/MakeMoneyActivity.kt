@@ -2,17 +2,12 @@ package com.edawtech.jiayou.ui.activity
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Bundle
 import com.edawtech.jiayou.R
 import com.edawtech.jiayou.config.base.BaseMvpActivity
 import com.edawtech.jiayou.config.constant.DfineAction
 import com.edawtech.jiayou.config.constant.VsUserConfig
-import com.edawtech.jiayou.config.home.dialog.CustomShareDialog
-import com.edawtech.jiayou.config.home.entity.CustomShareEntity
-import com.edawtech.jiayou.config.home.test.ShareListener
-import com.edawtech.jiayou.utils.tool.ToastUtil
 import kotlinx.android.synthetic.main.activity_make_money.*
 
 class MakeMoneyActivity : BaseMvpActivity() {
