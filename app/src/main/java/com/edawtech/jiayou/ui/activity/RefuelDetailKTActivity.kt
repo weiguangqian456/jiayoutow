@@ -123,7 +123,7 @@ class RefuelDetailKTActivity : BaseMvpActivity() {
         })
         fl_back.setOnClickListener { finish() }
         rtv_confirm.setOnClickListener {
-         if (MyApplication.isLogin)  isRefuelbalance() else startActivity(Intent(context,VsLoginActivity().javaClass))
+         if (MyApplication.isLogin)  isRefuelbalance() else startActivity(Intent(context,LoginActivity().javaClass))
         }
         iv_navigation.setOnClickListener { showMapPop(MoreReLis!!) }
 

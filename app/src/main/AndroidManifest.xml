@@ -116,10 +116,6 @@
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity android:name=".ui.activity.MyQcodeActivity"
-
-            android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.RefuelSearchActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"

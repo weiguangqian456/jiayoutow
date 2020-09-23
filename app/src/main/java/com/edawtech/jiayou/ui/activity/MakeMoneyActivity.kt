@@ -17,7 +17,7 @@ class MakeMoneyActivity : BaseMvpActivity() {
 
     override fun initView(savedInstanceState: Bundle?) {
         title_main_tv.leftBackImageTv.setOnClickListener { finish() }
-        iv_line_btn.setOnClickListener { startActivity(Intent(this@MakeMoneyActivity, MyQcodeActivity().javaClass)) }
+        iv_line_btn.setOnClickListener { startActivity(Intent(this@MakeMoneyActivity, KcMyQcodeActivity().javaClass)) }
         iv_invite.setOnClickListener {  }
 
     }
