@@ -61,7 +61,7 @@ public class HttpRequest {
     }
 
     public static HashMap<String, Object> OrderRefurlist(String phone, String pageSize,
-                                                         String pageNum, String version) {
+                                                         String pageNum, String version,String name) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("phone", phone);
         params.put("pageSize", pageSize);
@@ -69,6 +69,7 @@ public class HttpRequest {
         params.put("version", version);
         params.put("uid", MyApplication.UID);
         params.put("appId",CommonParam.APP_ID);
+        params.put("orderStatusName",name);
         return params;
     }
 

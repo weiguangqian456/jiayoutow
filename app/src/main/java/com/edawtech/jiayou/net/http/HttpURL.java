@@ -54,7 +54,8 @@ public class HttpURL {
     //加油金额
     public final static String refuelMoney = "/benefit/web/OrderController//selectGasStation";
 
-    public final static String  OrderZhuBangquery ="benefit/web/CheZhuBangController/queryOrderInfo";
+    //佳油订单
+    public final static String OrderZhuBangquery = "benefit/web/CheZhuBangController/queryOrderInfo";
 
     // 验证是否有加油余额
     public final static String isRefuelbalance = "/benefit/web/OrderController/selectOrder";
@@ -66,6 +67,8 @@ public class HttpURL {
     // 根据加油金额获取界面金额信息
     public final static String queryPriceByGas = "benefit/web/OrderController/queryPriceByGas";
 
+    //取消订单
+    public final static String query_delete = "/benefit/web/CheZhuBangController/delete/";
 
 
 }

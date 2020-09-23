@@ -34,5 +34,6 @@
 	<color name="grid_state_pressed">#1Affffff</color>
 	<color name="grid_state_focused">#80000000</color>
 	<color name="article_row_text_color">#FF000000</color>
-	<color name="public_color_EC6941">#EC6941</color>
+	<color name="public_color_EC6941">#FFA13B</color>
+
 </resources>

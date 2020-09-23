@@ -2,12 +2,12 @@ package com.edawtech.jiayou.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.edawtech.jiayou.R
@@ -41,10 +41,17 @@ class OrderRefurlActivity : BaseMvpActivity() {
     var baseRecyclerAdapter: BaseRecyclerAdapter<OrderRefurlBean.OrderRefurlOrderList>? = null
 
     private var mAdapter: RefuelOrderAdapter? = null
-    private var mHeaderView: HolderView? = null
+
     var mTvAccumulateConsumption: TextView? = null
 
     var mTvTvAccumulateRefuel: TextView? = null
+    
+    private var mHttpPage = 1
+
+    var mtallText: TextView? = null
+    var mTtextpaid: TextView? = null
+    var mTreimburset: TextView? = null
+    var name : String  =""
 
     override val layoutId: Int
         get() = R.layout.activity_order_refurl
@@ -59,7 +66,6 @@ class OrderRefurlActivity : BaseMvpActivity() {
         mTvAccumulateConsumption = headerView.findViewById(R.id.tv_accumulate_consumption)
         mTvTvAccumulateRefuel = headerView.findViewById(R.id.tv_tv_accumulate_refuel)
 
-        mHeaderView = HolderView(headerView)
         mAdapter = RefuelOrderAdapter(this@OrderRefurlActivity)
 
         tv_invoice.setOnClickListener { Dialgon() }
@@ -78,7 +84,7 @@ class OrderRefurlActivity : BaseMvpActivity() {
                 mTvPayStatus?.text = data?.orderStatusName
                 holder?.getView<LinearLayout>(R.id.oder_linear)?.setOnClickListener {
                     ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)
-                    startActivity(Intent(context,OrderDetailActivity().javaClass).putExtra("OrderDetail",JsonHelper.newtoJson(data)))
+                    startActivity(Intent(context, OrderDetailActivity().javaClass).putExtra("OrderDetail", JsonHelper.newtoJson(data)))
                 }
 
 
@@ -86,10 +92,23 @@ class OrderRefurlActivity : BaseMvpActivity() {
         }
         rv_load.adapter = baseRecyclerAdapter
         rv_load.addHeaderView(headerView)
-        newData()
+        newData("")
+        mtallText = headerView.findViewById(R.id.allText)
+        mTtextpaid = headerView.findViewById(R.id.textpaid)
+        mTreimburset = headerView.findViewById(R.id.reimbursetext)
 
-
-
+        mtallText?.setOnClickListener(onClickListener)
+        mTtextpaid?.setOnClickListener(onClickListener)
+        mTreimburset?.setOnClickListener(onClickListener)
+        srl_load.setOnRefreshListener {
+            mHttpPage = 1
+            newData(name)
+        }
+        rv_load.useDefaultLoadMore()
+        rv_load.loadMoreFinish(false, true)
+        rv_load.setLoadMoreListener {  mHttpPage++
+            newData(name)
+        }
     }
 
     override fun onDestroy() {
@@ -101,8 +120,12 @@ class OrderRefurlActivity : BaseMvpActivity() {
 
     @SuppressLint("LogNotTimber")
     override fun onSuccess(data: String?) {
-        var ordeRefurl: OrderRefurlBean = GsonUtils.getGson().fromJson(data, OrderRefurlBean().javaClass)
+        srl_load.isRefreshing =false
 
+        var ordeRefurl: OrderRefurlBean = GsonUtils.getGson().fromJson(data, OrderRefurlBean().javaClass)
+           if (mHttpPage==1){
+               baseRecyclerAdapter?.clear()
+           }
         baseRecyclerAdapter?.setData(ordeRefurl.data?.orderList)
         mTvAccumulateConsumption?.text = ordeRefurl.data?.amountPaySum
         mTvTvAccumulateRefuel?.text = ordeRefurl.data?.litreSum
@@ -120,19 +143,40 @@ class OrderRefurlActivity : BaseMvpActivity() {
                 .show()
     }
 
-    internal class HolderView(itemView: View?) {
-        @BindView(R.id.tv_accumulate_consumption)
-        var mTvAccumulateConsumption: TextView? = null
 
-        @BindView(R.id.tv_tv_accumulate_refuel)
-        var mTvTvAccumulateRefuel: TextView? = null
+    private fun IDStatView() {
+        mtallText?.setBackgroundResource(R.drawable.textback_bg_le1)
+        mTtextpaid?.setBackgroundColor(Color.parseColor("#EEEEEE"))
+        mTreimburset?.setBackgroundResource(R.drawable.textback_bg_re2)
+        mtallText?.setTextColor(Color.parseColor("#000000"))
+        mTtextpaid?.setTextColor(Color.parseColor("#000000"))
+        mTreimburset?.setTextColor(Color.parseColor("#000000"))
+    }
 
-        init {
-            ButterKnife.bind(this, itemView!!)
+    var onClickListener = View.OnClickListener { v ->
+        IDStatView()
+        when (v.id) {
+            R.id.allText -> {
+                name =""
+                mtallText?.setBackgroundResource(R.drawable.textback_bg_le)
+                mtallText?.setTextColor(Color.parseColor("#ffffff"))
+                newData(name)
+
+            }
+            R.id.textpaid -> {
+                name =""
+                mTtextpaid?.setBackgroundColor(Color.parseColor("#EC6941"))
+                mTtextpaid?.setTextColor(Color.parseColor("#ffffff"))
+            }
+            R.id.reimbursetext -> {
+                mTreimburset?.setBackgroundResource(R.drawable.textback_bg_re)
+                mTreimburset?.setTextColor(Color.parseColor("#ffffff"))
+            }
         }
     }
-  fun newData(){
-      Inform_Target?.netWorkRequestGet(HttpURL.OrderZhuBangquery, HttpRequest.OrderRefurlist(MyApplication.MOBILE, "10", "1", "8.3.11"))
 
-  }
+    fun newData(name : String) {
+        Inform_Target?.netWorkRequestGet(HttpURL.OrderZhuBangquery, HttpRequest.OrderRefurlist(MyApplication.MOBILE, "10", mHttpPage.toString(), "8.3.11",name))
+
+    }
 }

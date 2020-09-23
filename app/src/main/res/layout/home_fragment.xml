@@ -98,7 +98,7 @@
                                     android:text="距离最近"
                                     android:textColor="@color/public_color_white"
                                     android:textSize="@dimen/w_10_dip"
-                                    app:rv_backgroundColor="@color/public_color_999999"
+                                    app:rv_backgroundColor="#FFA13B"
                                     app:rv_cornerRadius="2dp"
                                     app:rv_isRippleEnable="false" />
 
