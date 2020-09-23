@@ -1,9 +1,5 @@
 package com.edawtech.jiayou.ui.activity;
 
-import androidx.annotation.ColorInt;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.ColorUtils;
-
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,65 +7,77 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.core.graphics.ColorUtils;
+
+import com.bumptech.glide.Glide;
 import com.edawtech.jiayou.R;
-import com.edawtech.jiayou.config.base.VsBaseActivity;
-import com.edawtech.jiayou.config.constant.VsUserConfig;
+import com.edawtech.jiayou.config.base.BaseMvpActivity;
+import com.edawtech.jiayou.config.base.MyApplication;
+import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
+import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.ScreenAdaptiveUtils;
-import com.edawtech.jiayou.utils.tool.CustomLog;
+import com.edawtech.jiayou.utils.tool.LogUtils;
+import com.edawtech.jiayou.utils.tool.ToastUtil;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 我的二维码
  */
-public class KcMyQcodeActivity extends VsBaseActivity {
+public class KcMyQcodeActivity extends BaseMvpActivity {
 
-    private TextView mVersionInfoTextView;// 版本号信息
-    private TextView mCheckUpgrade;// 检测更新
-    private TextView mKfMobileTextView;// 客服热线
-    private LinearLayout mKfMobileLinearLayout;
-    private TextView mMobileWapTextView;// 手机网站
-    private TextView mKfTime;// 客服时间
-    private TextView kfqq;// 客服qq
-    private static final char MSG_ID_SendUpgradeMsg = 0;
-    private final String TAG = "KcAboutActivity";
-    private ImageView mCreateView;
+    @BindView(R.id.iv_result)
+    ImageView ivResult;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+
+    private PublicPresenter mPresenter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int getLayoutId() {
+        return R.layout.activity_kc_my_qcode;
+    }
+
+    @Override
+    public void initView(@Nullable Bundle savedInstanceState) {
         //今日头条适配屏幕
         ScreenAdaptiveUtils.initCustomDensity(this, getApplication());
-        setContentView(R.layout.activity_kc_my_qcode);
-        initStatusBar(Color.parseColor("#EC491F"));
-//        initTitleNavBar();
-//        showLeftNavaBtn(R.drawable.icon_back);
-//        mTitleTextView.setText("我的二维码");
-        // String mRecommendInfo = VsUserConfig.getDataString(mContext,
-        // VsUserConfig.JKey_FRIEND_INVITE);
-        ((TextView)findViewById(R.id.tv_title)).setText("我的二维码");
-        findViewById(R.id.fl_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        String mRecommendInfo = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_GET_MY_SHARE);
-        String url = mRecommendInfo.substring(mRecommendInfo.indexOf("http"), mRecommendInfo.length());
-        CustomLog.i("123", url);
-        mCreateView = (ImageView) findViewById(R.id.iv_result);
-        mCreateView.setImageBitmap(createQRImage(url, 800, 800));
+        initStatusBar(Color.parseColor("#ED3328"));
+        mPresenter = new PublicPresenter(this, true, "加载中...");
+        mPresenter.attachView(this);
+        tvTitle.setText("我的二维码");
+        getQrCode();
+    }
 
-
-//        VsApplication.getInstance().addActivity(this);// 保存所有添加的activity。倒是后退出的时候全部关闭
+    /**
+     * 获取二维码
+     *
+     * @param
+     */
+    private void getQrCode() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("appId", CommonParam.APP_ID);
+        map.put("uid", MyApplication.UID);
+        map.put("type", "ere");
+        map.put("phone", MyApplication.MOBILE);
+        mPresenter.netWorkRequestGet(CommonParam.GET_QR_CODE, map);
     }
 
     private void initStatusBar(@ColorInt int color) {
@@ -86,6 +94,7 @@ public class KcMyQcodeActivity extends VsBaseActivity {
             }
         }
     }
+
     /**
      * 生成二维码 要转换的地址或字符串,可以是中文
      *
@@ -124,5 +133,39 @@ public class KcMyQcodeActivity extends VsBaseActivity {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @OnClick(R.id.iv_back)
+    public void onViewClicked() {
+        finish();
+    }
+
+    @Override
+    public void onSuccess(String data) {
+        LogUtils.i("fxx", "二维码获取成功   data=" + data);
+        try {
+            JSONObject json = new JSONObject(data);
+            JSONObject jsonData = json.getJSONObject("data");
+            String path = jsonData.getString("imagePath");
+            path = CommonParam.UPLOAD_HEAD_URL + path;
+            Glide.with(this)
+                    .load(path)
+                    .centerCrop()
+                    .into(ivResult);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onFailure(Throwable e, int code, String msg, boolean isNetWorkError) {
+        LogUtils.i("fxx", "二维码获取失败   code=" + code + "   msg=" + msg + "   isNetWorkError=" + isNetWorkError);
+        ToastUtil.showMsg(msg);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.detachView();
+        super.onDestroy();
     }
 }

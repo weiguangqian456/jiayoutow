@@ -60,7 +60,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         setContentView(R.layout.weixin_pay_result);
         mMsgTV = (TextView) findViewById(R.id.message);
 
-        api = WXAPIFactory.createWXAPI(this, DfineAction.WEIXIN_APPID);
+//        api = WXAPIFactory.createWXAPI(this, DfineAction.WEIXIN_APPID);
+        api = WXAPIFactory.createWXAPI(this, "wxea1421f991b07deb");
 
         api.handleIntent(getIntent(), this);
 

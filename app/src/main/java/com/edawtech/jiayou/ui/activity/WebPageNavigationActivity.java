@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,9 +24,6 @@ import com.edawtech.jiayou.ui.custom.X5WebView;
 import com.edawtech.jiayou.ui.statusbar.WebPageNavigationJsObject;
 import com.edawtech.jiayou.utils.tool.ArmsUtils;
 import com.google.gson.Gson;
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
 
 
 import org.jetbrains.annotations.Nullable;
@@ -80,12 +80,12 @@ public class WebPageNavigationActivity extends BaseActivity {
 
     private void setWebViewListener() {
 
+
         mOilStationId = getIntent().getStringExtra("OIL_STATION_ID");
         mOilStationName = getIntent().getStringExtra("OIL_STATION_NAME");
         mOilNnme = getIntent().getStringExtra("OIL_NAME");
         mGunNo = getIntent().getStringExtra("GUN_NO");
-
-        mPhone =MyApplication.MOBILE;
+        mPhone = VsUserConfig.getDataString(mContext, VsUserConfig.JKey_PhoneNumber);
 
         //加载的url按规定的使用即可
         mX5Webview.loadUrl("https://open.czb365.com/redirection/todo/?platformType=92655483&platformCode=" + mPhone + "&gasId=" + mOilStationId + "&gunNo=" + mGunNo + "");
@@ -185,7 +185,6 @@ public class WebPageNavigationActivity extends BaseActivity {
 
                     }
                 });
-
     }
 
     //返回键监听
@@ -200,15 +199,15 @@ public class WebPageNavigationActivity extends BaseActivity {
 
     //返回上一级
     public void goBack() {
-        if (mX5Webview.canGoBack()) {
-            mX5Webview.goBack();
-            if (mX5Webview.getUrl().startsWith("http://m.amap.com") || mX5Webview.getUrl().startsWith("http://ditu.amap.com/") ||
-                    mX5Webview.getUrl().startsWith("https://m.amap.com") || mX5Webview.getUrl().startsWith("https://ditu.amap.com/")) {
-                mX5Webview.goBack();
-            }
-        } else {
-            finish();
-        }
+//        if (mX5Webview.canGoBack()) {
+//            mX5Webview.goBack();
+//            if (mX5Webview.getUrl().startsWith("http://m.amap.com") || mX5Webview.getUrl().startsWith("http://ditu.amap.com/") ||
+//                    mX5Webview.getUrl().startsWith("https://m.amap.com") || mX5Webview.getUrl().startsWith("https://ditu.amap.com/")) {
+//                mX5Webview.goBack();
+//            }
+//        } else {
+//            finish();
+//        }
     }
 
     @OnClick({R.id.fl_back})

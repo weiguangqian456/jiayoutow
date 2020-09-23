@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vs_bg_color">
+
+    <com.edawtech.jiayou.widgets.MyRecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/vs_bg_color"/>
+
+    <!--空白界面-->
+    <RelativeLayout
+        android:id="@+id/rl_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/vs_bg_color"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/iv_no_content"
+            android:layout_width="@dimen/w_195_dip"
+            android:layout_height="@dimen/w_109_dip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/w_85_dip"
+            android:src="@drawable/model_account_blank" />
+
+        <TextView
+            android:id="@+id/tv_no_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_no_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp15"
+            android:text="暂无成长金记录~"
+            android:textColor="#828688"
+            android:textSize="@dimen/w_16_dip" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

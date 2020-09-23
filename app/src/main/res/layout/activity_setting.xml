@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color">
+
+    <include
+        android:id="@+id/il"
+        layout="@layout/activity_title" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/il"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.67dp"
+            android:background="@color/vs_line_color" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.67dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/vs_line_color" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/change_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp45"
+                android:drawableRight="@drawable/vs_right_icon"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp20"
+                android:paddingRight="@dimen/dp15"
+                android:text="@string/vs_setiong_pwd_str"
+                android:textColor="@color/TextBlack"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.67dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/vs_line_color" />
+
+
+            <TextView
+                android:id="@+id/about_us"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp45"
+                android:drawableRight="@drawable/vs_right_icon"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp20"
+                android:paddingRight="@dimen/dp15"
+                android:text="@string/vs_about_help_customer"
+                android:textColor="@color/TextBlack"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.67dp"
+                android:background="@color/vs_line_color" />
+
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.67dp"
+            android:layout_marginTop="40dp"
+            android:background="@color/vs_line_color" />
+
+        <TextView
+            android:id="@+id/exit_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp55"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/vs_setiong_exit_str"
+            android:textColor="@color/activity_title_color"
+            android:textSize="15sp"
+            android:background="@color/white"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.67dp"
+            android:background="@color/vs_line_color" />
+    </LinearLayout>
+
+</RelativeLayout>

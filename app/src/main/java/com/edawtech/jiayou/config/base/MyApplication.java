@@ -1,6 +1,5 @@
 package com.edawtech.jiayou.config.base;
 
-import android.app.Activity;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
+import android.os.StrictMode;
 
 import androidx.annotation.NonNull;
 import androidx.camera.camera2.Camera2Config;
@@ -23,6 +23,7 @@ import com.luck.picture.lib.app.IApp;
 import com.luck.picture.lib.app.PictureAppMaster;
 import com.luck.picture.lib.crash.PictureSelectorCrashUtils;
 import com.luck.picture.lib.engine.PictureSelectorEngine;
+import com.mob.MobSDK;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
@@ -31,6 +32,7 @@ import com.scwang.smart.refresh.layout.api.RefreshHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
+
 
 
 public class MyApplication extends Application implements IApp, CameraXConfig.Provider {
@@ -91,6 +93,15 @@ public class MyApplication extends Application implements IApp, CameraXConfig.Pr
 
         //64k方法限制
         MultiDex.install(this);
+
+        //允许7.0手机打开手机下的文件路径  否则将进不去拍照功能
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            StrictMode.VmPolicy.Builder b = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(b.build());
+        }
+
+        //Mob分享初始化
+        MobSDK.init(this);
 
     }
 

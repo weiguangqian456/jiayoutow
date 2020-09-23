@@ -239,6 +239,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
+            android:drawablePadding="@dimen/dp15"
             android:drawableTop="@drawable/redpag_back"
             android:text="您还没有收到成长金哦"
             android:textColor="#90000000"

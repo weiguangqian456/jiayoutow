@@ -2,7 +2,6 @@ package com.edawtech.jiayou.ui.activity
 
 import android.os.Bundle
 import android.view.MotionEvent
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.edawtech.jiayou.R
@@ -11,7 +10,6 @@ import com.edawtech.jiayou.config.base.MyApplication
 import com.edawtech.jiayou.config.event.MainFragmentEvent
 import com.edawtech.jiayou.ui.fragment.HomeFragment
 import com.edawtech.jiayou.ui.fragment.MineFragment
-import com.edawtech.jiayou.ui.fragment.MyFragment
 import com.edawtech.jiayou.ui.statusbar.StatusBarUtil
 import com.edawtech.jiayou.utils.CommonParam
 import com.edawtech.jiayou.utils.LogUtils
@@ -57,15 +55,21 @@ class MainActivity : BaseMvpActivity() {
             switchFragment(1)
         }
         //拿到本地用户信息  赋值全局
+        var uid = ""
         val sp = SharePreferencesHelper(mContext, CommonParam.SP_NAME)
-        val uid = sp.getSharePreference("uid","")
-        val isLogin = sp.getSharePreference("isLogin",false)
-        val mobile = sp.getSharePreference("mobile","")
+        uid = if (sp.getSharePreference("uid", "") != null) {
+            sp.getSharePreference("uid", "") as String
+        } else{
+            //默认值
+            "%22%22"
+        }
+        val isLogin = sp.getSharePreference("isLogin", false)
+        val mobile = sp.getSharePreference("mobile", "")
         LogUtils.e("fxx", "uid=$uid   isLogin=$isLogin     mobile=$mobile")
         if (uid != "" || isLogin != false || mobile != "")
             MyApplication.UID = uid as String?
-            MyApplication.isLogin = isLogin as Boolean
-            MyApplication.MOBILE = mobile as String?
+        MyApplication.isLogin = isLogin as Boolean
+        MyApplication.MOBILE = mobile as String?
     }
 
     override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
@@ -82,7 +86,6 @@ class MainActivity : BaseMvpActivity() {
     private fun initFragment() {
         // 初始化Fragment。
         TabFragment1 = HomeFragment()
-//        TabFragment2 = MyFragment()
         TabFragment2 = MineFragment()
 
         /**
@@ -109,11 +112,11 @@ class MainActivity : BaseMvpActivity() {
     fun resetBtn() {
 
         // 初始化栏目图标
-        iv_Tab1.setImageResource(R.mipmap.dudujiayou2x)
-        tv_Tab1.setTextColor(resources.getColor(R.color.colorLineBox)) // 设置字体颜色
+        iv_Tab1.setImageResource(R.drawable.ic_home_gray)
+        tv_Tab1.setTextColor(resources.getColor(R.color.menu_bar_default_color)) // 设置字体颜色
 
-        iv_Tab2.setImageResource(R.mipmap.icon_home_mine_n)
-        tv_Tab2.setTextColor(resources.getColor(R.color.colorLineBox)) // 设置字体颜色
+        iv_Tab2.setImageResource(R.drawable.ic_my_gray)
+        tv_Tab2.setTextColor(resources.getColor(R.color.menu_bar_default_color)) // 设置字体颜色
 
         // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
         fragmentTransaction!!.hide(TabFragment1)
@@ -130,14 +133,14 @@ class MainActivity : BaseMvpActivity() {
         resetBtn()
         when (page) {
             0 -> {
-                iv_Tab1.setImageResource(R.mipmap.dudujiayou2x)
-                tv_Tab1.setTextColor(resources.getColor(R.color.TextYellow))
+                iv_Tab1.setImageResource(R.drawable.ic_home_blue)
+                tv_Tab1.setTextColor(resources.getColor(R.color.activity_title_color))
                 // 设置要显示的Fragment
                 fragmentTransaction!!.show(TabFragment1)
             }
             1 -> {
-                iv_Tab2.setImageResource(R.mipmap.icon_home_mine_y)
-                tv_Tab2.setTextColor(resources.getColor(R.color.TextYellow))
+                iv_Tab2.setImageResource(R.drawable.ic_my_blue)
+                tv_Tab2.setTextColor(resources.getColor(R.color.activity_title_color))
                 // 设置要显示的Fragment
                 fragmentTransaction!!.show(TabFragment2)
             }

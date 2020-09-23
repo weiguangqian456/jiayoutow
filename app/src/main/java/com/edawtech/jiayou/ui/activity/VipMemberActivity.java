@@ -51,20 +51,6 @@ import com.edawtech.jiayou.ui.adapter.ShareAdapter;
 import com.edawtech.jiayou.ui.fastjson.FastJsonConverterFactory;
 import com.edawtech.jiayou.utils.tool.CoreBusiness;
 import com.edawtech.jiayou.utils.tool.VsUtil;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners;
-import com.umeng.socialize.media.QQShareContent;
-import com.umeng.socialize.media.QZoneShareContent;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.sso.QZoneSsoHandler;
-import com.umeng.socialize.sso.UMQQSsoHandler;
-import com.umeng.socialize.sso.UMSsoHandler;
-import com.umeng.socialize.weixin.controller.UMWXHandler;
-import com.umeng.socialize.weixin.media.CircleShareContent;
-import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -183,8 +169,8 @@ public class VipMemberActivity extends TempAppCompatActivity implements View.OnC
     private ShareAdapter shareAdapter;
     private List<ShareItemBean> shareInfos = new ArrayList<>();
 
-    final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
-    SocializeListeners.SnsPostListener mSnsPostListener = null;
+//    final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share");
+//    SocializeListeners.SnsPostListener mSnsPostListener = null;
 
     private String baseUrl;
     /**
@@ -439,19 +425,19 @@ public class VipMemberActivity extends TempAppCompatActivity implements View.OnC
         initShareDialog();
         initShareContent();
 
-        mSnsPostListener = new SocializeListeners.SnsPostListener() {
-            @Override
-            public void onStart() {
-            }
-
-            @Override
-            public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
-                if (eCode == 200) {
-                    Log.e(TAG, "分享监听完成");
-                }
-            }
-        };
-        mController.registerListener(mSnsPostListener);
+//        mSnsPostListener = new SocializeListeners.SnsPostListener() {
+//            @Override
+//            public void onStart() {
+//            }
+//
+//            @Override
+//            public void onComplete(SHARE_MEDIA platform, int eCode, SocializeEntity entity) {
+//                if (eCode == 200) {
+//                    Log.e(TAG, "分享监听完成");
+//                }
+//            }
+//        };
+//        mController.registerListener(mSnsPostListener);
 
         loadingDialog = new CustomProgressDialog(this, "正在加载中...", R.drawable.loading_frame);
         loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
@@ -463,63 +449,63 @@ public class VipMemberActivity extends TempAppCompatActivity implements View.OnC
     }
 
     private void initShareParams() {
-        //添加微信
-        UMWXHandler wxHandler = new UMWXHandler(VipMemberActivity.this, DfineAction.WEIXIN_APPID, DfineAction.WEIXIN_APPSECRET);
-        wxHandler.addToSocialSDK();
-
-        // 添加微信朋友圈
-        UMWXHandler wxCircleHandler = new UMWXHandler(VipMemberActivity.this, DfineAction.WEIXIN_APPID, DfineAction.WEIXIN_APPSECRET);
-        wxCircleHandler.setToCircle(true);
-        wxCircleHandler.addToSocialSDK();
-
-        //添加QQ
-        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(VipMemberActivity.this, DfineAction.QqAppId, DfineAction.QqAppKey);
-        qqSsoHandler.addToSocialSDK();
-
-        //添加空间
-        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(VipMemberActivity.this, DfineAction.QqAppId, DfineAction.QqAppKey);
-        qZoneSsoHandler.addToSocialSDK();
+//        //添加微信
+//        UMWXHandler wxHandler = new UMWXHandler(VipMemberActivity.this, DfineAction.WEIXIN_APPID, DfineAction.WEIXIN_APPSECRET);
+//        wxHandler.addToSocialSDK();
+//
+//        // 添加微信朋友圈
+//        UMWXHandler wxCircleHandler = new UMWXHandler(VipMemberActivity.this, DfineAction.WEIXIN_APPID, DfineAction.WEIXIN_APPSECRET);
+//        wxCircleHandler.setToCircle(true);
+//        wxCircleHandler.addToSocialSDK();
+//
+//        //添加QQ
+//        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(VipMemberActivity.this, DfineAction.QqAppId, DfineAction.QqAppKey);
+//        qqSsoHandler.addToSocialSDK();
+//
+//        //添加空间
+//        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(VipMemberActivity.this, DfineAction.QqAppId, DfineAction.QqAppKey);
+//        qZoneSsoHandler.addToSocialSDK();
     }
 
     private void initShareContent() {
-        String product = DfineAction.RES.getString(R.string.product);
-        String url = "";
-        if (shareContent().indexOf("http") > 0) {
-            url = shareContent().substring(shareContent().indexOf("http"));
-        }
-        // 设置微信好友分享内容
-        WeiXinShareContent weixinContent = new WeiXinShareContent();
-        weixinContent.setShareContent(shareContent());
-        weixinContent.setTitle(product);
-        weixinContent.setTargetUrl(url);
-        Bitmap iconMap = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
-        UMImage localImage = new UMImage(this, compressBitmap(iconMap));
-        weixinContent.setShareImage(localImage);
-        mController.setShareMedia(weixinContent);
-
-        // 设置微信朋友圈分享内容
-        CircleShareContent circleMedia = new CircleShareContent();
-        circleMedia.setShareContent(shareContent());// (product + "电话分享朋友圈");
-        circleMedia.setTitle(product);
-        circleMedia.setShareImage(localImage);
-        circleMedia.setTargetUrl(url);// DfineAction.WAPURI);
-        mController.setShareMedia(circleMedia);
-
-        // 设置QQ分享内容
-        QQShareContent qqShareContent = new QQShareContent();
-        qqShareContent.setShareContent(shareContent());// (product + "电话分享测试qq");
-        qqShareContent.setTitle(product);
-        qqShareContent.setTargetUrl(url);// DfineAction.WAPURI);
-        qqShareContent.setShareImage(localImage);
-        mController.setShareMedia(qqShareContent);
-
-        // 设置QQ空间分享内容
-        QZoneShareContent qZoneShareContent = new QZoneShareContent();
-        qZoneShareContent.setShareContent(shareContent());// (product + "电话分享qqZone");
-        qZoneShareContent.setTitle(product);
-        qZoneShareContent.setTargetUrl(url);// DfineAction.WAPURI);
-        qZoneShareContent.setShareImage(localImage);
-        mController.setShareMedia(qZoneShareContent);
+//        String product = DfineAction.RES.getString(R.string.product);
+//        String url = "";
+//        if (shareContent().indexOf("http") > 0) {
+//            url = shareContent().substring(shareContent().indexOf("http"));
+//        }
+//        // 设置微信好友分享内容
+//        WeiXinShareContent weixinContent = new WeiXinShareContent();
+//        weixinContent.setShareContent(shareContent());
+//        weixinContent.setTitle(product);
+//        weixinContent.setTargetUrl(url);
+//        Bitmap iconMap = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+//        UMImage localImage = new UMImage(this, compressBitmap(iconMap));
+//        weixinContent.setShareImage(localImage);
+//        mController.setShareMedia(weixinContent);
+//
+//        // 设置微信朋友圈分享内容
+//        CircleShareContent circleMedia = new CircleShareContent();
+//        circleMedia.setShareContent(shareContent());// (product + "电话分享朋友圈");
+//        circleMedia.setTitle(product);
+//        circleMedia.setShareImage(localImage);
+//        circleMedia.setTargetUrl(url);// DfineAction.WAPURI);
+//        mController.setShareMedia(circleMedia);
+//
+//        // 设置QQ分享内容
+//        QQShareContent qqShareContent = new QQShareContent();
+//        qqShareContent.setShareContent(shareContent());// (product + "电话分享测试qq");
+//        qqShareContent.setTitle(product);
+//        qqShareContent.setTargetUrl(url);// DfineAction.WAPURI);
+//        qqShareContent.setShareImage(localImage);
+//        mController.setShareMedia(qqShareContent);
+//
+//        // 设置QQ空间分享内容
+//        QZoneShareContent qZoneShareContent = new QZoneShareContent();
+//        qZoneShareContent.setShareContent(shareContent());// (product + "电话分享qqZone");
+//        qZoneShareContent.setTitle(product);
+//        qZoneShareContent.setTargetUrl(url);// DfineAction.WAPURI);
+//        qZoneShareContent.setShareImage(localImage);
+//        mController.setShareMedia(qZoneShareContent);
     }
 
     /**
@@ -637,20 +623,20 @@ public class VipMemberActivity extends TempAppCompatActivity implements View.OnC
             public void onItemClick(View view, int position) {
                 shareDialog.dismiss();
                 switch (position) {
-                    case 0: //微信好友
-                        shareToMedia(SHARE_MEDIA.WEIXIN);
-                        break;
-                    case 1://朋友圈
-                        shareToMedia(SHARE_MEDIA.WEIXIN_CIRCLE);
-                        break;
-                    case 2://QQ好友
-                        shareToMedia(SHARE_MEDIA.QQ);
-                        break;
-                    case 3://QQ空间
-                        shareToMedia(SHARE_MEDIA.QZONE);
-                        break;
-                    default:
-                        break;
+//                    case 0: //微信好友
+//                        shareToMedia(SHARE_MEDIA.WEIXIN);
+//                        break;
+//                    case 1://朋友圈
+//                        shareToMedia(SHARE_MEDIA.WEIXIN_CIRCLE);
+//                        break;
+//                    case 2://QQ好友
+//                        shareToMedia(SHARE_MEDIA.QQ);
+//                        break;
+//                    case 3://QQ空间
+//                        shareToMedia(SHARE_MEDIA.QZONE);
+//                        break;
+//                    default:
+//                        break;
                 }
             }
         });
@@ -672,13 +658,13 @@ public class VipMemberActivity extends TempAppCompatActivity implements View.OnC
         });
     }
 
-    private void shareToMedia(SHARE_MEDIA qzone) {
-        mController.postShare(VipMemberActivity.this, qzone, snsPostListener());
-    }
-
-    private SocializeListeners.SnsPostListener snsPostListener() {
-        return mSnsPostListener;
-    }
+//    private void shareToMedia(SHARE_MEDIA qzone) {
+//        mController.postShare(VipMemberActivity.this, qzone, snsPostListener());
+//    }
+//
+//    private SocializeListeners.SnsPostListener snsPostListener() {
+//        return mSnsPostListener;
+//    }
 
     private void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -695,10 +681,10 @@ public class VipMemberActivity extends TempAppCompatActivity implements View.OnC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode);
-        if (ssoHandler != null) {
-            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
+//        UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode);
+//        if (ssoHandler != null) {
+//            ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+//        }
     }
 
     /**

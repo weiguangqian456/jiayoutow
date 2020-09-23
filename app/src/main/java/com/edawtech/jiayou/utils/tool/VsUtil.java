@@ -74,7 +74,6 @@ import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentManager;
 
-import com.alibaba.fastjson.JSON;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
@@ -82,7 +81,6 @@ import com.edawtech.jiayou.BuildConfig;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.config.base.VsContactItem;
-import com.edawtech.jiayou.config.bean.RefuelDetail;
 import com.edawtech.jiayou.config.bean.ResultEntity;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.GlobalVariables;
@@ -93,7 +91,6 @@ import com.edawtech.jiayou.config.home.dialog.HintMessageNotV4Dialog;
 import com.edawtech.jiayou.retrofit.RetrofitClient;
 import com.edawtech.jiayou.ui.activity.LoginActivity;
 import com.edawtech.jiayou.ui.activity.MainActivity;
-import com.edawtech.jiayou.ui.activity.VsLoginActivity;
 import com.edawtech.jiayou.ui.activity.WeiboShareWebViewActivity;
 import com.edawtech.jiayou.ui.adapter.HomePageBannerViewHolder;
 import com.edawtech.jiayou.ui.dialog.CustomDialog;
@@ -1735,7 +1732,7 @@ public class VsUtil {
             // .getString(R.string.ok),
             // mContext.getResources().getString(R.string.cancel), new
             // LoginBtnClickListener(mContext), null, mContext);
-            Intent it = new Intent(mContext, VsLoginActivity.class);
+            Intent it = new Intent(mContext, LoginActivity.class);
             mContext.startActivity(it);
         } else {
             retbool = true;

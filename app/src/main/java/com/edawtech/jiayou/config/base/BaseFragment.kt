@@ -28,9 +28,13 @@ abstract class BaseFragment : Fragment() {
         // 绑定事件ButterKnife.bind(this)必须在setContentView();之后。
         unBinder = ButterKnife.bind(this, view)
         mContext = activity
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // 初始化视图
         initView(view, savedInstanceState)
-        return view
     }
 
     /**

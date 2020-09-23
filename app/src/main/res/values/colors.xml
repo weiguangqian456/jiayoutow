@@ -66,6 +66,7 @@
     <color name="colormap">#0084FF</color>
     <color name="colorpage">#C7C7CC</color>
     <color name="colorRed_txte">#FFFFFF</color>
+    <color name="menu_bar_default_color">#ABABAB</color>
 
 
     <color name="black">#000000</color>
@@ -208,7 +209,7 @@
     <!-- 半透明背景s9 -->
     <color name="vs_lucency_half">#eeeeee</color>
     <!-- 线的颜色 -->
-    <color name="vs_line_color">#e5e5e5</color>
+    <color name="vs_line_color">#E3E3E3</color>
     <!-- 半透明背景 -->
     <color name="vs_lucency_half2">#5fffffff</color>
     <!-- 透明 -->
@@ -474,6 +475,8 @@
     <color name="public_color_E4E4E4">#E4E4E4</color>
     <color name="public_color_E21A38">#E21A38</color>
     <color name="text_color">#1D1D1D</color>
+    <color name="activity_title_color">#2F95F8</color>
+    <color name="activity_bg_color">#E7E7E7</color>
 
 
 </resources>

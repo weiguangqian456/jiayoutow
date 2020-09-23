@@ -16,22 +16,6 @@ import android.widget.Toast;
 
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.constant.DfineAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeEntity;
-import com.umeng.socialize.controller.UMServiceFactory;
-import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners;
-import com.umeng.socialize.media.QQShareContent;
-import com.umeng.socialize.media.QZoneShareContent;
-import com.umeng.socialize.media.SinaShareContent;
-import com.umeng.socialize.media.SmsShareContent;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.sso.QZoneSsoHandler;
-import com.umeng.socialize.sso.SmsHandler;
-import com.umeng.socialize.sso.UMQQSsoHandler;
-import com.umeng.socialize.weixin.controller.UMWXHandler;
-import com.umeng.socialize.weixin.media.CircleShareContent;
-import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -47,59 +31,59 @@ import java.util.Map;
  */
 public class VsMyExChangeAdapter extends BaseAdapter {
     private ArrayList<Map<String,Object>> data;
-    private UMSocialService mController;
+//    private UMSocialService mController;
     private Context ctx;
     private ClipboardManager mClipboard = null;
-    private SocializeListeners.SnsPostListener mShareListener = new SocializeListeners.SnsPostListener() {
-        @Override
-        public void onStart() {
-
-        }
-
-        @Override
-        public void onComplete(SHARE_MEDIA share_media, int eCode,
-                               SocializeEntity socializeEntity) {
-
-            if (eCode == 200) {
-                if (!"SINA".equals(share_media.name())
-                        && !"SMS".equals(share_media.name())) {
-                    Toast.makeText(ctx, "分享成功", Toast.LENGTH_LONG)
-                            .show();
-                }
-            } else {
-                String eMsg = "";
-                switch (eCode) {
-                    case -101:
-                        eMsg = "没有Oauth授权";
-                        break;
-                    case -102:
-                        eMsg = "未知错误";
-                        break;
-                    case -103:
-                        eMsg = "服务器没响应";
-                        break;
-                    case -104:
-                        eMsg = "初始化失败";
-                        break;
-                    case -105:
-                        eMsg = "参数错误";
-                        break;
-                    case 40000:
-                        eMsg = "取消分享";
-                        break;
-                    default:
-                        break;
-                }
-
-                // if (!"QZONE".equals(share_media.name()) &&
-                // !"QQ".equals(share_media.name())/* &&
-                // !"SINA".equals(share_media.name())*/) {
-                Toast.makeText(ctx, eMsg, Toast.LENGTH_SHORT).show();
-                // }
-            }
-
-        }
-    };
+//    private SocializeListeners.SnsPostListener mShareListener = new SocializeListeners.SnsPostListener() {
+//        @Override
+//        public void onStart() {
+//
+//        }
+//
+//        @Override
+//        public void onComplete(SHARE_MEDIA share_media, int eCode,
+//                               SocializeEntity socializeEntity) {
+//
+//            if (eCode == 200) {
+//                if (!"SINA".equals(share_media.name())
+//                        && !"SMS".equals(share_media.name())) {
+//                    Toast.makeText(ctx, "分享成功", Toast.LENGTH_LONG)
+//                            .show();
+//                }
+//            } else {
+//                String eMsg = "";
+//                switch (eCode) {
+//                    case -101:
+//                        eMsg = "没有Oauth授权";
+//                        break;
+//                    case -102:
+//                        eMsg = "未知错误";
+//                        break;
+//                    case -103:
+//                        eMsg = "服务器没响应";
+//                        break;
+//                    case -104:
+//                        eMsg = "初始化失败";
+//                        break;
+//                    case -105:
+//                        eMsg = "参数错误";
+//                        break;
+//                    case 40000:
+//                        eMsg = "取消分享";
+//                        break;
+//                    default:
+//                        break;
+//                }
+//
+//                // if (!"QZONE".equals(share_media.name()) &&
+//                // !"QQ".equals(share_media.name())/* &&
+//                // !"SINA".equals(share_media.name())*/) {
+//                Toast.makeText(ctx, eMsg, Toast.LENGTH_SHORT).show();
+//                // }
+//            }
+//
+//        }
+//    };
 
     public VsMyExChangeAdapter(Context ctx, ArrayList<Map<String,Object>> data){
         this.ctx = ctx;
@@ -184,17 +168,17 @@ public class VsMyExChangeAdapter extends BaseAdapter {
 
 
     private void initShare(String card_pwd) {
-        String product = DfineAction.RES.getString(R.string.product);
-        mController = UMServiceFactory.getUMSocialService("com.umeng.share");
-        // 添加微信平台
-        UMWXHandler wxHandler = new UMWXHandler((Activity)ctx,
-                DfineAction.WEIXIN_APPID, DfineAction.WEIXIN_APPSECRET);
-        wxHandler.addToSocialSDK();
-        // 添加微信朋友圈
-        UMWXHandler wxCircleHandler = new UMWXHandler((Activity)ctx,
-                DfineAction.WEIXIN_APPID, DfineAction.WEIXIN_APPSECRET);
-        wxCircleHandler.setToCircle(true);
-        wxCircleHandler.addToSocialSDK();
+//        String product = DfineAction.RES.getString(R.string.product);
+//        mController = UMServiceFactory.getUMSocialService("com.umeng.share");
+//        // 添加微信平台
+//        UMWXHandler wxHandler = new UMWXHandler((Activity)ctx,
+//                DfineAction.WEIXIN_APPID, DfineAction.WEIXIN_APPSECRET);
+//        wxHandler.addToSocialSDK();
+//        // 添加微信朋友圈
+//        UMWXHandler wxCircleHandler = new UMWXHandler((Activity)ctx,
+//                DfineAction.WEIXIN_APPID, DfineAction.WEIXIN_APPSECRET);
+//        wxCircleHandler.setToCircle(true);
+//        wxCircleHandler.addToSocialSDK();
 //			String url = "";
 //			if (shareContent().indexOf("http")>0) {
 //			 url = shareContent().substring(shareContent().indexOf("http"));
@@ -202,69 +186,69 @@ public class VsMyExChangeAdapter extends BaseAdapter {
 //		}
 
         // 设置微信好友分享内容
-        WeiXinShareContent weixinContent = new WeiXinShareContent();
-        weixinContent.setShareContent(card_pwd);//product + "电话微信分享");
-        weixinContent.setTitle(product);
-//			weixinContent.setTargetUrl(url);//DfineAction.WAPURI);
-        UMImage localImage = new UMImage((Activity)ctx, R.drawable.icon);
-        weixinContent.setShareImage(localImage);
-        mController.setShareMedia(weixinContent);
-
-        // 设置微信朋友圈分享内容
-        CircleShareContent circleMedia = new CircleShareContent();
-        circleMedia.setShareContent(card_pwd);//product + "电话分享朋友圈");
-        circleMedia.setTitle(product);
-        circleMedia.setShareImage(localImage);
-//			circleMedia.setTargetUrl(url);
-        mController.setShareMedia(circleMedia);
-
-        // 添加QQ分享
-        String qqAppId = DfineAction.QqAppId;
-        String qqAppKey = DfineAction.QqAppKey;
-        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler((Activity)ctx,
-                qqAppId, qqAppKey);
-        qqSsoHandler.addToSocialSDK();
-        // 设置分享内容
-        QQShareContent qqShareContent = new QQShareContent();
-        qqShareContent.setShareContent(card_pwd);//product + "电话分享测试qq");
-        qqShareContent.setTitle(product);
-//			qqShareContent.setTargetUrl(url);
-        qqShareContent.setShareImage(localImage);
-        mController.setShareMedia(qqShareContent);
-
-        // 添加QQ空间分享
-        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler((Activity)ctx,
-                qqAppId, qqAppKey);
-        qZoneSsoHandler.addToSocialSDK();
-        // 设置分享内容
-        QZoneShareContent qZoneShareContent = new QZoneShareContent();
-        qZoneShareContent.setShareContent(card_pwd);//product + "电话分享qqZone");
-        qZoneShareContent.setTitle(product);
-//			qZoneShareContent.setTargetUrl(url);
-        qZoneShareContent.setShareImage(localImage);
-        mController.setShareMedia(qZoneShareContent);
-        //
-        // //添加SMSfenx分享
-        SmsHandler smsHandler = new SmsHandler();
-        smsHandler.addToSocialSDK();
-        // 设置短信分享内容
-        SmsShareContent smsShareContent = new SmsShareContent();
-        smsShareContent.setShareContent(card_pwd);//product + "电话短信分享");
-        mController.setShareMedia(smsShareContent);
-
-        // 添加新浪微博分享
-//			SinaSsoHandler sinaSsoHandler = new SinaSsoHandler();
-//			sinaSsoHandler.addToSocialSDK();
-//			// 设置新浪SSO handler
-//			mController.getConfig().setSsoHandler(sinaSsoHandler);
-
-        // 设置分享内容
-        SinaShareContent sinaShareContent = new SinaShareContent();
-        sinaShareContent.setShareContent(card_pwd);//product + "电话分享Sina");
-        sinaShareContent.setTitle("        T.M.");
-//			sinaShareContent.setTargetUrl(url);
-        sinaShareContent.setShareImage(localImage);
-        mController.setShareMedia(sinaShareContent);
+//        WeiXinShareContent weixinContent = new WeiXinShareContent();
+//        weixinContent.setShareContent(card_pwd);//product + "电话微信分享");
+//        weixinContent.setTitle(product);
+////			weixinContent.setTargetUrl(url);//DfineAction.WAPURI);
+//        UMImage localImage = new UMImage((Activity)ctx, R.drawable.icon);
+//        weixinContent.setShareImage(localImage);
+//        mController.setShareMedia(weixinContent);
+//
+//        // 设置微信朋友圈分享内容
+//        CircleShareContent circleMedia = new CircleShareContent();
+//        circleMedia.setShareContent(card_pwd);//product + "电话分享朋友圈");
+//        circleMedia.setTitle(product);
+//        circleMedia.setShareImage(localImage);
+////			circleMedia.setTargetUrl(url);
+//        mController.setShareMedia(circleMedia);
+//
+//        // 添加QQ分享
+//        String qqAppId = DfineAction.QqAppId;
+//        String qqAppKey = DfineAction.QqAppKey;
+//        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler((Activity)ctx,
+//                qqAppId, qqAppKey);
+//        qqSsoHandler.addToSocialSDK();
+//        // 设置分享内容
+//        QQShareContent qqShareContent = new QQShareContent();
+//        qqShareContent.setShareContent(card_pwd);//product + "电话分享测试qq");
+//        qqShareContent.setTitle(product);
+////			qqShareContent.setTargetUrl(url);
+//        qqShareContent.setShareImage(localImage);
+//        mController.setShareMedia(qqShareContent);
+//
+//        // 添加QQ空间分享
+//        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler((Activity)ctx,
+//                qqAppId, qqAppKey);
+//        qZoneSsoHandler.addToSocialSDK();
+//        // 设置分享内容
+//        QZoneShareContent qZoneShareContent = new QZoneShareContent();
+//        qZoneShareContent.setShareContent(card_pwd);//product + "电话分享qqZone");
+//        qZoneShareContent.setTitle(product);
+////			qZoneShareContent.setTargetUrl(url);
+//        qZoneShareContent.setShareImage(localImage);
+//        mController.setShareMedia(qZoneShareContent);
+//        //
+//        // //添加SMSfenx分享
+//        SmsHandler smsHandler = new SmsHandler();
+//        smsHandler.addToSocialSDK();
+//        // 设置短信分享内容
+//        SmsShareContent smsShareContent = new SmsShareContent();
+//        smsShareContent.setShareContent(card_pwd);//product + "电话短信分享");
+//        mController.setShareMedia(smsShareContent);
+//
+//        // 添加新浪微博分享
+////			SinaSsoHandler sinaSsoHandler = new SinaSsoHandler();
+////			sinaSsoHandler.addToSocialSDK();
+////			// 设置新浪SSO handler
+////			mController.getConfig().setSsoHandler(sinaSsoHandler);
+//
+//        // 设置分享内容
+//        SinaShareContent sinaShareContent = new SinaShareContent();
+//        sinaShareContent.setShareContent(card_pwd);//product + "电话分享Sina");
+//        sinaShareContent.setTitle("        T.M.");
+////			sinaShareContent.setTargetUrl(url);
+//        sinaShareContent.setShareImage(localImage);
+//        mController.setShareMedia(sinaShareContent);
     }
 
 
