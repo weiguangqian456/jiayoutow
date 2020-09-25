@@ -195,12 +195,12 @@ public class MineFragment extends BaseMvpFragment {
                     if (mUserInfo != null) {
                         EventBus.getDefault().postSticky(mUserInfo);
                     }
+
                     if (Build.VERSION.SDK_INT >= 21) {
                         startActivity(new Intent(mContext, UserInfoActivity.class), ActivityOptions.makeSceneTransitionAnimation(getActivity(), ivUserIcon, "icon").toBundle());
                     } else {
                         startActivity(new Intent(mContext, UserInfoActivity.class));
                     }
-
                 } else {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt4));
