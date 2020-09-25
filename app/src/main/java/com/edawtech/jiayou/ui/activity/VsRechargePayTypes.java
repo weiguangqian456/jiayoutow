@@ -43,9 +43,9 @@ import com.edawtech.jiayou.utils.tool.MD5;
 import com.edawtech.jiayou.utils.tool.VsUtil;
 import com.edawtech.jiayou.widgets.NoticeDialog;
 import com.edawtech.jiayou.wxapi.WXPayEntryActivity;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+//import com.tencent.mm.sdk.modelpay.PayReq;
+//import com.tencent.mm.sdk.openapi.IWXAPI;
+//import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -786,24 +786,24 @@ public class VsRechargePayTypes extends VsBaseActivity {
                 break;
             case MSG_ID_RECHARGE_WEIXIN_SUCCESS:
                 String prepayId = (String) msg.obj;
-                IWXAPI api = WXAPIFactory.createWXAPI(mContext, DfineAction.WEIXIN_APPID, true);
-                PayReq payReq = new PayReq();
-                payReq.appId = DfineAction.WEIXIN_APPID;
-                // payReq.extData = DfineAction.brandid;//不能添加该字段， 添加后调转不到微信客户端
-                payReq.nonceStr = genNonceStr();
-                payReq.packageValue = "Sign=WXPay";// "prepay_id=" + prepayId;//拓展字段， 官网说是暂填写固定值Sign=WXPay，
-                // 但是Demo中是这样写的"prepay_id=" + prepayId;。[Demo中的不对]
-                payReq.partnerId = DfineAction.WEIXIN_MCH_ID;// 微信支付分配的商户号
-                payReq.prepayId = prepayId;// 微信返回的支付交易会话ID
-                payReq.timeStamp = "" + (System.currentTimeMillis() / 1000);// 需转换为秒
-                payReq.sign = getWeiXinPaySign(payReq);
-                api.registerApp(DfineAction.WEIXIN_APPID);
-                boolean b = api.sendReq(payReq);
-                if (!b) {
-                    Intent i = new Intent(mContext, WXPayEntryActivity.class);
-                    i.putExtra("message", "未安装微信客户端");
-                    mContext.startActivity(i);
-                }
+//                IWXAPI api = WXAPIFactory.createWXAPI(mContext, DfineAction.WEIXIN_APPID, true);
+//                PayReq payReq = new PayReq();
+//                payReq.appId = DfineAction.WEIXIN_APPID;
+//                // payReq.extData = DfineAction.brandid;//不能添加该字段， 添加后调转不到微信客户端
+//                payReq.nonceStr = genNonceStr();
+//                payReq.packageValue = "Sign=WXPay";// "prepay_id=" + prepayId;//拓展字段， 官网说是暂填写固定值Sign=WXPay，
+//                // 但是Demo中是这样写的"prepay_id=" + prepayId;。[Demo中的不对]
+//                payReq.partnerId = DfineAction.WEIXIN_MCH_ID;// 微信支付分配的商户号
+//                payReq.prepayId = prepayId;// 微信返回的支付交易会话ID
+//                payReq.timeStamp = "" + (System.currentTimeMillis() / 1000);// 需转换为秒
+//                payReq.sign = getWeiXinPaySign(payReq);
+//                api.registerApp(DfineAction.WEIXIN_APPID);
+//                boolean b = api.sendReq(payReq);
+//                if (!b) {
+//                    Intent i = new Intent(mContext, WXPayEntryActivity.class);
+//                    i.putExtra("message", "未安装微信客户端");
+//                    mContext.startActivity(i);
+//                }
                 break;
             default:
                 break;
@@ -815,40 +815,40 @@ public class VsRechargePayTypes extends VsBaseActivity {
         return MD5.getMessageDigest(String.valueOf(random.nextInt(10000)).getBytes());
     }
 
-    private String getWeiXinPaySign(PayReq payReq) {
-        if (null == payReq) {
-            return null;
-        }
-
-        List<NameValuePair> signParams = new LinkedList<NameValuePair>();
-
-        if (!TextUtils.isEmpty(payReq.appId)) {
-            signParams.add(new BasicNameValuePair("appid", payReq.appId));
-        }
-        if (!TextUtils.isEmpty(payReq.extData)) {
-            signParams.add(new BasicNameValuePair("extdata", payReq.extData));
-        }
-        if (!TextUtils.isEmpty(payReq.nonceStr)) {
-            signParams.add(new BasicNameValuePair("noncestr", payReq.nonceStr));
-        }
-        if (!TextUtils.isEmpty(payReq.packageValue)) {
-            signParams.add(new BasicNameValuePair("package", payReq.packageValue));
-        }
-        if (!TextUtils.isEmpty(payReq.partnerId)) {
-            signParams.add(new BasicNameValuePair("partnerid", payReq.partnerId));
-        }
-        if (!TextUtils.isEmpty(payReq.prepayId)) {
-            signParams.add(new BasicNameValuePair("prepayid", payReq.prepayId));
-        }
-        if (!TextUtils.isEmpty(payReq.timeStamp)) {
-            signParams.add(new BasicNameValuePair("timestamp", payReq.timeStamp));
-        }
-//        if (!TextUtils.isEmpty(payReq.sign)) {
-//            signParams.add(new BasicNameValuePair("sign", payReq.sign));
+//    private String getWeiXinPaySign(PayReq payReq) {
+//        if (null == payReq) {
+//            return null;
 //        }
-
-        return genAppSign(signParams);
-    }
+//
+//        List<NameValuePair> signParams = new LinkedList<NameValuePair>();
+//
+//        if (!TextUtils.isEmpty(payReq.appId)) {
+//            signParams.add(new BasicNameValuePair("appid", payReq.appId));
+//        }
+//        if (!TextUtils.isEmpty(payReq.extData)) {
+//            signParams.add(new BasicNameValuePair("extdata", payReq.extData));
+//        }
+//        if (!TextUtils.isEmpty(payReq.nonceStr)) {
+//            signParams.add(new BasicNameValuePair("noncestr", payReq.nonceStr));
+//        }
+//        if (!TextUtils.isEmpty(payReq.packageValue)) {
+//            signParams.add(new BasicNameValuePair("package", payReq.packageValue));
+//        }
+//        if (!TextUtils.isEmpty(payReq.partnerId)) {
+//            signParams.add(new BasicNameValuePair("partnerid", payReq.partnerId));
+//        }
+//        if (!TextUtils.isEmpty(payReq.prepayId)) {
+//            signParams.add(new BasicNameValuePair("prepayid", payReq.prepayId));
+//        }
+//        if (!TextUtils.isEmpty(payReq.timeStamp)) {
+//            signParams.add(new BasicNameValuePair("timestamp", payReq.timeStamp));
+//        }
+////        if (!TextUtils.isEmpty(payReq.sign)) {
+////            signParams.add(new BasicNameValuePair("sign", payReq.sign));
+////        }
+//
+//        return genAppSign(signParams);
+//    }
 
     /**
      * 生成微信支付签名

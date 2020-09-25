@@ -109,7 +109,7 @@ class HomeFragment : BaseMvpFragment() {
             if (MyApplication.isLogin){
                 startActivity(Intent(context, RefurlOrderActivity().javaClass))
             }else{
-                startActivity(Intent(context,VsLoginActivity::class.java))
+                startActivity(Intent(context,LoginActivity::class.java))
             }
 
         }
@@ -119,7 +119,7 @@ class HomeFragment : BaseMvpFragment() {
             if (MyApplication.isLogin){
                 startActivity(Intent(context, MakeMoneyActivity().javaClass))
             }else{
-                startActivity(Intent(context,VsLoginActivity::class.java))
+                startActivity(Intent(context,LoginActivity::class.java))
             }
 
         }

@@ -1,6 +1,7 @@
 package com.edawtech.jiayou.ui.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edawtech.jiayou.R;
-import com.edawtech.jiayou.retrofit.SeckillTab;
-import com.edawtech.jiayou.ui.activity.InviteDetailActivity;
+import com.edawtech.jiayou.config.bean.InviteInfo;
 import com.edawtech.jiayou.utils.StringUtils;
 import com.edawtech.jiayou.utils.TimeUtils;
 
@@ -29,9 +29,9 @@ import java.util.List;
  */
 public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.MyViewHolder> {
 
-    private List<SeckillTab.Records> recordsList;
-    private Activity mContent;
-    public InviteAdapter(Activity mContent,List<SeckillTab.Records> recordsList) {
+    private List<InviteInfo.DataBean.RecordsBean> recordsList;
+    private Context mContent;
+    public InviteAdapter(Context mContent, List<InviteInfo.DataBean.RecordsBean> recordsList) {
         this.mContent = mContent;
         this.recordsList = recordsList;
     }
@@ -47,20 +47,18 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final SeckillTab.Records records = recordsList.get(position);
-        holder.tvMobile.setText(records.phone);
-        if(!StringUtils.isEmpty(records.regTime + "")) {
-            holder.tvTime.setText(TimeUtils.stampToDate(records.regTime));
+        final InviteInfo.DataBean. RecordsBean records = recordsList.get(position);
+        holder.tvMobile.setText(records.getPhone());
+        if(!StringUtils.isEmpty(records.getRegTime() + "")) {
+            holder.tvTime.setText(TimeUtils.stampToDate(records.getRegTime()));
         }
-        holder.tvPhone.setText(records.invitationPhone);
-        holder.tvMoney.setText(records.totalAmountGun+"");
+        holder.tvPhone.setText(records.getInvitationPhone());
+        holder.tvMoney.setText(records.getTotalAmountGun()+"");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContent, InviteDetailActivity.class);
-                intent.putExtra("phone",records.actualPhone);
-                mContent.startActivity(intent);
+                onItemClickListener.onItemClickListener(view,position);
             }
         });
     }
@@ -83,5 +81,15 @@ public class InviteAdapter extends RecyclerView.Adapter<InviteAdapter.MyViewHold
             tvPhone = (TextView) itemView.findViewById(R.id.tv_phone);
             tvMoney = (TextView) itemView.findViewById(R.id.tv_money);
         }
+    }
+
+    public interface onItemClickListener{
+        void onItemClickListener(View v, int position);
+    }
+
+    private onItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(InviteAdapter.onItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }

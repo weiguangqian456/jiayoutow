@@ -69,7 +69,7 @@ public class RegisterActivity extends BaseMvpActivity {
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
-        FitStateUtils.setImmersionStateMode(this, R.color.public_color_EC6941);
+        FitStateUtils.setImmersionStateMode(this, R.color.activity_title_color);
         tvTitle.setText("注册");
         publicPresenter = new PublicPresenter(this, true, "请求中...");
         publicPresenter.attachView(this);
@@ -177,13 +177,12 @@ public class RegisterActivity extends BaseMvpActivity {
             return;
         }
         Map<String, Object> map = new HashMap<>();
-//        map.put("mobile",mobile);
-        map.put("mobile", "13312388345");
+        map.put("mobile",mobile);
         //type  = 1 注册
         map.put("type",1);
         //按钮计时
         AutoCodeUtil.start(tvGetCode);
-        publicPresenter.netWorkRequestGet(CommonParam.TEST_BASE_URL + "/sms/code", map);
+        publicPresenter.netWorkRequestGet(CommonParam.GET_CODE, map);
     }
 
     /**
@@ -218,17 +217,17 @@ public class RegisterActivity extends BaseMvpActivity {
         long time = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<>();
         map.put("agenId", "jiayou");
+//        map.put("appId", CommonParam.APP_ID);
         map.put("appId", CommonParam.APP_ID);
         map.put("code", code);
         map.put("invitationCode", invite);
         map.put("password", pwd);
-//        map.put("phone", phone);
-        map.put("phone", "13312388345");
+        map.put("phone", phone);
         map.put("pv", "android");
         map.put("v", "1.0");
         map.put("first_pay_time", String.valueOf(time));
 
-        publicPresenter.netWorkRequestPost(CommonParam.TEST_BASE_URL + "/register", map, new TaskCallback() {
+        publicPresenter.netWorkRequestPost(CommonParam.REGISTER, map, new TaskCallback() {
             @Override
             public void onSuccess(String data) {
                 LogUtils.e("fxx", "注册成功   data=" + data);

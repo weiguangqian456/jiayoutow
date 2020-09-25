@@ -1,7 +1,6 @@
 package com.edawtech.jiayou.ui.activity;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -296,7 +295,7 @@ public class OrderEnsureActivity extends TempAppCompatActivity implements View.O
     private void initView() {
         if (!CheckLoginStatusUtils.isLogin()) {
             Toast.makeText(this, getResources().getString(R.string.login_prompt10), Toast.LENGTH_SHORT).show();
-            SkipPageUtils.getInstance(this).skipPage(VsLoginActivity.class);
+            SkipPageUtils.getInstance(this).skipPage(LoginActivity.class);
             finish();
             return;
         }

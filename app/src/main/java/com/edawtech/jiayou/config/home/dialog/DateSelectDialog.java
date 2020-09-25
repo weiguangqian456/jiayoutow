@@ -9,7 +9,7 @@ import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.area.OnWheelScrollListener;
 import com.edawtech.jiayou.area.WheelView;
 import com.edawtech.jiayou.config.constant.DfineAction;
-import com.edawtech.jiayou.config.home.adapter.NumericWheelAdapter;
+import com.edawtech.jiayou.ui.adapter.NumericWheelAdapter;
 import com.edawtech.jiayou.utils.tool.ValidClickListener;
 
 import java.util.Calendar;

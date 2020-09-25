@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/w_330_dip"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/w_56_dip"
-    android:layout_marginLeft="@dimen/w_15_dip"
-    android:layout_marginRight="@dimen/w_15_dip">
+    android:paddingLeft="@dimen/dp15"
+    android:paddingRight="@dimen/dp15"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
-                android:text=""
+                android:text="张三"
                 android:textColor="@color/nodeColor"
                 android:textSize="@dimen/w_14_dip" />
 
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                android:text=""
+                android:text="100"
                 android:textColor="@color/nodeColor"
                 android:textSize="@dimen/w_14_dip" />
         </RelativeLayout>
@@ -50,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
-                android:text=""
+                android:text="13:30"
                 android:textColor="#b8b8b8"
                 android:textSize="@dimen/w_11_dip" />
 
@@ -60,9 +61,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                android:text=""
+                android:text="成功"
                 android:textColor="#b8b8b8"
                 android:textSize="@dimen/w_11_dip" />
         </RelativeLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_bg"/>
 </RelativeLayout>

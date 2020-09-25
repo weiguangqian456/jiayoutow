@@ -7,22 +7,16 @@
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/w_48_dip"
+        android:layout_height="@dimen/dp50"
         android:background="@color/public_color_DE5A3C"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:id="@+id/rl_back"
-            android:layout_width="@dimen/w_48_dip"
-            android:layout_height="match_parent">
-
             <ImageView
                 android:id="@+id/iv_back"
-                android:layout_width="@dimen/w_9_dip"
-                android:layout_height="@dimen/w_16_dip"
-                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="@dimen/dp14"
                 android:src="@drawable/icon_back" />
-        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_title"
@@ -33,20 +27,10 @@
             android:textColor="@color/vs_white"
             android:textSize="@dimen/w_15_dip" />
 
-        <TextView
-            android:id="@+id/tv_btn_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/w_15_dip"
-            android:text=""
-            android:textColor="@color/vs_white"
-            android:textSize="@dimen/w_13_dip" />
     </RelativeLayout>
 
 
-    <androidx.core.widget.NestedScrollView
+    <com.edawtech.jiayou.widgets.MyNestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -190,7 +174,6 @@
                     app:rv_strokeColor="@color/public_color_DD593A"
                     app:rv_strokeWidth="1dp" />
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -233,7 +216,7 @@
                 android:layout_height="@dimen/w_45_dip"
                 android:layout_below="@+id/view_detail"
                 android:background="@color/vs_white"
-                app:xTabDisplayNum="3"
+                app:xTabDisplayNum="2"
                 app:xTabDividerGravity="center"
                 app:xTabDividerWidthWidthText="true"
                 app:xTabIndicatorColor="@color/public_color_EC6941"
@@ -251,89 +234,13 @@
                 android:layout_below="@+id/tablayout"
                 android:background="@color/line_bg" />
 
-            <RelativeLayout
+            <com.edawtech.jiayou.widgets.MyViewPager
+                android:id="@+id/vp_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/view_line">
-
-                <LinearLayout
-                    android:id="@+id/ll_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/w_31_dip"
-                    android:orientation="horizontal"
-                    android:background="#F1F1F1"
-                    android:visibility="gone">
-                    <TextView
-                        style="@style/TextViewStyleSize12"
-                        android:text="被邀请人" />
-                    <TextView
-                        style="@style/TextViewStyleSize12"
-                        android:text="邀请人" />
-                    <TextView
-                        style="@style/TextViewStyleSize12"
-                        android:text="加油总金额(元)"/>
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_records"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/vs_white" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_invite"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/ll_title"
-                    android:visibility="gone"/>
-
-                <RelativeLayout
-                    android:id="@+id/rl_grow"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:layout_below="@id/ll_title">
-                    <fragment
-                        android:id="@+id/fragment_grow"
-                        class="com.edawtech.jiayou.ui.fragment.InviteFragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:visibility="visible" />
-                </RelativeLayout>
-
-                <!--空白界面-->
-                <RelativeLayout
-                    android:id="@+id/fl_no_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/vs_bg_color"
-                    android:layout_below="@id/ll_title">
-
-                    <ImageView
-                        android:id="@+id/iv_no_content"
-                        android:layout_width="@dimen/w_195_dip"
-                        android:layout_height="@dimen/w_109_dip"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/w_85_dip"
-                        android:src="@drawable/model_account_blank" />
-
-                    <TextView
-                        android:id="@+id/tv_no_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_no_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/w_29_dip"
-                        android:text="暂无成长金记录~"
-                        android:textColor="#828688"
-                        android:textSize="@dimen/w_16_dip" />
-                </RelativeLayout>
-
-            </RelativeLayout>
+                android:background="@color/white"/>
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
+    </com.edawtech.jiayou.widgets.MyNestedScrollView>
 
 </RelativeLayout>

@@ -1,6 +1,54 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+
+//友盟分享配置
+apply plugin: 'com.mob.sdk'
+
+MobSDK {
+    appKey "m30e1dee0c5f68"
+    appSecret "752b1b13839adb89d35a15af068cfafb"
+    ShareSDK {
+        loopShare false
+        devInfo {
+            //微信好友
+            Wechat {
+                appId "wxea1421f991b07deb"
+                appSecret "e932922c4d89ecfb89d258f3ad3af5cc"
+                userName "gh_afb25ac019c9"
+                path "pages/index/index.html?id=1"
+                withShareTicket true
+                miniprogramType 2
+            }
+            //QQ
+            QQ {
+                appId "100371282"
+                appKey "aed9b0303e3ed1e27bae87c33761161d"
+            }
+            //短信
+            ShortMessage {
+                enable true
+            }
+            //微信朋友圈
+            WechatMoments {
+                appId "wxea1421f991b07deb"
+                appSecret "e932922c4d89ecfb89d258f3ad3af5cc"
+            }
+//            //微信收藏
+//            WechatFavorite {
+//                appId "wxea1421f991b07deb"
+//                appSecret "e932922c4d89ecfb89d258f3ad3af5cc"
+//            }
+//            //QQ空间
+//            QZone {
+//                appId "100371282"
+//                appKey "aed9b0303e3ed1e27bae87c33761161d"
+//            }
+        }
+    }
+}
+
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -44,8 +92,8 @@ android {
             keyAlias 'key0'
             keyPassword 'jiayou123'
             storePassword 'jiayou123'
-            storeFile file("D:\\app\\jiayou\\jiayou.jks")
-            //           storeFile file("D:\\work\\jiayoutow\\jiayou.jks")
+//            storeFile file("D:\\app\\jiayou\\jiayou.jks")
+                       storeFile file("D:\\work\\jiayoutow\\jiayou.jks")
         }
     }
     buildTypes {
@@ -284,5 +332,7 @@ dependencies {
     implementation 'com.amap.api:location:latest.integration'
     //数据库
     implementation 'org.greenrobot:greendao:3.2.2'
+    //时间日期选择器
+    implementation 'com.contrarywind:Android-PickerView:3.2.7'
 
 }

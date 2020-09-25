@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/vs_gray_simaple">
+    android:background="@color/activity_bg_color">
 
     <include
         android:id="@+id/in"
@@ -23,8 +22,8 @@
         android:layout_width="fill_parent"
         android:layout_height="0.67dp"
         android:layout_below="@id/line0"
-        android:layout_marginTop="@dimen/dp25"
-        android:background="@color/vs_line_color" />
+        android:layout_marginTop="@dimen/dp10"
+         />
 
     <RelativeLayout
         android:id="@+id/rl_1"
@@ -124,7 +123,7 @@
         android:layout_below="@id/line3"
         android:padding="@dimen/dp15"
         android:text="@string/vs_set_register_show_hint"
-        android:textColor="@color/public_color_EC6941"
+        android:textColor="@color/activity_title_color"
         android:textSize="14.5sp" />
 
     <TextView
@@ -138,7 +137,7 @@
         android:gravity="center"
         android:padding="@dimen/dp15"
         android:text="@string/vs_login_reset_password_hint"
-        android:textColor="@color/public_color_EC6941"
+        android:textColor="@color/activity_title_color"
         android:textSize="14.5sp" />
 
     <com.flyco.roundview.RoundTextView
@@ -152,7 +151,7 @@
         android:textColor="@color/vs_white"
         android:textSize="19.5sp"
         android:layout_marginTop="@dimen/dp20"
-        app:rv_backgroundColor="@color/public_color_EC6941"
+        app:rv_backgroundColor="@color/activity_title_color"
         app:rv_isRadiusHalfHeight="true" />
 
 </RelativeLayout>
