@@ -258,10 +258,10 @@ public class MineFragment extends BaseMvpFragment {
             public void onSuccess(String data) {
                 LogUtils.e("fxx", "获取用户成长金成功       data=" + data);
                 UserGrowthBean bean = JSONObject.parseObject(data, UserGrowthBean.class);
-                String amount = bean.getData().getAmount();
-                if (!StringUtils.isEmpty(amount)) {
+                String red = bean.getData().getRed();
+                if (!StringUtils.isEmpty(red)) {
                     //显示成长金
-                    czjMoney.setText(amount);
+                    czjMoney.setText(red);
                 } else {
                     czjMoney.setText("0");
                 }

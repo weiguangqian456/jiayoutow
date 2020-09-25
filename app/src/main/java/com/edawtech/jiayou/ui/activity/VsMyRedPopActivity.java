@@ -79,12 +79,15 @@ public class VsMyRedPopActivity extends Activity {
         }
         OkGo.<String>post(CommonParam.WITHDRAW_URL)
                 .params("uid", MyApplication.UID)
-                .params("amount", count)
+                .params("money", count)
                 .params("appId", CommonParam.APP_ID)
+                .params("phone",MyApplication.MOBILE)
+                .params("action","draw")
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
+                        LogUtils.e("fxx","提现成功="+body);
                         try {
                             JSONObject json = new JSONObject(body);
                             int code = json.getInt("code");
@@ -92,6 +95,7 @@ public class VsMyRedPopActivity extends Activity {
                             if (code == 0){
                                 //提现成功，通知其他页面刷新金额
                                 EventBus.getDefault().post("withdrawSuccess");
+                                finish();
                             }
                             ToastUtil.showMsg(msg);
                         } catch (JSONException e) {

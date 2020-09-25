@@ -105,6 +105,6 @@ public class CommonParam {
     /**
      * 提现
      */
-    public static final String WITHDRAW_URL = BASE_URL +"";
+    public static final String WITHDRAW_URL = BASE_URL +"/benefit/api/userWallet/userInfoWithdrawal";
 
 }

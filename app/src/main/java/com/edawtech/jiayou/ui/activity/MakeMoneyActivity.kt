@@ -9,10 +9,6 @@ import com.edawtech.jiayou.R
 import com.edawtech.jiayou.config.base.BaseMvpActivity
 import com.edawtech.jiayou.config.constant.DfineAction
 import com.edawtech.jiayou.config.constant.VsUserConfig
-import com.edawtech.jiayou.config.home.dialog.CustomShareDialog
-import com.edawtech.jiayou.config.home.entity.CustomShareEntity
-import com.edawtech.jiayou.config.home.test.ShareListener
-import com.edawtech.jiayou.utils.tool.ToastUtil
 import kotlinx.android.synthetic.main.activity_make_money.*
 
 class MakeMoneyActivity : BaseMvpActivity() {

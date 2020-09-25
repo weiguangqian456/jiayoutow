@@ -214,12 +214,12 @@ public class GrowMoneyActivity extends BaseMvpActivity {
     public void onSuccess(String data) {
         LogUtils.e("fxx", "获取用户成长金成功       data=" + data);
         UserGrowthBean bean = JSONObject.parseObject(data, UserGrowthBean.class);
-        money = bean.getData().getAmount();
+        money = bean.getData().getRed();
         if (!StringUtils.isEmpty(money)) {
             //显示成长金
             tvRedBag.setText(money);
         } else {
-            tvRedBag.setText("0.00");
+            tvRedBag.setText("0");
         }
     }
 
