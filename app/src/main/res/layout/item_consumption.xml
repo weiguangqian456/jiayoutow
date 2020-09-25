@@ -1,74 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/w_56_dip"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     android:paddingLeft="@dimen/dp15"
-    android:paddingRight="@dimen/dp15"
-    android:background="@color/white">
+    android:paddingRight="@dimen/dp15">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:layout_alignParentLeft="true"
+        android:text="张三"
+        android:textColor="@color/withdraw_record_color"
+        android:textSize="@dimen/text_size_14sp"
+        android:layout_toLeftOf="@id/tv_amount"
+        android:layout_marginRight="@dimen/dp30"
+        android:layout_marginTop="@dimen/dp10"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center">
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="100"
+        android:textColor="@color/withdraw_record_color"
+        android:layout_marginTop="@dimen/dp10"
+        android:textSize="@dimen/text_size_14sp" />
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:gravity="center"
-                android:text="张三"
-                android:textColor="@color/nodeColor"
-                android:textSize="@dimen/w_14_dip" />
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:text="13:30"
+        android:textColor="@color/withdraw_record_time_color"
+        android:layout_below="@id/tv_amount"
+        android:layout_marginTop="@dimen/dp10"
+        android:textSize="@dimen/text_size_12sp" />
 
-            <TextView
-                android:id="@+id/tv_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:text="100"
-                android:textColor="@color/nodeColor"
-                android:textSize="@dimen/w_14_dip" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:gravity="center"
-                android:text="13:30"
-                android:textColor="#b8b8b8"
-                android:textSize="@dimen/w_11_dip" />
-
-            <TextView
-                android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:text="成功"
-                android:textColor="#b8b8b8"
-                android:textSize="@dimen/w_11_dip" />
-        </RelativeLayout>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="成功"
+        android:textColor="@color/withdraw_record_color"
+        android:layout_below="@id/tv_amount"
+        android:layout_marginTop="@dimen/dp10"
+        android:textSize="@dimen/w_11_dip" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/line_bg"/>
+        android:background="@color/line_bg"
+        android:layout_below="@id/tv_time"
+        android:layout_marginTop="@dimen/dp10"/>
 </RelativeLayout>

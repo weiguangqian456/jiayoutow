@@ -13,7 +13,7 @@ import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.DialogUtils;
 import com.edawtech.jiayou.utils.FitStateUtils;
-import com.edawtech.jiayou.utils.sp.SharePreferencesHelper;
+import com.edawtech.jiayou.utils.SharePreferencesHelper;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,9 +53,6 @@ public class SettingActivity extends BaseMvpActivity {
             case R.id.iv_back:
                 finish();
                 break;
-//            case R.id.boda_layout:      //拨打设置
-//                startActivity(new Intent( mContext, VsCallTypeSetingActivity.class));
-//                break;
             case R.id.change_password:  //修改密码
                 if (MyApplication.isLogin) {
                     startActivity(new Intent( mContext, ResetPasswordActivity.class));

@@ -80,23 +80,31 @@ public class CommonParam {
     /**
      * 获取用户分享内容
      */
-    public static final String GET_USER_SHARE_MSG = BASE_URL +"/shop/api/share/shareLink";
+    public static final String GET_USER_SHARE_MSG = BASE_URL + "/shop/api/share/shareLink";
 
     /**
      * 获取用户成长金提现列表
      */
-    public static final String GET_USER_RED_LIST = BASE_URL +"/benefit/api/userWallet/getTuserDraw";
+    public static final String GET_USER_RED_LIST = BASE_URL + "/benefit/api/userWallet/getTuserDraw";
 
     /**
      * 获取用户邀请人数
      */
-    public static final String GET_INVITE_LIST = BASE_URL+ "/benefit/api/userInfo/apiChildAgentUserList";
+    public static final String GET_INVITE_LIST = BASE_URL + "/benefit/api/userInfo/apiChildAgentUserList";
 
     /**
      * 获取邀请用户加油明细列表
      */
-    public static final String GET_INVITE_USER_CHEER_DETAILS = BASE_URL+"/benefit/web/OrderController//selectGasStation" ;
-   public static final String TEST_BASE_URL = "http://192.168.0.39:9999/account/api";
-    //    public static final String TEST_BASE_URL = "https://route.edawtech.com";
+    public static final String GET_INVITE_USER_CHEER_DETAILS = BASE_URL + "/benefit/web/OrderController//selectGasStation";
+
+    /**
+     * 检测用户是否绑定微信
+     */
+    public static final String CHECK_USER_IS_BIND_WX = BASE_URL + "/benefit/api/userBank/selectUserInfoBank";
+
+    /**
+     * 提现
+     */
+    public static final String WITHDRAW_URL = BASE_URL +"";
 
 }

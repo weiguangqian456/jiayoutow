@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.bean.WithdrawRecordInfo;
+import com.edawtech.jiayou.utils.StringUtils;
 
 import java.util.List;
 
@@ -56,7 +57,11 @@ public class WithdrawRecordAdapter extends RecyclerView.Adapter<WithdrawRecordAd
             remark = remark.substring(0, index + 4);
         }
         holder.remark.setText(remark);
-        holder.time.setText(ctime);
+        if (!StringUtils.isEmpty(ctime)) {
+            holder.time.setText(ctime);
+        } else {
+            holder.time.setText("2020-09-25 15:00");
+        }
         holder.amount.setText(String.valueOf(amount));
         switch (status) {
             case 0:

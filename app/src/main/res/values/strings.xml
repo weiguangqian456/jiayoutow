@@ -307,7 +307,7 @@
     <string name="confirm_pay">确认支付</string>
     <string name="default_price">￥0</string>
     <string name="select_pay_way">请选择支付方式</string>
-    <string name="vs_my_red_pag_info">注:提现前需要绑定相应的账号微信号，如果没有绑定则不能提现！</string>
+    <string name="vs_my_red_pag_info">注:提现前需要绑定相应的账号微信\n号,如果没有绑定则不能提现！</string>
     <string name="vs_private_number">私人号码</string>
     <string name="notice_hint">欢迎使用KC</string>
     <string name="warm_point">温馨提示：</string>
@@ -329,6 +329,11 @@
     <string name="for_get_password">忘记密码</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="czj">成长金</string>
+    <string name="my_qr_code">我的二维码</string>
+    <string name="bind_wx">绑定微信</string>
+    <string name="wx_gzh">佳油APP</string>
+    <string name="ysxy">隐私协议</string>
 
 
 </resources>

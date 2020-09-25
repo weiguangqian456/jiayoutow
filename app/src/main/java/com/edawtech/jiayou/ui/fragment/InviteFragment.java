@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSON;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseMvpFragment;
 import com.edawtech.jiayou.config.base.MyApplication;
@@ -18,7 +19,7 @@ import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
 import com.edawtech.jiayou.ui.activity.InviteDetailActivity;
 import com.edawtech.jiayou.ui.adapter.InviteAdapter;
 import com.edawtech.jiayou.utils.CommonParam;
-import com.edawtech.jiayou.utils.sp.SharePreferencesHelper;
+import com.edawtech.jiayou.utils.SharePreferencesHelper;
 import com.edawtech.jiayou.utils.tool.LogUtils;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
 import com.edawtech.jiayou.widgets.MyRecyclerView;
@@ -41,6 +42,8 @@ import butterknife.BindView;
  */
 public class InviteFragment extends BaseMvpFragment {
 
+    @BindView(R.id.refresh_layout)
+    MaterialRefreshLayout refreshLayout;
     @BindView(R.id.rv_records)
     MyRecyclerView list;
     @BindView(R.id.rl_empty)
@@ -49,18 +52,15 @@ public class InviteFragment extends BaseMvpFragment {
     //默认页数
     private int page = 1;
     //默认请求数量
-    private int count = 10;
+    private final int count = 10;
     private PublicPresenter mPresenter;
     private InviteAdapter adapter;
+    //是否下拉刷新
+    private boolean isRefresh = false;
+    //是否加载更多
+    private boolean isLoadMore = false;
     private List<InviteInfo.DataBean.RecordsBean> mData = new ArrayList<>();
-    private boolean isShow;
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        LogUtils.e("fxx", "InviteFragment           setUserVisibleHint          " + isVisibleToUser);
-        isShow = isVisibleToUser;
-    }
 
     @Override
     protected int getLayoutId() {
@@ -69,10 +69,8 @@ public class InviteFragment extends BaseMvpFragment {
 
     @Override
     protected void initView(@Nullable View view, @Nullable Bundle savedInstanceState) {
-        LogUtils.e("fxx", "InviteFragment       邀请记录");
         mPresenter = new PublicPresenter(getContext(), true, "加载中...");
         mPresenter.attachView(this);
-        EventBus.getDefault().register(this);
         initAdapter();
         //获取邀请列表
         getInviteList();
@@ -90,8 +88,33 @@ public class InviteFragment extends BaseMvpFragment {
             @Override
             public void onItemClickListener(View v, int position) {
                 Intent intent = new Intent(getContext(), InviteDetailActivity.class);
-                intent.putExtra("phone",mData.get(position).getActualPhone());
+                intent.putExtra("phone", mData.get(position).getActualPhone());
                 startActivity(intent);
+            }
+        });
+
+        //下拉刷新   加载更多
+        refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                mPresenter.setShowLoadingDialog(false);
+                isRefresh = true;
+                page = 1;
+                mData.clear();
+                getInviteList();
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                if (mData.size() > 0 && mData.size()%10 ==0) {
+                    mPresenter.setShowLoadingDialog(false);
+                    isLoadMore = true;
+                    page++;
+                    getInviteList();
+                } else {
+                    ToastUtil.showMsg("没有更多数据了");
+                    refreshLayout.finishRefreshLoadMore();
+                }
             }
         });
     }
@@ -131,6 +154,14 @@ public class InviteFragment extends BaseMvpFragment {
                 page--;
             }
         }
+        if (isRefresh) {
+            isRefresh = false;
+            refreshLayout.finishRefresh();
+        }
+        if (isLoadMore) {
+            isLoadMore = false;
+            refreshLayout.finishRefreshLoadMore();
+        }
     }
 
     @Override
@@ -142,30 +173,19 @@ public class InviteFragment extends BaseMvpFragment {
         if (page > 1) {
             page--;
         }
+        if (isRefresh) {
+            isRefresh = false;
+            refreshLayout.finishRefresh();
+        }
+        if (isLoadMore) {
+            isLoadMore = false;
+            refreshLayout.finishRefreshLoadMore();
+        }
     }
 
     @Override
     public void onDestroy() {
         mPresenter.detachView();
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
-    }
-
-    /**
-     * 下拉刷新通知回调
-     *
-     * @param msg
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void refreshList(String msg) {
-        if (msg.equals("inviteLoadMore")) {
-            if (isShow) {
-                if (mData.size() > 0) {
-                    LogUtils.e("fxx", "邀请人列表加载更多");
-                    page++;
-                    getInviteList();
-                }
-            }
-        }
     }
 }

@@ -22,7 +22,7 @@ import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
 import com.edawtech.jiayou.utils.ActivityCollector;
 import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.FitStateUtils;
-import com.edawtech.jiayou.utils.sp.SharePreferencesHelper;
+import com.edawtech.jiayou.utils.SharePreferencesHelper;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
 
 

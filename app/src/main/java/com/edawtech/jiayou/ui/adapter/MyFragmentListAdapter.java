@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,7 +65,7 @@ public class MyFragmentListAdapter extends RecyclerView.Adapter<MyFragmentListAd
 
     class MyHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout layout;
+        public RelativeLayout layout;
         public ImageView icon;
         public TextView name;
 

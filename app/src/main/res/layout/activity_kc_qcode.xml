@@ -2,31 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vs_gray_simaple">
+    android:background="@color/activity_bg_color">
 
-    <LinearLayout
-        android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <!-- 顶部标题 -->
-
-        <include layout="@layout/systitle_orange" />
-    </LinearLayout>
+    <!-- 顶部标题 -->
+    <include
+        android:id="@+id/il"
+        layout="@layout/activity_title" />
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title"
+        android:layout_below="@id/il"
         android:scrollbars="none">
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -52,35 +44,14 @@
 
                     <ImageView
                         android:id="@+id/contacslButton"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="@dimen/dp70"
+                        android:layout_height="@dimen/dp70"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"
-                        android:background="@drawable/icon"
+                        android:layout_marginTop="@dimen/dp20"
+                        android:layout_marginBottom="@dimen/dp20"
+                        android:background="@mipmap/icon"
                         android:contentDescription="@string/app_name" />
 
-                    <TextView
-                        android:id="@+id/vs_vesion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/contacslButton"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:paddingRight="0dp"
-                        android:textColor="@color/vs_black"
-                        android:textSize="14.5sp" />
-
-                    <TextView
-                        android:id="@+id/vs_vesionName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/vs_vesion"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:paddingRight="0dp"
-                        android:textColor="@color/vs_black"
-                        android:textSize="14.5sp"
-                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <View
@@ -99,59 +70,9 @@
                     android:background="@color/vs_white"
                     android:orientation="vertical">
 
-                    <!-- 官方微博 -->
-                    <RelativeLayout
-                        android:id="@+id/vs_about_weibo"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/vs_about_relayout_height"
-                        android:background="@drawable/vs_personal_bg_color"
-                        android:clickable="true">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/vs_about_weibo"
-
-                            android:textColor="@color/vs_black"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:id="@+id/vs_about_img2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="@drawable/vs_right_icon"
-                            android:contentDescription="@string/app_name"
-                            android:visibility="invisible" />
-
-                        <TextView
-                            android:id="@+id/vs_about_weibo_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
-                            android:layout_toLeftOf="@id/vs_about_img2"
-                            android:text="嘟嘟水气"
-                            android:textColor="@color/vs_black"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
-
-                    <View
-                        android:id="@+id/view1"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0.67dp"
-                        android:layout_marginLeft="20dp"
-                        android:background="@color/vs_line_color" />
-
-
                     <!-- 微信公众号 -->
                     <RelativeLayout
-                        android:id="@+id/vs_about_weixin"
+                        android:id="@+id/wx_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="@dimen/vs_about_relayout_height"
                         android:background="@drawable/vs_personal_bg_color"
@@ -179,12 +100,13 @@
                             android:visibility="invisible" />
 
                         <TextView
-                            android:id="@+id/vs_about_weixin_tv"
+                            android:id="@+id/tv_wx_gzh"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
                             android:layout_toLeftOf="@id/vs_about_img3"
+                            android:text="@string/wx_gzh"
                             android:textColor="@color/vs_black"
                             android:textSize="15sp" />
                     </RelativeLayout>
@@ -198,7 +120,7 @@
 
                     <!-- 客服QQ -->
                     <RelativeLayout
-                        android:id="@+id/vs_about_kfqq"
+                        android:id="@+id/QQ_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="@dimen/vs_about_relayout_height"
                         android:background="@drawable/vs_personal_bg_color"
@@ -226,7 +148,7 @@
                             android:visibility="invisible" />
 
                         <TextView
-                            android:id="@+id/vs_about_server_qq"
+                            android:id="@+id/tv_QQ"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -246,7 +168,7 @@
 
                     <!-- 客服电话 -->
                     <RelativeLayout
-                        android:id="@+id/vs_about_kfdh"
+                        android:id="@+id/kf_mobile_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="@dimen/vs_about_relayout_height"
                         android:background="@drawable/vs_personal_bg_color"
@@ -274,7 +196,7 @@
                             android:visibility="invisible" />
 
                         <TextView
-                            android:id="@+id/vs_about_server_phone"
+                            android:id="@+id/tv_kf_mobile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -292,59 +214,10 @@
                         android:layout_marginLeft="20dp"
                         android:background="@color/vs_line_color" />
 
-                    <RelativeLayout
-                        android:id="@+id/vs_about_gkfdh"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/vs_about_relayout_height"
-                        android:background="@drawable/vs_personal_bg_color"
-                        android:clickable="true"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:gravity="center_vertical"
-                            android:text="固定电话"
-                            android:textColor="@color/vs_black"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:id="@+id/vs_about_imgg5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="@drawable/vs_right_icon"
-                            android:contentDescription="@string/app_name"
-                            android:visibility="invisible" />
-
-                        <TextView
-                            android:id="@+id/vs_about_server_gphone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="5dp"
-                            android:layout_toLeftOf="@id/vs_about_imgg5"
-                            android:text="0755-23775895"
-                            android:textColor="@color/vs_black"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
-
-                    <View
-                        android:id="@+id/viewg4"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0.67dp"
-                        android:layout_marginLeft="20dp"
-                        android:background="@color/vs_line_color"
-                        android:visibility="gone" />
-
 
                     <!-- 客服时间 -->
                     <RelativeLayout
-                        android:id="@+id/vs_about_kfsj"
+                        android:id="@+id/kf_time_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="@dimen/vs_about_relayout_height"
                         android:background="@drawable/vs_personal_bg_color"
@@ -372,13 +245,13 @@
                             android:visibility="invisible" />
 
                         <TextView
-                            android:id="@+id/vs_about_kfsj_tv"
+                            android:id="@+id/tv_kf_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
                             android:layout_toLeftOf="@id/vs_about_img6"
-                            android:text="9:00-18:00"
+                            android:text="周一至周五 9:00-18:00"
                             android:textColor="@color/vs_black"
                             android:textSize="15sp" />
                     </RelativeLayout>
@@ -389,7 +262,6 @@
                         android:layout_height="0.67dp"
                         android:layout_marginLeft="20dp"
                         android:background="@color/vs_line_color" />
-
 
                     <View
                         android:layout_width="fill_parent"
@@ -403,9 +275,8 @@
 
                     <!-- 升级 -->
                     <RelativeLayout
-                        android:id="@+id/vs_about_update"
+                        android:id="@+id/version_layout"
                         android:layout_width="fill_parent"
-
                         android:layout_height="@dimen/vs_about_relayout_height"
                         android:background="@drawable/vs_personal_bg_color"
                         android:clickable="true">
@@ -431,7 +302,7 @@
                             android:contentDescription="@string/app_name" />
 
                         <TextView
-                            android:id="@+id/vs_about_update_tv"
+                            android:id="@+id/tv_version"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -449,7 +320,7 @@
 
                     <!-- 版权所有-->
                     <RelativeLayout
-                        android:id="@+id/vs_about_bq"
+                        android:id="@+id/bq_about_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="@dimen/vs_about_relayout_height"
                         android:background="@drawable/vs_personal_bg_color"
@@ -477,13 +348,13 @@
                             android:visibility="invisible" />
 
                         <TextView
-                            android:id="@+id/vs_about_bq_tv"
+                            android:id="@+id/tv_bq_about"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="5dp"
                             android:layout_toLeftOf="@id/vs_about_img7"
-                            android:text="嘟嘟网络科技"
+                            android:text="佳油软件"
                             android:textColor="@color/vs_black"
                             android:textSize="15sp" />
                     </RelativeLayout>
@@ -498,7 +369,7 @@
 
                     <!-- 服务条款 -->
                     <RelativeLayout
-                        android:id="@+id/vs_about_fw"
+                        android:id="@+id/ysxy_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="@dimen/vs_about_relayout_height"
                         android:background="@drawable/vs_personal_bg_color"
@@ -510,7 +381,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="20dp"
                             android:gravity="center_vertical"
-                            android:text="@string/vs_about_fw_tv_str"
+                            android:text="@string/ysxy"
                             android:textColor="@color/vs_black"
                             android:textSize="15sp" />
 
@@ -525,7 +396,7 @@
                             android:contentDescription="@string/app_name" />
 
                         <TextView
-                            android:id="@+id/vs_about_fw_tv"
+                            android:id="@+id/tv_ysxy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -542,246 +413,9 @@
                         android:layout_marginLeft="20dp"
                         android:background="@color/vs_line_color" />
 
-
-                    <!-- 帮助中心 -->
-                    <RelativeLayout
-                        android:id="@+id/vs_about_help"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/vs_about_relayout_height"
-                        android:background="@drawable/vs_personal_bg_color"
-                        android:clickable="true"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/vs_about_help_tv_str"
-                            android:textColor="@color/vs_black"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="@drawable/vs_right_icon"
-                            android:contentDescription="@string/app_name" />
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="0.67dp"
-                        android:layout_marginLeft="20dp"
-                        android:background="@color/vs_line_color"
-                        android:visibility="gone" />
-                    <!-- 意见反馈 -->
-                    <RelativeLayout
-                        android:id="@+id/vs_about_fk"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/vs_about_relayout_height"
-                        android:background="@drawable/vs_personal_bg_color"
-                        android:clickable="true"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/vs_about_fk_tv_str"
-                            android:textColor="@color/vs_black"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="@drawable/vs_right_icon"
-                            android:contentDescription="@string/app_name" />
-                    </RelativeLayout>
-
-                    <View
-                        android:id="@+id/line_end"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0.67dp"
-                        android:layout_marginLeft="20dp"
-                        android:background="@color/vs_line_color"
-                        android:visibility="gone" />
-
-                    <!-- 评价 -->
-                    <RelativeLayout
-                        android:id="@+id/vs_about_pj"
-                        android:layout_width="fill_parent"
-                        android:layout_height="@dimen/vs_about_relayout_height"
-                        android:background="@drawable/vs_personal_bg_color"
-                        android:clickable="true"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="20dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/vs_about_pf_tv_str"
-                            android:textColor="@color/vs_black"
-                            android:textSize="15sp" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="15dp"
-                            android:background="@drawable/vs_right_icon"
-                            android:contentDescription="@string/app_name" />
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="0.67dp"
-                        android:background="@color/vs_line_color" />
                 </LinearLayout>
-                <!-- 客服电话等 -->
-                <LinearLayout
-                    android:id="@+id/about_kf_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/about_tm_layout"
-                    android:layout_marginTop="@dimen/vs_about_kefu_margintop"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="right|center_vertical"
-                            android:text="@string/vs_about_com_wap"
-                            android:textColor="@color/vs_gray_deep"
-                            android:textSize="16sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="right|center_vertical"
-                            android:text="@string/vs_about_phone_wap"
-                            android:textColor="@color/vs_gray_deep"
-                            android:textSize="16sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="right|center_vertical"
-                            android:text="@string/vs_about_server_phoneNumber"
-                            android:textColor="@color/vs_gray_deep"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="right|center_vertical"
-                            android:paddingLeft="2dp"
-                            android:text="@string/vs_about_server_QQ"
-                            android:textColor="@color/vs_gray_deep"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/vs_about_computer_wap"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:autoLink="web"
-                            android:gravity="left"
-                            android:textColor="@color/vs_gray_deep"
-                            android:textSize="16sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/vs_about_phone_wap"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="5dp"
-                            android:autoLink="web"
-                            android:gravity="left"
-                            android:textColor="@color/vs_gray_deep"
-                            android:textSize="16sp"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/vs_about_server_phone1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:textColor="@color/vs_gray_deep"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/vs_about_server_qq1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="5dp"
-                            android:gravity="left"
-                            android:textColor="@color/vs_gray_deep"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-                </LinearLayout>
             </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/vs_about_layout_company"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="@dimen/vs_about_company_margintop"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vs_about_company_cn"
-                    android:textColor="@color/vs_gray_deep"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vs_about_company_en"
-                    android:textColor="@color/vs_gray_deep"
-                    android:textSize="12sp"
-                    android:visibility="gone" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

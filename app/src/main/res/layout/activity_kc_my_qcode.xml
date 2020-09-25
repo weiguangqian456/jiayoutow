@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp54"
-        android:background="#ED3328">
+        android:background="@color/activity_title_color">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/app_name"
+            android:text="@string/my_qr_code"
             android:textColor="@color/vs_white"
             android:textSize="@dimen/text_size_15sp" />
 
@@ -38,20 +38,21 @@
             android:id="@+id/iv_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/new_code" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/qr_code_bg" />
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp170"
+            android:layout_height="@dimen/dp170"
             android:layout_gravity="center"
-            android:background="#FFFFFF">
+            android:layout_marginTop="@dimen/dp80"
+            android:background="@drawable/code_bg">
 
             <ImageView
                 android:id="@+id/iv_result"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_margin="15dp"
+                android:layout_width="@dimen/dp140"
+                android:layout_height="@dimen/dp140"
+                android:layout_centerInParent="true"
                 android:contentDescription="@string/app_name" />
 
         </RelativeLayout>

@@ -1,14 +1,13 @@
 package com.edawtech.jiayou.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ScrollView;
+import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-import androidx.core.widget.NestedScrollView;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -18,23 +17,26 @@ import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseMvpActivity;
 import com.edawtech.jiayou.config.base.MyApplication;
 import com.edawtech.jiayou.config.bean.UserGrowthBean;
-import com.edawtech.jiayou.config.constant.VsUserConfig;
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
 import com.edawtech.jiayou.ui.adapter.MyPagerAdapter;
 import com.edawtech.jiayou.ui.fragment.InviteFragment;
 import com.edawtech.jiayou.ui.fragment.RedListFragment;
 import com.edawtech.jiayou.utils.CommonParam;
+import com.edawtech.jiayou.utils.DialogUtils;
 import com.edawtech.jiayou.utils.FitStateUtils;
 import com.edawtech.jiayou.utils.StringUtils;
 import com.edawtech.jiayou.utils.tool.LogUtils;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
-import com.edawtech.jiayou.widgets.MyNestedScrollView;
 import com.edawtech.jiayou.widgets.MyViewPager;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
 
 
 import java.util.HashMap;
@@ -54,16 +56,18 @@ public class GrowMoneyActivity extends BaseMvpActivity {
     XTabLayout tabLayout;
     @BindView(R.id.tv_redbag)
     TextView tvRedBag;
-    @BindView(R.id.nestedScrollView)
-    MyNestedScrollView scrollView;
     @BindView(R.id.vp_content)
     MyViewPager mPager;
+    @BindView(R.id.bt_bind)
+    Button btBind;
 
     private PublicPresenter mPresenter;
     private MyPagerAdapter adapter;
     private Fragment[] fs;
-    //tabLayout显示的下标
-    private int position = 0;
+    //是否绑定微信
+    private boolean isBindWx = false;
+    //用户余额
+    private String money;
 
     @Override
     public int getLayoutId() {
@@ -73,12 +77,14 @@ public class GrowMoneyActivity extends BaseMvpActivity {
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
-        FitStateUtils.setImmersionStateMode(this, R.color.public_color_DE5A3C);
+        FitStateUtils.setImmersionStateMode(this, R.color.activity_title_color);
         mPresenter = new PublicPresenter(this, false, "");
         mPresenter.attachView(this);
         tvTitle.setText("我的成长金");
         addFragments();
         initListener();
+        //检测用户是否绑定
+        checkUserIsBindWx();
         //获取用户成长金
         getUserGrowth();
     }
@@ -95,44 +101,7 @@ public class GrowMoneyActivity extends BaseMvpActivity {
     }
 
     private void initListener() {
-        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                //判断是否滑到的底部
-                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-                    LogUtils.e("fxx", "nestedScrollView已经滑到底了");
-                    switch (position){
-                        case 0:         //成长金明细
-                            //成长金明细加载更多
-                            EventBus.getDefault().postSticky("redListLoadMore");
-                            break;
-                        case 1:         //邀请列表
-                            //邀请列表加载更多
-                            EventBus.getDefault().postSticky("inviteLoadMore");
-                            break;
-                    }
-                }
-            }
-        });
-
-        tabLayout.addOnTabSelectedListener(new XTabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(XTabLayout.Tab tab) {
-                position = tab.getPosition();
-                LogUtils.e("fxx", "addOnTabSelectedListener    当前下标=" + position);
-            }
-
-            @Override
-            public void onTabUnselected(XTabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(XTabLayout.Tab tab) {
-
-            }
-        });
-
+        //适应高度
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -165,19 +134,78 @@ public class GrowMoneyActivity extends BaseMvpActivity {
         mPresenter.netWorkRequestGet(CommonParam.GET_USER_GROWTH, map);
     }
 
-    @OnClick({R.id.iv_back, R.id.rtv_go_withdraw})
+    /**
+     * 检测用户是否绑定微信
+     */
+    private void checkUserIsBindWx() {
+        OkGo.<String>post(CommonParam.CHECK_USER_IS_BIND_WX)
+                .params("appId", CommonParam.APP_ID)
+                .params("uid", MyApplication.UID)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        LogUtils.i("fxx", "检测用户绑定微信成功   data=" + body);
+                        try {
+                            org.json.JSONObject json = new org.json.JSONObject(body);
+                            int code = json.getInt("code");
+                            String msg = json.getString("msg");
+                            if (code == 0) {
+                                org.json.JSONObject data = json.getJSONObject("data");
+                                int isBind = data.getInt("isBind");
+                                if (isBind == 1) {
+                                    isBindWx = true;
+                                    btBind.setText("去提现");
+                                } else {
+                                    isBindWx = false;
+                                    btBind.setText("未绑定");
+                                }
+                            } else {
+                                isBindWx = false;
+                                btBind.setText("未绑定");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        LogUtils.i("fxx", "检测用户绑定微信失败   data=" + response.body());
+                        isBindWx = false;
+                        btBind.setText("未绑定");
+                    }
+                });
+    }
+
+
+    @OnClick({R.id.iv_back, R.id.bt_bind, R.id.tv_bind_wx})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
-                finish();
+                ActivityCompat.finishAfterTransition(this);
                 break;
-            case R.id.rtv_go_withdraw:
-                Intent intent_balance = new Intent(this, VsMyRedPagActivity.class);
-                String urlTo = VsUserConfig.getDataString(this, VsUserConfig.JKey_RED_PAGE);
-                String[] aboutBusiness = new String[]{"我的红包", "", urlTo};
-                intent_balance.putExtra("AboutBusiness", aboutBusiness);
-                intent_balance.putExtra("uiFlag", "redbag");
-                startActivity(intent_balance);
+            case R.id.bt_bind:
+                if (isBindWx) {
+                    if (Double.parseDouble(money) > 0) {
+                        Intent it = new Intent(this, VsMyRedPopActivity.class);
+                        it.putExtra("money", money);
+                        startActivity(it);
+                    } else {
+                        ToastUtil.showMsg("余额不足");
+                    }
+                } else {
+                    DialogUtils. showYesNoDialog(this, null,"未绑定微信，无法提现\n请前往微信绑定", getResources().getString(R.string.ok), getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //刷新我的页面数据信息
+                            startActivity(new Intent(GrowMoneyActivity. this, VsredinfoActivity.class));
+                        }
+                    }, null, null);
+                }
+                break;
+            case R.id.tv_bind_wx:
+                startActivity(new Intent(this, VsredinfoActivity.class));
                 break;
         }
     }
@@ -186,10 +214,10 @@ public class GrowMoneyActivity extends BaseMvpActivity {
     public void onSuccess(String data) {
         LogUtils.e("fxx", "获取用户成长金成功       data=" + data);
         UserGrowthBean bean = JSONObject.parseObject(data, UserGrowthBean.class);
-        String amount = bean.getData().getAmount();
-        if (!StringUtils.isEmpty(amount)) {
+        money = bean.getData().getAmount();
+        if (!StringUtils.isEmpty(money)) {
             //显示成长金
-            tvRedBag.setText(amount);
+            tvRedBag.setText(money);
         } else {
             tvRedBag.setText("0.00");
         }
@@ -213,7 +241,10 @@ public class GrowMoneyActivity extends BaseMvpActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refreshRed(String msg) {
-
+        if (msg.equals("withdrawSuccess")){
+            LogUtils.i("fxx","提现成功   刷新成长金");
+            getUserGrowth();
+        }
     }
 }
 

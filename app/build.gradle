@@ -335,4 +335,11 @@ dependencies {
     //时间日期选择器
     implementation 'com.contrarywind:Android-PickerView:3.2.7'
 
+    //OkGo网络请求
+    implementation 'com.lzy.net:okgo:3.0.4'
+    implementation 'com.lzy.net:okrx2:2.0.2'
+    implementation 'com.lzy.net:okserver:2.0.5'
+
+    //下拉刷新
+    implementation project(':library')
 }

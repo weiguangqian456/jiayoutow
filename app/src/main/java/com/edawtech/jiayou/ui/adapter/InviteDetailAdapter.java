@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edawtech.jiayou.R;
+import com.edawtech.jiayou.config.bean.InviteDetailInfo;
 import com.edawtech.jiayou.retrofit.SeckillTab;
 import com.edawtech.jiayou.utils.StringUtils;
 
@@ -26,9 +27,9 @@ import java.util.List;
  */
 public class InviteDetailAdapter extends RecyclerView.Adapter<InviteDetailAdapter.MyViewHolder> {
 
-    private List<SeckillTab.Records> recordsList;
+    private List<InviteDetailInfo.RecordsBean> recordsList;
     private Context context;
-    public InviteDetailAdapter(Context context,List<SeckillTab.Records> recordsList) {
+    public InviteDetailAdapter(Context context,List<InviteDetailInfo.RecordsBean> recordsList) {
         this.context = context;
         this.recordsList = recordsList;
     }
@@ -43,11 +44,11 @@ public class InviteDetailAdapter extends RecyclerView.Adapter<InviteDetailAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        SeckillTab.Records records = recordsList.get(position);
-        holder.tvMoney.setText(records.amountGun);
-        if(!StringUtils.isEmpty(records.payTime)) {
-            holder.tvTime.setText(records.payTime.substring(0,10));
-            holder.tvHour.setText(records.payTime.substring(10,records.payTime.length()));
+        InviteDetailInfo.RecordsBean records = recordsList.get(position);
+        holder.tvMoney.setText(String .valueOf( records.getAmountGun()));
+        if(!StringUtils.isEmpty(records.getPayTime())) {
+            holder.tvTime.setText(records.getPayTime().substring(0,10));
+            holder.tvHour.setText(records.getPayTime().substring(10,records.getPayTime().length()));
         }
     }
 

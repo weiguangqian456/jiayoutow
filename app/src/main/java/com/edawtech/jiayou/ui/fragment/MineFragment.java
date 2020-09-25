@@ -1,17 +1,18 @@
 package com.edawtech.jiayou.ui.fragment;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -24,16 +25,10 @@ import com.edawtech.jiayou.config.bean.UserGrowthBean;
 import com.edawtech.jiayou.config.bean.UserInfoBean;
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
 import com.edawtech.jiayou.net.observer.TaskCallback;
-import com.edawtech.jiayou.ui.activity.AddressListActivity;
-import com.edawtech.jiayou.ui.activity.CaptureActivity;
-import com.edawtech.jiayou.ui.activity.CollectionActivity;
 import com.edawtech.jiayou.ui.activity.GrowMoneyActivity;
 import com.edawtech.jiayou.ui.activity.KcMyQcodeActivity;
 import com.edawtech.jiayou.ui.activity.LoginActivity;
-import com.edawtech.jiayou.ui.activity.RefuelBalanceActivity;
 import com.edawtech.jiayou.ui.activity.UserInfoActivity;
-import com.edawtech.jiayou.ui.activity.VsMyBalanceDetailActivity;
-import com.edawtech.jiayou.ui.activity.VsRechargeActivity;
 import com.edawtech.jiayou.ui.activity.SettingActivity;
 import com.edawtech.jiayou.ui.activity.WeiboShareWebViewActivity;
 import com.edawtech.jiayou.ui.adapter.MyFragmentListAdapter;
@@ -41,9 +36,8 @@ import com.edawtech.jiayou.ui.view.CircleImageView;
 import com.edawtech.jiayou.utils.AppIconHelper;
 import com.edawtech.jiayou.utils.CommonParam;
 import com.edawtech.jiayou.utils.StringUtils;
-import com.edawtech.jiayou.utils.sp.SharePreferencesHelper;
+import com.edawtech.jiayou.utils.SharePreferencesHelper;
 import com.edawtech.jiayou.utils.tool.LogUtils;
-import com.edawtech.jiayou.utils.tool.SkipPageUtils;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
 import com.mob.MobSDK;
 
@@ -66,18 +60,14 @@ public class MineFragment extends BaseMvpFragment {
 
     @BindView(R.id.iv_user_icon)
     CircleImageView ivUserIcon;
-    @BindView(R.id.tv_account)
-    TextView tvAccount;
+    @BindView(R.id.tv_nickname)
+    TextView tvNickname;
+    @BindView(R.id.tv_mobile)
+    TextView tvMobile;
     @BindView(R.id.tv_user_type)
     TextView tvUserType;
-    @BindView(R.id.user_type_layout)
-    LinearLayout userTypeLayout;
-    @BindView(R.id.czj_money)
+    @BindView(R.id.tv_money)
     TextView czjMoney;
-    @BindView(R.id.vip_time)
-    TextView vipTime;
-    @BindView(R.id.my_integral_num)
-    TextView myIntegralNum;
     @BindView(R.id.list)
     RecyclerView list;
 
@@ -87,7 +77,7 @@ public class MineFragment extends BaseMvpFragment {
     private boolean isChangeInfo = false;     //是否修改了用户资料
     private UserInfoBean.DataBean.TUserInfoBean mUserInfo;  //用户信息
     private ArrayList<Integer> iconData = new ArrayList<>();
-    private String [] titles = new String[11];
+    private String[] titles = new String[4];
     //用户分享时需传递的链接
     private String shareUrl = "";
 
@@ -111,29 +101,15 @@ public class MineFragment extends BaseMvpFragment {
      * 添加资源文件
      */
     private void addIconRes() {
-        iconData.add(R.drawable.user_recharge);
-        iconData.add(R.drawable.dingdanguanli);
-        iconData.add(R.drawable.user_scan_bind);
-        iconData.add(R.drawable.user_share);
-        iconData.add(R.drawable.user_my_code);
-        iconData.add(R.drawable.mall_fragment_myself_deal);
-        iconData.add(R.drawable.mall_fragment_myself_help);
-        iconData.add(R.drawable.user_address);
-        iconData.add(R.drawable.sec_collection);
-        iconData.add(R.drawable.user_setting);
-        iconData.add(R.drawable.icon_customservice);
+        iconData.add(R.drawable.ic_share_icon);
+        iconData.add(R.drawable.ic_qr_code);
+        iconData.add(R.drawable.ic_help_center);
+        iconData.add(R.drawable.ic_setting_icon);
 
-        titles[0] = "充值中心";
-        titles[1] = "商家管理";
-        titles[2] = "扫码绑定";
-        titles[3] = "分享好友";
-        titles[4] = "我的二维码";
-        titles[5] = "电子协议";
-        titles[6] = "帮助中心";
-        titles[7] = "收货地址";
-        titles[8] = "我的收藏";
-        titles[9] = "设置";
-        titles[10] = "售后客服";
+        titles[0] = "分享好友";
+        titles[1] = "我的二维码";
+        titles[2] = "帮助中心";
+        titles[3] = "设置";
     }
 
 
@@ -142,87 +118,44 @@ public class MineFragment extends BaseMvpFragment {
      */
     private void initListener() {
         if (adapter == null) {
-            adapter = new MyFragmentListAdapter(getContext(), iconData,titles);
+            adapter = new MyFragmentListAdapter(getContext(), iconData, titles);
         }
         list.setNestedScrollingEnabled(false);  //不准滑动
-        list.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        list.setLayoutManager(new LinearLayoutManager(getContext()));
         list.setAdapter(adapter);
 
         adapter.setItemClickListener(new MyFragmentListAdapter.ItemClickListener() {
             @Override
             public void onClickListener(View v, int position) {
                 switch (position) {
-                    case 0:      //充值中心
+                    case 0:     //分享好友
                         if (MyApplication.isLogin) {
-                            startActivity(new Intent(mContext, VsRechargeActivity.class));
-                        } else {
-                            startActivity(new Intent(mContext, LoginActivity.class));
-                            ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt3));
-                        }
-                        break;
-                    case 1:     //商家管理
-                        ToastUtil.showMsg("该模块正在开发中，敬请期待！");
-                        break;
-                    case 2:     //扫码绑定
-                        if (MyApplication.isLogin) {
-                            SkipPageUtils.getInstance(mContext).skipPage(CaptureActivity.class, "code", "2");
-                        } else {
-                            startActivity(new Intent(mContext, LoginActivity.class));
-                            ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
-                        }
-                        break;
-                    case 3:     //分享好友
-                        if (MyApplication.isLogin) {
-//                            toShare();
-                            share();
+                            if (!StringUtils.isEmpty(shareUrl)) {
+                                share();
+                            } else {
+                                ToastUtil.showMsg("获取分享链接失败");
+                            }
                         } else {
                             ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
                         }
                         break;
-                    case 4:     //我的二维码
+                    case 1:     //我的二维码
                         if (MyApplication.isLogin) {
-                            startActivity(new Intent(mContext,KcMyQcodeActivity.class));
+                            startActivity(new Intent(mContext, KcMyQcodeActivity.class));
                         } else {
                             startActivity(new Intent(mContext, LoginActivity.class));
                             ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
                         }
                         break;
-                    case 5:     //电子协议
-                        final String dealUrl = "file:///android_asset/shop_service_terms.html";
-                        Intent dealIntent = new Intent();
-                        dealIntent.setClass(mContext, WeiboShareWebViewActivity.class);
-                        String[] aboutBusiness_deal = new String[]{mContext.getString(R.string.welcome_main_elecdeal), "service", dealUrl};
-                        dealIntent.putExtra("AboutBusiness", aboutBusiness_deal);
-                        startActivity(dealIntent);
-                        break;
-                    case 6:     //帮助中心
+                    case 2:     //帮助中心
                         Intent helperIntent = new Intent();
                         String[] aboutBusiness = new String[]{mContext.getResources().getString(R.string.help), "", "http://paas.edawtech.com/help/dudu_help.html"};
                         helperIntent.putExtra("AboutBusiness", aboutBusiness);
                         helperIntent.setClass(mContext, WeiboShareWebViewActivity.class);
                         startActivity(helperIntent);
                         break;
-                    case 7:     //收货地址
-                        if (MyApplication.isLogin) {
-                            startActivity(new Intent(mContext, AddressListActivity.class));
-                        } else {
-                            startActivity(new Intent(mContext, LoginActivity.class));
-                            ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
-                        }
-                        break;
-                    case 8:     //我的收藏
-                        if (MyApplication.isLogin) {
-                            startActivity(new Intent(mContext, CollectionActivity.class));
-                        } else {
-                            startActivity(new Intent(mContext, LoginActivity.class));
-                            ToastUtil.showMsg(mContext.getResources().getString(R.string.nologin_auto_hint));
-                        }
-                        break;
-                    case 9:     //设置
+                    case 3:     //设置
                         startActivity(new Intent(mContext, SettingActivity.class));
-                        break;
-                    case 10:    //售后客服
-                        ToastUtil.showMsg("该模块正在开发中，敬请期待！");
                         break;
                 }
             }
@@ -232,10 +165,10 @@ public class MineFragment extends BaseMvpFragment {
     /**
      * 分享
      */
-    private void share(){
-        Bitmap bt = AppIconHelper.getAppIcon(getContext().getPackageManager(),"com.edawtech.jiayou");
+    private void share() {
+        Bitmap bt = AppIconHelper.getAppIcon(getContext().getPackageManager(), "com.edawtech.jiayou");
 
-        OnekeyShare oks=new OnekeyShare();
+        OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
         // title标题，微信、QQ和QQ空间等平台使用
@@ -254,16 +187,20 @@ public class MineFragment extends BaseMvpFragment {
         oks.show(MobSDK.getContext());
     }
 
-    @OnClick({ R.id.iv_user_icon, R.id.tv_account, R.id.czj_layout, R.id.vip_equity_layout, R.id.my_integral_layout})
+    @OnClick({R.id.user_info_layout, R.id.czj_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_user_icon:     //头像
-            case R.id.tv_account:       //用户名
+            case R.id.user_info_layout:     //头像
                 if (MyApplication.isLogin) {
                     if (mUserInfo != null) {
                         EventBus.getDefault().postSticky(mUserInfo);
                     }
-                    startActivity(new Intent(mContext, UserInfoActivity.class));
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        startActivity(new Intent(mContext, UserInfoActivity.class), ActivityOptions.makeSceneTransitionAnimation(getActivity(), ivUserIcon, "icon").toBundle());
+                    } else {
+                        startActivity(new Intent(mContext, UserInfoActivity.class));
+                    }
+
                 } else {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt4));
@@ -271,25 +208,11 @@ public class MineFragment extends BaseMvpFragment {
                 break;
             case R.id.czj_layout:       //成长金
                 if (MyApplication.isLogin) {
-                    startActivity(new Intent(mContext, GrowMoneyActivity.class));
-                } else {
-                    startActivity(new Intent(mContext, LoginActivity.class));
-                    ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt2));
-                }
-                break;
-            case R.id.vip_equity_layout:    //会员权益
-                if (MyApplication.isLogin) {
-                    Intent myBablanceDetailIntent = new Intent(mContext, VsMyBalanceDetailActivity.class);
-                    myBablanceDetailIntent.putExtra("flag", "2");
-                    startActivity(myBablanceDetailIntent);
-                } else {
-                    startActivity(new Intent(mContext, LoginActivity.class));
-                    ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt2));
-                }
-                break;
-            case R.id.my_integral_layout:   //我的积分
-                if (MyApplication.isLogin) {
-                    startActivity(new Intent(mContext, RefuelBalanceActivity.class));
+                    if (Build.VERSION.SDK_INT >= 21) {
+                        startActivity(new Intent(mContext, GrowMoneyActivity.class), ActivityOptions.makeSceneTransitionAnimation(getActivity(), czjMoney, "money").toBundle());
+                    } else {
+                        startActivity(new Intent(mContext, GrowMoneyActivity.class));
+                    }
                 } else {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     ToastUtil.showMsg(mContext.getResources().getString(R.string.login_prompt2));
@@ -316,7 +239,10 @@ public class MineFragment extends BaseMvpFragment {
                 getShareContent();
             }
         } else {
-            userTypeLayout.setVisibility(View.GONE);
+            tvNickname.setText("未登陆");
+            czjMoney.setText("0");
+            tvMobile.setVisibility(View.GONE);
+            tvUserType.setVisibility(View.GONE);
         }
     }
 
@@ -337,7 +263,7 @@ public class MineFragment extends BaseMvpFragment {
                     //显示成长金
                     czjMoney.setText(amount);
                 } else {
-                    czjMoney.setText("0.00");
+                    czjMoney.setText("0");
                 }
             }
 
@@ -351,18 +277,19 @@ public class MineFragment extends BaseMvpFragment {
 
     /**
      * 获取分享内容
+     *
      * @param
      */
-    private void getShareContent(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("appId",CommonParam.APP_ID);
-        map.put("uid",MyApplication.UID);
-        map.put("type","ere");
-        map.put("phone",MyApplication.MOBILE);
+    private void getShareContent() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("appId", CommonParam.APP_ID);
+        map.put("uid", MyApplication.UID);
+        map.put("type", "ere");
+        map.put("phone", MyApplication.MOBILE);
         mPresenter.netWorkRequestGet(CommonParam.GET_USER_SHARE_MSG, map, new TaskCallback() {
             @Override
             public void onSuccess(String data) {
-                LogUtils.i("fxx","获取用户分享内容成功   data="+data);
+                LogUtils.i("fxx", "获取用户分享内容成功   data=" + data);
                 try {
                     org.json.JSONObject json = new org.json.JSONObject(data);
                     org.json.JSONObject dataJson = json.getJSONObject("data");
@@ -374,7 +301,7 @@ public class MineFragment extends BaseMvpFragment {
 
             @Override
             public void onFailure(Throwable e, int code, String msg, boolean isNetWorkError) {
-                LogUtils.i("fxx","获取用户分享内容失败   code="+code+"    msg="+msg+"    isNetWorkError="+isNetWorkError);
+                LogUtils.i("fxx", "获取用户分享内容失败   code=" + code + "    msg=" + msg + "    isNetWorkError=" + isNetWorkError);
             }
         });
     }
@@ -383,17 +310,19 @@ public class MineFragment extends BaseMvpFragment {
     @Override
     public void onSuccess(String data) {
         LogUtils.e("fxx", "获取用户信息成功      data=" + data);
-        isChangeInfo = false;
         UserInfoBean info = JSONObject.parseObject(data, UserInfoBean.class);
         List<UserInfoBean.DataBean.TUserInfoBean> list = info.getData().getTUserInfo();
         int level = info.getData().getLevel();
         //保存用户level值
-        SharePreferencesHelper sp = new SharePreferencesHelper(mContext,CommonParam.SP_NAME);
-        sp.put("level",level);
+        SharePreferencesHelper sp = new SharePreferencesHelper(mContext, CommonParam.SP_NAME);
+        sp.put("level", level);
 
         String levelName = info.getData().getLevelName();
         if (list.size() > 0) {
-            userTypeLayout.setVisibility(View.VISIBLE);
+            //改变是否修改用户信息
+            isChangeInfo = false;
+            tvMobile.setVisibility(View.VISIBLE);
+            tvUserType.setVisibility(View.VISIBLE);
             mUserInfo = list.get(0);
             String phone = mUserInfo.getPhone();
             String nickname = mUserInfo.getUserName();
@@ -405,30 +334,17 @@ public class MineFragment extends BaseMvpFragment {
                         .into(ivUserIcon);
             }
             if (nickname != null && nickname.length() > 0) {
-                tvAccount.setText(nickname);
+                tvNickname.setText(nickname);
             } else {
-                if (phone != null) tvAccount.setText(phone);
+                tvNickname.setText("未设置");
             }
+            tvMobile.setText(phone.substring(0, 3) + "****" + phone.substring(7));
             tvUserType.setText(levelName);
-            LogUtils.i("fxx","========>>>   用户等级="+level);
-            switch (level) {
-                case 0:
-                    tvUserType.setCompoundDrawables(getResources().getDrawable(R.drawable.mall_user_normal), null, null, null);
-                    break;
-                case 1:
-                    tvUserType.setCompoundDrawables(getResources().getDrawable(R.drawable.mall_user_masonry), null, null, null);
-                    break;
-                case 2:
-                    tvUserType.setCompoundDrawables(getResources().getDrawable(R.drawable.mall_user_goad), null, null, null);
-                    break;
-                case 3:
-                    tvUserType.setCompoundDrawables(getResources().getDrawable(R.drawable.mall_user_silver), null, null, null);
-                    break;
-                default:
-                    break;
-            }
         } else {
             LogUtils.e("fxx", "数据获取成功，但是数组没有数据");
+            tvMobile.setVisibility(View.GONE);
+            tvUserType.setVisibility(View.GONE);
+            tvNickname.setText("未登陆");
         }
     }
 
@@ -436,7 +352,9 @@ public class MineFragment extends BaseMvpFragment {
     public void onFailure(Throwable e, int code, String msg, boolean isNetWorkError) {
         LogUtils.e("fxx", "获取用户信息失败  code=" + code + "   msg=" + msg + "     isNetWorkError=" + isNetWorkError);
         ToastUtil.showMsg(msg);
-        userTypeLayout.setVisibility(View.GONE);
+        tvMobile.setVisibility(View.GONE);
+        tvUserType.setVisibility(View.GONE);
+        tvNickname.setText("未登陆");
     }
 
 
@@ -458,7 +376,7 @@ public class MineFragment extends BaseMvpFragment {
     }
 
     /**
-     * 修改用户信息成功后  刷新用户信息
+     * 修改用户信息成功后  刷新用户信息    提现成功  刷新成长金金额
      *
      * @param msg
      */
@@ -469,6 +387,10 @@ public class MineFragment extends BaseMvpFragment {
             //修改信息后回调
             isChangeInfo = true;
             getUserInfo();
+        } else if (msg.equals("withdrawSuccess")){
+            LogUtils.i("fxx", "提现成功  刷新成长金信息");
+            //提现成功  刷新成长金
+            getUserGrowth();
         }
     }
 
@@ -495,10 +417,11 @@ public class MineFragment extends BaseMvpFragment {
             Glide.with(mContext)
                     .load(R.drawable.mall_user_image_defult)
                     .into(ivUserIcon);
-            tvAccount.setText("未登录");
-            czjMoney.setText("0.00");
-            if (userTypeLayout.getVisibility() == View.VISIBLE) {
-                userTypeLayout.setVisibility(View.GONE);
+            tvNickname.setText("未登录");
+            czjMoney.setText("0");
+            tvMobile.setVisibility(View.GONE);
+            if (tvUserType.getVisibility() == View.VISIBLE) {
+                tvUserType.setVisibility(View.GONE);
             }
         }
     }

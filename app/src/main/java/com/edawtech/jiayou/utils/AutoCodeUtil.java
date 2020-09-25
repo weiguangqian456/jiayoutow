@@ -27,15 +27,17 @@ public class AutoCodeUtil {
             public void onTick(long millisUntilFinished) {
                 String text = (millisUntilFinished / time) + "s";
                 tv.setEnabled(false);
-                tv.setText(text);
+                tv.setText("重新发送 (" + text + ")");
                 tv.setTextColor(Color.parseColor("#969696"));
+                tv.setBackgroundColor(Color.parseColor("#DCDCDC"));
             }
 
             @Override
             public void onFinish() {
                 tv.setEnabled(true);
-                tv.setText("重新发送");
+                tv.setText("重新获取");
                 tv.setTextColor(Color.parseColor("#ffffff"));
+                tv.setBackgroundColor(Color.parseColor("#2F95F8"));
             }
         };
         timer.start();
@@ -49,15 +51,17 @@ public class AutoCodeUtil {
             public void onTick(long millisUntilFinished) {
                 String text = (millisUntilFinished / time) + "s";
                 tv.setEnabled(false);
-                tv.setText(text);
+                tv.setText("重新发送 (" + text + ")");
                 tv.setTextColor(tickColor);
+                tv.setBackgroundColor(Color.parseColor("#DCDCDC"));
             }
 
             @Override
             public void onFinish() {
                 tv.setEnabled(true);
-                tv.setText("重新发送");
+                tv.setText("重新获取");
                 tv.setTextColor(finishColor);
+                tv.setBackgroundColor(Color.parseColor("#2F95F8"));
             }
         };
         timer.start();
@@ -70,8 +74,9 @@ public class AutoCodeUtil {
             public void onTick(long millisUntilFinished) {
                 String text = (millisUntilFinished / time) + "s";
                 tv.setEnabled(false);
-                tv.setText(text);
+                tv.setText("重新发送 (" + text + ")");
                 tv.setTextColor(tickColor);
+                tv.setBackgroundColor(Color.parseColor("#DCDCDC"));
             }
 
             @Override
@@ -79,6 +84,7 @@ public class AutoCodeUtil {
                 tv.setEnabled(true);
                 tv.setText("点击获取");
                 tv.setTextColor(finishColor);
+                tv.setBackgroundColor(Color.parseColor("#2F95F8"));
             }
         };
         timer.start();

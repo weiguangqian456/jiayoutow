@@ -9,7 +9,7 @@
         android:id="@+id/small_title"
         android:layout_width="fill_parent"
         android:layout_height="54dp"
-        android:background="@color/public_color_EC6941">
+        android:background="@color/activity_title_color">
 
         <!-- left -->
         <LinearLayout

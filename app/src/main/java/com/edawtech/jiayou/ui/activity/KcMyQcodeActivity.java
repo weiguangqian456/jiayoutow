@@ -59,7 +59,7 @@ public class KcMyQcodeActivity extends BaseMvpActivity {
     public void initView(@Nullable Bundle savedInstanceState) {
         //今日头条适配屏幕
         ScreenAdaptiveUtils.initCustomDensity(this, getApplication());
-        initStatusBar(Color.parseColor("#ED3328"));
+        initStatusBar(Color.parseColor("#2F95F8"));
         mPresenter = new PublicPresenter(this, true, "加载中...");
         mPresenter.attachView(this);
         tvTitle.setText("我的二维码");

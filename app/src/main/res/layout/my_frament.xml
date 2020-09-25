@@ -1,246 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/public_color_EC6941"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg_color"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg"
-        android:orientation="vertical">
+        android:layout_height="@dimen/dp240"
+        android:padding="@dimen/dp15">
 
-        <FrameLayout
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/my_bg" />
 
-            <!-- body -->
-            <ScrollView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:fadingEdge="none"
-                android:scrollbars="none">
+        <RelativeLayout
+            android:id="@+id/user_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp40"
+           >
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="20dp">
+            <com.edawtech.jiayou.ui.view.CircleImageView
+                android:id="@+id/iv_user_icon"
+                android:layout_width="@dimen/dp58"
+                android:layout_height="@dimen/dp58"
+                android:src="@drawable/user_default_icon"
+                android:transitionName="icon"/>
 
-                    <!-- 我的基本信息 -->
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/w_268_dip">
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp2"
+                android:layout_toRightOf="@id/iv_user_icon"
+                android:text="未登录"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_16sp" />
 
-                        <!-- 开始 -->
-                        <RelativeLayout
-                            android:id="@+id/vs_myselft_qcodelayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/w_230_dip"
-                            android:background="@color/public_color_EC6941">
+            <TextView
+                android:id="@+id/tv_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/tv_nickname"
+                android:layout_alignBottom="@id/iv_user_icon"
+                android:layout_marginBottom="@dimen/dp2"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_16sp" />
 
+            <TextView
+                android:id="@+id/tv_user_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp15"
+                android:background="@drawable/user_type_bg"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp14"
+                android:paddingTop="2dp"
+                android:paddingRight="@dimen/dp14"
+                android:paddingBottom="2dp"
+                android:text="普通用户"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:textSize="@dimen/sp_14" />
+        </RelativeLayout>
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0.35dp"
+            android:background="#2E86F0"
+            android:layout_marginTop="@dimen/dp155"/>
 
-                            <com.edawtech.jiayou.ui.view.CircleImageView
-                                android:id="@+id/iv_user_icon"
-                                android:layout_width="@dimen/w_60_dip"
-                                android:layout_height="@dimen/w_60_dip"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/w_50_dip"
-                                android:gravity="center"
-                                android:src="@drawable/mall_user_image_defult"
-                                app:border_color="@color/transparent"
-                                app:border_width="0dp" />
+        <RelativeLayout
+            android:id="@+id/czj_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/view"
+            >
 
-                            <TextView
-                                android:id="@+id/tv_account"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/iv_user_icon"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/w_10_dip"
-                                android:gravity="center_vertical"
-                                android:text="未登录"
-                                android:textColor="@color/vs_white"
-                                android:textSize="19sp" />
+            <TextView
+                android:id="@+id/tv_czj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/my_czj_bg"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp15"
+                android:paddingTop="2dp"
+                android:paddingRight="@dimen/dp15"
+                android:paddingBottom="4dp"
+                android:text="@string/czj"
+                android:textColor="@color/white" />
 
-                            <!--用户标志-->
-                            <LinearLayout
-                                android:id="@+id/user_type_layout"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/tv_account"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/w_10_dip"
-                                android:gravity="center"
-                                android:orientation="horizontal"
-                                android:visibility="gone">
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_czj"
+                android:layout_centerHorizontal="true"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp20"
+                android:transitionName="money"/>
+        </RelativeLayout>
+    </RelativeLayout>
 
-                                <View
-                                    android:layout_width="@dimen/w_13_dip"
-                                    android:layout_height="@dimen/w_1_dip"
-                                    android:layout_gravity="center"
-                                    android:background="@color/vs_white" />
-
-                                <TextView
-                                    android:id="@+id/tv_user_type"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp15"
-                                    android:layout_marginRight="@dimen/dp15"
-                                    android:drawableLeft="@drawable/mall_user_normal"
-                                    android:drawablePadding="@dimen/dp8"
-                                    android:gravity="center_vertical"
-                                    android:text="普通会员"
-                                    android:textColor="@color/White"
-                                    android:textSize="@dimen/w_15_dip" />
-
-                                <View
-                                    android:layout_width="@dimen/w_13_dip"
-                                    android:layout_height="@dimen/w_1_dip"
-                                    android:layout_gravity="center"
-                                    android:background="@color/vs_white" />
-                            </LinearLayout>
-
-                        </RelativeLayout>
-                        <!-- 结束 -->
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="fill_parent"
-                            android:layout_height="80dp"
-                            android:layout_gravity="bottom"
-                            android:layout_marginLeft="@dimen/w_15_dip"
-                            android:layout_marginRight="@dimen/w_15_dip"
-                            android:layout_marginBottom="2dp"
-                            app:cardBackgroundColor="@color/color_white"
-                            app:cardCornerRadius="5sp"
-                            app:cardElevation="2dp">
-
-                            <LinearLayout
-                                android:id="@+id/balance_row_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:baselineAligned="false"
-                                android:orientation="horizontal">
-
-                                <LinearLayout
-                                    android:id="@+id/czj_layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="fill_parent"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/czj_money"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/dp10"
-                                        android:text="0.00"
-                                        android:textColor="@color/vs_red"
-                                        android:textSize="@dimen/w_13_dip"
-                                        android:textStyle="bold" />
-
-                                    <Space
-                                        android:layout_width="1dp"
-                                        android:layout_height="0dp"
-                                        android:layout_weight="1" />
-
-                                    <TextView
-                                        android:id="@+id/balance_textview_02"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginBottom="@dimen/dp10"
-                                        android:text="成长金"
-                                        android:textColor="@color/myself_text_color"
-                                        android:textSize="@dimen/w_13_dip" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/vip_equity_layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="fill_parent"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/vip_time"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/dp10"
-                                        android:text="0分钟"
-                                        android:textColor="@color/vs_blue"
-                                        android:textSize="@dimen/w_13_dip"
-                                        android:textStyle="bold" />
-
-                                    <Space
-                                        android:layout_width="1dp"
-                                        android:layout_height="0dp"
-                                        android:layout_weight="1" />
-
-                                    <TextView
-                                        android:id="@+id/more_textview_04"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/w_3_dip"
-                                        android:layout_marginBottom="@dimen/dp10"
-                                        android:text="@string/vs_balance_taocan"
-                                        android:textColor="@color/myself_text_color"
-                                        android:textSize="@dimen/w_13_dip" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/my_integral_layout"
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="fill_parent"
-                                    android:layout_weight="1"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/my_integral_num"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/dp10"
-                                        android:text="0.00"
-                                        android:textColor="@color/vs_gree"
-                                        android:textSize="@dimen/w_13_dip" />
-
-                                    <Space
-                                        android:layout_width="1dp"
-                                        android:layout_height="0dp"
-                                        android:layout_weight="1" />
-
-                                    <TextView
-                                        android:id="@+id/balance_textview_06"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/w_3_dip"
-                                        android:layout_marginBottom="@dimen/dp10"
-                                        android:text="我的积分"
-                                        android:textColor="@color/myself_text_color"
-                                        android:textSize="@dimen/w_13_dip" />
-                                </LinearLayout>
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-                    </FrameLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp10"
-                        android:background="@color/white" />
-
-                </LinearLayout>
-            </ScrollView>
-        </FrameLayout>
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp10"
+        android:background="@color/white" />
 
 </LinearLayout>

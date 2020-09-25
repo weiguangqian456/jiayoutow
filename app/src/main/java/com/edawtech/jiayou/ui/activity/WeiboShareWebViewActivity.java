@@ -29,6 +29,7 @@ import com.edawtech.jiayou.config.base.VsContactItem;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.VsUserConfig;
 import com.edawtech.jiayou.net.http.VsHttpTools;
+import com.edawtech.jiayou.utils.FitStateUtils;
 import com.edawtech.jiayou.utils.db.provider.VsPhoneCallHistory;
 import com.edawtech.jiayou.utils.tool.CustomLog;
 import com.edawtech.jiayou.utils.tool.SendNoteObserver;
@@ -115,7 +116,7 @@ public class WeiboShareWebViewActivity extends VsBaseActivity {
         getWindow().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.vs_webview);
-        // FitStateUtils.setImmersionStateMode(this,R.color.public_color_EC6941);
+         FitStateUtils.setImmersionStateMode(this,R.color.activity_title_color);
         //关闭左滑功能
         setDisEnableLeftSliding();
         initTitleNavBar();

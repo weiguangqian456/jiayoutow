@@ -13,7 +13,7 @@ import com.edawtech.jiayou.ui.fragment.MineFragment
 import com.edawtech.jiayou.ui.statusbar.StatusBarUtil
 import com.edawtech.jiayou.utils.CommonParam
 import com.edawtech.jiayou.utils.LogUtils
-import com.edawtech.jiayou.utils.sp.SharePreferencesHelper
+import com.edawtech.jiayou.utils.SharePreferencesHelper
 import com.edawtech.jiayou.utils.tool.SoftHideKeyBoardUtil
 import com.edawtech.jiayou.utils.tool.ViewSetUtils
 import com.permissionx.guolindev.PermissionX

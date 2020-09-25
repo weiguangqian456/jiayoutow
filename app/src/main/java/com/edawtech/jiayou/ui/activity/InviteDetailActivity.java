@@ -11,16 +11,22 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.fastjson.JSON;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseMvpActivity;
-import com.edawtech.jiayou.config.base.TempAppCompatActivity;
+import com.edawtech.jiayou.config.bean.InviteDetailInfo;
+import com.edawtech.jiayou.config.bean.InviteInfo;
 import com.edawtech.jiayou.config.home.dialog.CustomProgressDialog;
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter;
 import com.edawtech.jiayou.retrofit.RetrofitUtils;
 import com.edawtech.jiayou.retrofit.SeckillTab;
 import com.edawtech.jiayou.ui.adapter.InviteDetailAdapter;
 import com.edawtech.jiayou.utils.CommonParam;
+import com.edawtech.jiayou.utils.FitStateUtils;
 import com.edawtech.jiayou.utils.tool.LogUtils;
+import com.edawtech.jiayou.utils.tool.ToastUtil;
 import com.edawtech.jiayou.widgets.SimpleDividerDecoration;
 import com.luck.picture.lib.decoration.WrapContentLinearLayoutManager;
 
@@ -39,28 +45,32 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 加油明细
+ * 单个被邀请人加油明细
  */
 public class InviteDetailActivity extends BaseMvpActivity {
 
-    @BindView(R.id.rl_back)
-    RelativeLayout rlBack;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.rl_empty)
     RelativeLayout rlEmpty;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.refresh_layout)
+    MaterialRefreshLayout refreshLayout;
 
-    private int pageSize = 1;
-    private Map<String, String> params;
+    //页数
+    private int page = 1;
+    //默认请求条数
+    private final int pageSize = 10;
+    //被邀请人手机号
     private String phone;
-    private CustomProgressDialog loadingDialog;
-    private List<SeckillTab.Records> recordsList = new ArrayList<>();
-    private InviteDetailAdapter adapter;
-    int lastVisibleItem;
-    boolean isLoading = false;
+    //是否下拉刷新
+    private boolean isRefresh = false;
+    //是否加载更多
+    private boolean isLoadMore = false;
     private PublicPresenter mPresenter;
+    private InviteDetailAdapter adapter;
+    private List<InviteDetailInfo.RecordsBean> recordsList = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -69,78 +79,47 @@ public class InviteDetailActivity extends BaseMvpActivity {
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
+        FitStateUtils.setImmersionStateMode(this, R.color.activity_title_color);
         mPresenter = new PublicPresenter(this, true, "加载中...");
+        mPresenter.attachView(this);
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
         LogUtils.e("fxx", "手机=" + phone);
-
-        initView();
-    }
-
-    private void initView() {
         tvTitle.setText("加油明细");
-        params = new HashMap<>();
-        loadingDialog = new CustomProgressDialog(this, "正在加载中...", R.drawable.loading_frame);
-        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable());
-
-        iniData();
-    }
-
-    private void iniData() {
-
-        params.put("page", pageSize + "");
-        params.put("phone", phone);
-        if (!this.isFinishing()) {
-            loadingDialog.setLoadingDialogShow();
-        }
-        RetrofitUtils.getInstance().refuelMoney(params).enqueue(new Callback<SeckillTab>() {
-            @Override
-            public void onResponse(Call<SeckillTab> call, Response<SeckillTab> response) {
-                loadingDialog.setLoadingDialogDismiss();
-                if (response.body() != null && response.body().records != null) {
-                    recordsList.addAll(response.body().records);
-                    LogUtils.e("recordsList:", recordsList.toString());
-                    if (recordsList.size() > 0) {
-                        rlEmpty.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        initAdapter();
-                    } else {
-                        rlEmpty.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SeckillTab> call, Throwable t) {
-                loadingDialog.setLoadingDialogDismiss();
-            }
-        });
+        initAdapter();
+        //获取列表
+        getInviteDetail();
     }
 
     private void initAdapter() {
-        adapter = new InviteDetailAdapter(getApplicationContext(), recordsList);
+        if (adapter == null) {
+            adapter = new InviteDetailAdapter(getApplicationContext(), recordsList);
+        }
         recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new SimpleDividerDecoration(this));
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        //下拉刷新  加载更多
+        refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount() && !isLoading) {
-                    Log.e("recyclerView", "当前界面已经滑到底了");
-                    pageSize++;
-                    isLoading = true;
-                    iniData();
-                }
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                mPresenter.setShowLoadingDialog(false);
+                page = 1;
+                isRefresh = true;
+                getInviteDetail();
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                if (recordsList.size() > 0 && recordsList.size() % 10 == 0) {
+                    mPresenter.setShowLoadingDialog(false);
+                    isLoadMore = true;
+                    page++;
+                    getInviteDetail();
+                } else {
+                    ToastUtil.showMsg("没有更多数据了");
+                    refreshLayout.finishRefreshLoadMore();
+                }
             }
         });
     }
@@ -148,11 +127,13 @@ public class InviteDetailActivity extends BaseMvpActivity {
     /**
      * 获取邀请用户加油明细列表
      */
-    private void getInviteDetail(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("page",pageSize);
-        map.put("phone",phone);
-        mPresenter.netWorkRequestGet(CommonParam.GET_INVITE_USER_CHEER_DETAILS,map);
+    private void getInviteDetail() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+//        map.put("phone", phone);
+        map.put("phone", "13612810111");
+        map.put("limit", pageSize);
+        mPresenter.netWorkRequestGet(CommonParam.GET_INVITE_USER_CHEER_DETAILS, map);
     }
 
     @OnClick(R.id.iv_back)
@@ -162,13 +143,50 @@ public class InviteDetailActivity extends BaseMvpActivity {
 
     @Override
     public void onSuccess(String data) {
-        LogUtils.i("fxx","邀请用户加油明细成功    data="+data);
-
+        LogUtils.i("fxx", "邀请用户加油明细成功    data=" + data);
+        InviteDetailInfo info = JSON.parseObject(data, InviteDetailInfo.class);
+        List<InviteDetailInfo.RecordsBean> list = info.getRecords();
+        if (list.size() > 0) {
+            recordsList.addAll(list);
+            adapter.notifyDataSetChanged();
+        }
+        if (recordsList.size() > 0) {
+            rlEmpty.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        } else {
+            rlEmpty.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+        if (isLoadMore) {
+            page--;
+            isLoadMore = false;
+            refreshLayout.finishRefreshLoadMore();
+            ToastUtil.showMsg("没有更多数据了");
+        }
+        if (isRefresh) {
+            isRefresh = false;
+            refreshLayout.finishRefresh();
+        }
     }
 
     @Override
     public void onFailure(Throwable e, int code, String msg, boolean isNetWorkError) {
-        LogUtils.e("fxx","邀请用户加油明细失败    code="+code+"    msg="+msg+"    isNetWorkError="+isNetWorkError);
+        LogUtils.e("fxx", "邀请用户加油明细失败    code=" + code + "    msg=" + msg + "    isNetWorkError=" + isNetWorkError);
+        if (isLoadMore) {
+            page--;
+            isLoadMore = false;
+            refreshLayout.finishRefreshLoadMore();
+        }
+        if (isRefresh) {
+            isRefresh = false;
+            refreshLayout.finishRefresh();
+        }
+        ToastUtil.showMsg(msg);
+    }
 
+    @Override
+    protected void onDestroy() {
+        mPresenter.detachView();
+        super.onDestroy();
     }
 }

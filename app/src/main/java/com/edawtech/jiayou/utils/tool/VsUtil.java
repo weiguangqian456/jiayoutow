@@ -97,7 +97,6 @@ import com.edawtech.jiayou.ui.dialog.CustomDialog;
 import com.edawtech.jiayou.ui.dialog.PromptDialog;
 import com.edawtech.jiayou.utils.ActivityCollector;
 import com.edawtech.jiayou.utils.db.provider.VsPhoneCallHistory;
-import com.edawtech.jiayou.widgets.CustomDialogActivity;
 
 
 import org.json.JSONException;
@@ -3307,22 +3306,6 @@ public class VsUtil {
         return getInt;
     }
 
-    /**
-     * 判断当前网络是否可用
-     *
-     * @param context
-     * @return
-     */
-    public static boolean isCurrentNetworkAvailable(Context context) {
-        if (VsUserConfig.getDataInt(context, VsUserConfig.JKEY_TestAccessPointState) != 0) {
-            Intent intent = new Intent(context, CustomDialogActivity.class);
-            intent.putExtra("business", "NetworkError");
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-            return false;
-        }
-        return true;
-    }
 
     /**
      * 判断是否安装了apk包

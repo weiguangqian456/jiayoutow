@@ -15,7 +15,6 @@ import com.edawtech.jiayou.config.base.VsContactItem;
 import com.edawtech.jiayou.config.constant.DfineAction;
 import com.edawtech.jiayou.config.constant.GlobalVariables;
 import com.edawtech.jiayou.config.constant.VsUserConfig;
-import com.edawtech.jiayou.config.service.VsCoreService;
 import com.edawtech.jiayou.net.http.VsHttpTools;
 import com.edawtech.jiayou.utils.db.provider.VsPhoneCallHistory;
 
@@ -224,7 +223,7 @@ public class CoreBusiness {
         String RealUrl = null;
         String paramStr = null;
         // 判断是否登陆，若没有登陆则不需要发请求，除了注册，登陆，静态配置，忘记密码，验证码；
-        if (!(actionName.equals(GlobalVariables.actionFirUpdate) | actionName.equals(VsUserConfig.VS_ACTION_CHECK_USER) | actionName.equals(VsCoreService.VS_ACTION_LOGIN) |
+        if (!(actionName.equals(GlobalVariables.actionFirUpdate) | actionName.equals(VsUserConfig.VS_ACTION_CHECK_USER) | actionName.equals(VsUserConfig.VS_ACTION_LOGIN) |
                 actionName.equals(GlobalVariables.actionDefaultConfig) | actionName.equals(VsUserConfig.VS_ACTION_SET_PASSWORD) | actionName.equals(VsUserConfig
                 .VS_ACTION_RESETPWD_CODE) | actionName.equals(VsUserConfig.VS_ACTION_GET_CODE))) {
             if (!VsUtil.checkHasAccount(mContext)) {

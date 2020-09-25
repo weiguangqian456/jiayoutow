@@ -1,239 +1,109 @@
 package com.edawtech.jiayou.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edawtech.jiayou.R;
-import com.edawtech.jiayou.config.bean.ResultEntity;
-import com.edawtech.jiayou.config.constant.DfineAction;
-import com.edawtech.jiayou.config.constant.GlobalVariables;
-import com.edawtech.jiayou.config.constant.VsUserConfig;
-import com.edawtech.jiayou.retrofit.ApiService;
-import com.edawtech.jiayou.retrofit.RetrofitClient;
-import com.edawtech.jiayou.utils.tool.CoreBusiness;
+import com.edawtech.jiayou.config.base.MyApplication;
+import com.edawtech.jiayou.utils.CommonParam;
+import com.edawtech.jiayou.utils.StringUtils;
+import com.edawtech.jiayou.utils.tool.LogUtils;
 import com.edawtech.jiayou.utils.tool.ToastUtil;
-import com.edawtech.jiayou.widgets.MyButton;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.edawtech.jiayou.config.base.Const.REQUEST_CODE;
-import static com.edawtech.jiayou.ui.activity.OrderEnsureActivity.JSON_TYPE;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
- *  提现
+ * 提现
  */
 public class VsMyRedPopActivity extends Activity {
 
-    private String uid = "";
-    private EditText money_get_edit;
-    private MyButton money_btn;
-    private ImageView money_img;
-    private TextView weixin;
-    private Boolean time_set = true;
-    private String uiFlag;
-    private String invitation;
-
-    private static final String TAG = "VsMyRedPopActivity";
+    @BindView(R.id.weixin)
+    TextView weixin;
+    @BindView(R.id.money_get_edit)
+    EditText moneyGetEdit;
+    //
+    private String money;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.my_red_popwindow);
-        uid = VsUserConfig.getDataString(this, VsUserConfig.JKey_KcId, "");
-        uiFlag = getIntent().getStringExtra("uiFlag");
-        invitation = getIntent().getStringExtra("invitation");
-        init();
-        String wx_id = VsUserConfig.getDataString(this, VsUserConfig.JKey_Weixin);
-        if (null != wx_id && wx_id.length() > 0) {
-            weixin.setText("已绑定");
-        } else {
-            weixin.setText("未绑定");
-        }
-        IntentFilter mycalllogFilter = new IntentFilter();
-        mycalllogFilter.addAction(VsUserConfig.JKey_GET_MY_REDMONEY);
-        getApplicationContext().registerReceiver(mycalllogReceiver, mycalllogFilter);
-
-        money_btn.setCountDownOnClickListener(new MyButton.CountDownOnClickListener() {
-            @Override
-            public void onClickListener() {
-                getMoney(uiFlag);
-            }
-        });
-
-        money_get_edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable edt) {
-                String temp = edt.toString();
-                int posDot = temp.indexOf(".");
-                if (posDot <= 0) return;
-                if (temp.length() - posDot - 1 > 2) {
-                    edt.delete(posDot + 3, posDot + 4);
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
-        });
-
-        money_img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-
-//        VsApplication.getInstance().addActivity(this);
+        ButterKnife.bind(this);
+        money = getIntent().getStringExtra("money");
     }
 
-    private void init() {
-        money_get_edit = (EditText) findViewById(R.id.money_get_edit);
-        money_btn = (MyButton) findViewById(R.id.money_btn);
-        money_img = (ImageView) findViewById(R.id.money_img);
-        weixin = (TextView) findViewById(R.id.weixin);
+    @OnClick({R.id.money_img, R.id.money_btn})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.money_img:
+                finish();
+                break;
+            case R.id.money_btn:    //提现
+                String withdrawMoney = moneyGetEdit.getText().toString();
+                withdraw(withdrawMoney);
+                break;
+        }
     }
 
     /**
      * 提现
-     * 返回数据  {"uid": "123456", "app_id": "wind", "sign": "7574cbeea5c3fee044e22173f1d3a6b0",
-     * "agent_id": "", "remark": "test", "pv": "iphone", "ts": 1453445299, "amount": 1000,
-     * "token": "C-US
-     * .V36WC6K06J1_IT0Q4XITKK9T-5_J2SKEXXKWS8KRCJCD7B09RTMKUVULMCN3JEQXI36H1JEY58Z2UYBWIPL
-     * .G_8-J6TZ0V43UGF4TCHES6BGU24S3JUD3DHC3MX", "v": "1.0.0"}
-     *
-     * @param uiFlag
      */
-    private void getMoney(String uiFlag) {
-        String amount = money_get_edit.getText().toString().trim();
-        switch (uiFlag) {
-            case "redbag":
-                TreeMap<String, String> treeMap = new TreeMap<String, String>();
-                if (!TextUtils.isEmpty(amount) && amount.length() != 0 && Double.parseDouble(amount) >= 1) {
-                    amount = (Double.parseDouble(amount) * 100 + "").substring(0, (Double.parseDouble(amount) * 100 + "").indexOf("."));
-                    treeMap.put("uid", uid);
-                    treeMap.put("amount", amount);
-                    treeMap.put("remark", "");
-                    CoreBusiness.getInstance().startThread(getApplicationContext(), GlobalVariables.GetMyRedMoney, DfineAction.authType_AUTO, treeMap, GlobalVariables
-                            .actionGetMyRedMoney);
-                    money_btn.startCountDown("提交中", "提交");
-                } else {
-                    Toast.makeText(getApplicationContext(), "提现金额不能少于1", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case "shareRedbag":
-                drawToWeChat(amount);
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * 提现到微信
-     *
-     * @param amount
-     */
-    private void drawToWeChat(String amount) {
-        ApiService api = RetrofitClient.getInstance(this).Api();
-        retrofit2.Call<ResultEntity> call;
-        RequestBody requestBody;
-        String changeStr;
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-        Map<String, Object> params = new HashMap<>();
-        if (amount != null && amount.length() != 0 && Double.parseDouble(amount) > 0 && Double.parseDouble(amount) < Double.parseDouble(invitation)) {
-            params.put("appId", DfineAction.brand_id);
-            params.put("uid", VsUserConfig.getDataString(getApplicationContext(), VsUserConfig.JKey_KcId));
-            params.put("amount", amount);
-            params.put("way", "wxpay_draw");
-            money_btn.startCountDown("提交中", "提交");
-        } else {
-            Toast.makeText(getApplicationContext(), "输入的金额有误", Toast.LENGTH_SHORT).show();
+    private void withdraw(String count) {
+        if (StringUtils.isEmpty(count)) {
+            ToastUtil.showMsg("提现金额不能为空");
             return;
         }
-        changeStr = gson.toJson(params);
-        requestBody = RequestBody.create(JSON_TYPE, changeStr);
-        call = api.draw(requestBody);
-        call.enqueue(new Callback<ResultEntity>() {
-            @Override
-            public void onResponse(Call<ResultEntity> call, Response<ResultEntity> response) {
-                if (response.body() == null) {
-                    return;
-                }
-                ResultEntity result = response.body();
-                Toast.makeText(VsMyRedPopActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
-                if (REQUEST_CODE == result.getCode()) {
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResultEntity> call, Throwable t) {
-            }
-        });
-    }
-
-    private BroadcastReceiver mycalllogReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //重复 -- 原因未知
-            Bundle bundle = intent.getExtras();
-            String total = bundle.get("list").toString();
-            ToastUtil.showMsg(total);
-//            Toast.makeText(getApplicationContext(), total, Toast.LENGTH_SHORT).show();
-            if (total.contains("成功")) {
-                VsUserConfig.setData(getApplicationContext(), VsUserConfig.JKey_tiem_set, getTime());
-                finish();
-            }
+        double withDrawCount = Double.parseDouble(count);
+        if (withDrawCount < 1) {
+            ToastUtil.showMsg("提现金额不能小于1");
+            return;
         }
-    };
-
-    private long getTime() {
-        Calendar calendar = Calendar.getInstance();
-        String time = DateFormat.format("yyyy-MM-dd kk:mm:ss", calendar.getTime()).toString();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-        Date date;
-        long time1 = 0;
-        try {
-            date = format.parse(time);
-            time1 = date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (withDrawCount > Double.parseDouble(money)) {
+            ToastUtil.showMsg("金额错误");
+            return;
         }
-        return time1;
+        OkGo.<String>post(CommonParam.WITHDRAW_URL)
+                .params("uid", MyApplication.UID)
+                .params("amount", count)
+                .params("appId", CommonParam.APP_ID)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        try {
+                            JSONObject json = new JSONObject(body);
+                            int code = json.getInt("code");
+                            String msg = json.getString("msg");
+                            if (code == 0){
+                                //提现成功，通知其他页面刷新金额
+                                EventBus.getDefault().post("withdrawSuccess");
+                            }
+                            ToastUtil.showMsg(msg);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        LogUtils.e("fxx", "提现错误=" + response.message());
+                        ToastUtil.showMsg("网络加载错误！");
+                    }
+                });
     }
 }

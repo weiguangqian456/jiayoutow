@@ -7,6 +7,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- 透明背景 -->
+    <style name="translucent">
+        <item name="android:windowBackground">@color/translucent_background</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+
     <!-- activity 状态栏设置theme. -->
     <style name="NoTitle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorMain</item>
@@ -138,8 +145,8 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:textColor">@color/public_color_999999</item>
-        <item name="android:textSize">@dimen/w_12_dip</item>
+        <item name="android:textColor">@color/withdraw_record_time_color</item>
+        <item name="android:textSize">@dimen/text_size_14sp</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -195,35 +202,6 @@
         <attr name="right_image_margins_right" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="Panel">
-
-        <!-- Defines panel animation duration in ms. -->
-        <attr name="animationDuration" format="integer" />
-        <!-- Defines panel position on the screen. -->
-        <attr name="position">
-
-            <!-- Panel placed at top of the screen. -->
-            <enum name="top" value="0" />
-            <!-- Panel placed at bottom of the screen. -->
-            <enum name="bottom" value="1" />
-            <!-- Panel placed at left of the screen. -->
-            <enum name="left" value="2" />
-            <!-- Panel placed at right of the screen. -->
-            <enum name="right" value="3" />
-        </attr>
-        <!-- Identifier for the child that represents the panel's handle. -->
-        <attr name="handle" format="reference" />
-        <!-- Identifier for the child that represents the panel's content. -->
-        <attr name="content" format="reference" />
-        <!-- Defines if flying gesture forces linear interpolator in animation. -->
-        <attr name="linearFlying" format="boolean" />
-        <!-- Defines size relative to parent (must be in form: nn%p). -->
-        <attr name="weight" format="fraction" />
-        <!-- Defines opened handle (drawable/color). -->
-        <attr name="openedHandle" format="reference|color" />
-        <!-- Defines closed handle (drawable/color). -->
-        <attr name="closedHandle" format="reference|color" />
-    </declare-styleable>
     <!--我要赚钱的图片描述信息-->
     <style name="MakeMoneyIntroStyle">
         <item name="android:layout_width">match_parent</item>

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSON;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
 import com.edawtech.jiayou.R;
 import com.edawtech.jiayou.config.base.BaseMvpFragment;
 import com.edawtech.jiayou.config.base.MyApplication;
@@ -36,6 +38,8 @@ import butterknife.BindView;
  */
 public class RedListFragment extends BaseMvpFragment {
 
+    @BindView(R.id.refresh_layout)
+    MaterialRefreshLayout refreshLayout;
     @BindView(R.id.list)
     MyRecyclerView list;
     @BindView(R.id.rl_empty)
@@ -47,10 +51,11 @@ public class RedListFragment extends BaseMvpFragment {
     private final int count = 10;
     private PublicPresenter mPresenter;
     private WithdrawRecordAdapter adapter;
+    //是否下拉刷新
+    private boolean isRefresh = false;
+    //是否上拉加载
+    private boolean isLoadMore = false;
     private List<WithdrawRecordInfo.DataBean.RecordsBean> mData = new ArrayList<>();
-    //是否显示
-    private boolean isShow;
-
 
     @Override
     protected int getLayoutId() {
@@ -58,23 +63,13 @@ public class RedListFragment extends BaseMvpFragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        LogUtils.e("fxx", "RedListFragment           setUserVisibleHint          " + isVisibleToUser);
-        isShow = isVisibleToUser;
-    }
-
-    @Override
     protected void initView(@Nullable View view, @Nullable Bundle savedInstanceState) {
-        LogUtils.e("fxx", "RedListFragment       成长金列表");
         mPresenter = new PublicPresenter(getContext(), true, "加载中...");
         mPresenter.attachView(this);
-        EventBus.getDefault().register(this);
         initAdapter();
         //获取成长金列表
         getRedList();
     }
-
 
     private void initAdapter() {
         if (adapter == null) {
@@ -82,6 +77,31 @@ public class RedListFragment extends BaseMvpFragment {
         }
         list.setLayoutManager(new LinearLayoutManager(getContext()));
         list.setAdapter(adapter);
+
+        //下拉刷新，上拉加载更多
+        refreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                mPresenter.setShowLoadingDialog(false);
+                isRefresh = true;
+                page = 1;
+                mData.clear();
+                getRedList();
+            }
+
+            @Override
+            public void onRefreshLoadMore(MaterialRefreshLayout materialRefreshLayout) {
+                if (mData.size() > 0 && mData.size()%10 == 0) {
+                    mPresenter.setShowLoadingDialog(false);
+                    isLoadMore = true;
+                    page++;
+                    getRedList();
+                } else {
+                    ToastUtil.showMsg("没有更多数据了");
+                    refreshLayout.finishRefreshLoadMore();
+                }
+            }
+        });
     }
 
     /**
@@ -115,6 +135,14 @@ public class RedListFragment extends BaseMvpFragment {
                 page--;
             }
         }
+        if (isRefresh){
+            isRefresh = false;
+            refreshLayout.finishRefresh();
+        }
+        if (isLoadMore){
+            isLoadMore = false;
+            refreshLayout.finishRefreshLoadMore();
+        }
     }
 
     @Override
@@ -126,30 +154,19 @@ public class RedListFragment extends BaseMvpFragment {
         if (page > 1) {
             page--;
         }
+        if (isRefresh){
+            isRefresh = false;
+            refreshLayout.finishRefresh();
+        }
+        if (isLoadMore){
+            isLoadMore = false;
+            refreshLayout.finishRefreshLoadMore();
+        }
     }
 
     @Override
     public void onDestroy() {
         mPresenter.detachView();
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
-    }
-
-    /**
-     * 下拉刷新通知回调
-     *
-     * @param msg
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void refreshList(String msg) {
-        if (msg.equals("redListLoadMore")) {
-            if (isShow) {
-                if (mData.size() > 0) {
-                    LogUtils.e("fxx", "成长金明细加载更多");
-                    page++;
-                    getRedList();
-                }
-            }
-        }
     }
 }

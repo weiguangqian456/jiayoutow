@@ -52,7 +52,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Callback;
 
-import static com.edawtech.jiayou.utils.process.Constants.REQUEST_CODE;
 
 
 /**

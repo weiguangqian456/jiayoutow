@@ -476,7 +476,11 @@
     <color name="public_color_E21A38">#E21A38</color>
     <color name="text_color">#1D1D1D</color>
     <color name="activity_title_color">#2F95F8</color>
-    <color name="activity_bg_color">#E7E7E7</color>
+    <color name="activity_bg_color">#f4f4f4</color>
+    <color name="czj_color">#FE8900</color>
+    <color name="refresh_color">#65aee3</color>
+    <color name="withdraw_record_color">#252525</color>
+    <color name="withdraw_record_time_color">#AAAAAA</color>
 
 
 </resources>

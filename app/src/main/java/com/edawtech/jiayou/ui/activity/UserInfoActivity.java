@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
@@ -104,10 +105,10 @@ public class UserInfoActivity extends BaseMvpActivity {
 
     @OnClick({R.id.iv_back, R.id.my_icon_layout, R.id.nickname_layout, R.id.qrcode_layout, R.id.email_layout, R.id.sex_layout, R.id.birthday_layout})
     public void onViewClicked(View view) {
-        Intent intent = new Intent(UserInfoActivity.this, VsMyTextDetailActivity.class);
+        Intent intent = new Intent(UserInfoActivity.this, SettingDetailActivity.class);
         switch (view.getId()) {
             case R.id.iv_back:
-                finish();
+                ActivityCompat.finishAfterTransition(this);
                 break;
             case R.id.my_icon_layout:   //我的头像
                 iconDialog();

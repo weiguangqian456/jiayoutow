@@ -1,0 +1,46 @@
+R_DEF: Internal format may change without notice
+local
+array material_colors
+attr? isLoadMore
+attr? mlpb_arrow_height
+attr? mlpb_arrow_width
+attr? mlpb_background_color
+attr? mlpb_enable_circle_background
+attr? mlpb_inner_radius
+attr? mlpb_max
+attr? mlpb_progress
+attr? mlpb_progress_color
+attr? mlpb_progress_stoke_width
+attr? mlpb_progress_text_color
+attr? mlpb_progress_text_size
+attr? mlpb_progress_text_visibility
+attr? mlpb_show_arrow
+attr? overlay
+attr? progress_arrow_height
+attr? progress_arrow_width
+attr? progress_backgroud_color
+attr? progress_colors
+attr? progress_max_value
+attr? progress_show_arrow
+attr? progress_show_circle_backgroud
+attr? progress_size_type
+attr? progress_stoke_width
+attr? progress_text_color
+attr? progress_text_size
+attr? progress_text_visibility
+attr? progress_value
+attr? wave_color
+attr? wave_height_type
+attr? wave_show
+color material_blue
+color material_green
+color material_red
+color material_yellow
+id big
+id higher
+id invisible
+id normal
+id visible
+string app_name
+styleable CircleProgressBar mlpb_inner_radius mlpb_background_color mlpb_progress_color mlpb_progress_stoke_width mlpb_show_arrow mlpb_enable_circle_background mlpb_arrow_width mlpb_arrow_height mlpb_progress mlpb_max mlpb_progress_text_size mlpb_progress_text_color mlpb_progress_text_visibility
+styleable MaterialRefreshLayout overlay wave_height_type wave_color wave_show progress_colors progress_stoke_width progress_backgroud_color progress_show_arrow progress_arrow_width progress_arrow_height progress_show_circle_backgroud progress_value progress_max_value progress_text_size progress_text_color progress_text_visibility progress_size_type isLoadMore

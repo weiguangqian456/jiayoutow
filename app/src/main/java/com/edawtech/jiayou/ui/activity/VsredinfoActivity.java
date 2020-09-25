@@ -17,7 +17,7 @@ public class VsredinfoActivity extends VsBaseActivity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vsredinfo);
-        FitStateUtils.setImmersionStateMode(this,R.color.public_color_EC6941);
+        FitStateUtils.setImmersionStateMode(this,R.color.activity_title_color);
         initTitleNavBar();
         showLeftNavaBtn(R.drawable.icon_back);
         mTitleTextView.setText("绑定微信步骤");

@@ -253,6 +253,10 @@ public class VsUserConfig {
      */
     public final static String VS_ACTION_CHECK_USER = "com.kc.logic.checkuser";
     /**
+     * 登录
+     */
+    public final static String VS_ACTION_LOGIN = "com.kc.logic.login";
+    /**
      * 获取注册验证码
      */
     public final static String VS_ACTION_GET_CODE = "com.kc.get.code";
