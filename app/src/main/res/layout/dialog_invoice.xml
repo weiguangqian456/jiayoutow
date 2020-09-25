@@ -47,7 +47,7 @@
             android:layout_height="50dp"
             android:gravity="center"
             android:text="好的"
-            android:textColor="@color/public_color_EC6941"
+            android:textColor="@color/btn_blue_normal"
             android:textSize="16sp" />
 
     </com.flyco.roundview.RoundLinearLayout>

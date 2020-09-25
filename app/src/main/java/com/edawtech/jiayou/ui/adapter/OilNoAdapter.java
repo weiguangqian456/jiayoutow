@@ -58,7 +58,7 @@ public class OilNoAdapter extends RecyclerView.Adapter<OilNoAdapter.ItemViewHold
 
         if (item.check) {
             holder.mRtvFiltrateName.setTextColor(mContext.getResources().getColor(R.color.public_color_white));
-            delegate.setBackgroundColor(mContext.getResources().getColor(R.color.public_color_EC6941));
+            delegate.setBackgroundColor(mContext.getResources().getColor(R.color.public_color_FF1086FF));
             delegate.setStrokeColor(mContext.getResources().getColor(R.color.transparency));
             delegate.setStrokeWidth(1);
         } else {

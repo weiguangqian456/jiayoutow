@@ -16,7 +16,7 @@
     <color name="ripple">#f1f1f1</color>
 
     <!-- 主色调  -->
-    <color name="colorMain">#ff0084FF</color>
+    <color name="colorMain">#FF2F95F8</color>
     <!-- 主色调浅色  -->
     <color name="colorMainLight">#ff64E3ED</color>
     <!-- 主色调浅色二  -->
@@ -465,7 +465,7 @@
     <color name="public_color_FF6666">#FF6666</color>
     <color name="public_color_DD593A">#DD593A</color>
     <color name="public_color_8F9AFC">#8F9AFC</color>
-    <color name="public_color_00CC8E">#00CC8E</color>
+    <color name="public_color_3096F8">#3096F8</color>
     <color name="public_color_9F9E9E">#9F9E9E</color>
     <color name="public_color_FFFFFF">#FFFFFF</color>
     <color name="public_color_D9435A">#D9435A</color>
@@ -473,6 +473,8 @@
     <color name="public_color_F5F6F7">#F6F5F8</color>
     <color name="public_color_E4E4E4">#E4E4E4</color>
     <color name="public_color_E21A38">#E21A38</color>
+    <color name="public_color_FFFFA13B">#FFFFA13B</color>
+    <color name="public_color_FF5A5A5A">#FF5A5A5A</color>
     <color name="text_color">#1D1D1D</color>
 
 

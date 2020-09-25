@@ -107,7 +107,7 @@ class HomeFragment : BaseMvpFragment() {
 
        //     startActivity(Intent(context, OrderRefurlActivity().javaClass))
             if (MyApplication.isLogin){
-                startActivity(Intent(context, OrderRefurlActivity().javaClass))
+                startActivity(Intent(context, RefurlOrderActivity().javaClass))
             }else{
                 startActivity(Intent(context,VsLoginActivity::class.java))
             }

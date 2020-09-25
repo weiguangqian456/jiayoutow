@@ -78,9 +78,9 @@ class OrderRefurlActivity : BaseMvpActivity() {
                 holder?.getView<TextView>(R.id.tv_order_price)?.text = "￥" + data?.amountPay
                 holder?.getView<TextView>(R.id.tv_order_time)?.text = data?.payTime
 
-                holder?.getView<RoundTextView>(R.id.rtv_order_status)?.delegate?.backgroundPressColor = mContext!!.resources.getColor(if ("已支付" == data?.orderStatusName) R.color.public_color_00CC8E else R.color.public_color_EC6941)
+                holder?.getView<RoundTextView>(R.id.rtv_order_status)?.delegate?.backgroundPressColor = mContext!!.resources.getColor(if ("已支付" == data?.orderStatusName) R.color.public_color_3096F8 else R.color.public_color_EC6941)
                 val mTvPayStatus = holder?.getView<TextView>(R.id.tv_pay_status)
-                mTvPayStatus?.setTextColor(mContext!!.resources.getColor(if ("已支付" == data?.orderStatusName) R.color.public_color_00CC8E else R.color.public_color_EC6941))
+                mTvPayStatus?.setTextColor(mContext!!.resources.getColor(if ("已支付" == data?.orderStatusName) R.color.public_color_3096F8 else R.color.public_color_EC6941))
                 mTvPayStatus?.text = data?.orderStatusName
                 holder?.getView<LinearLayout>(R.id.oder_linear)?.setOnClickListener {
                     ViewSetUtils.ButtonClickZoomInAnimation(it, 0.85f)

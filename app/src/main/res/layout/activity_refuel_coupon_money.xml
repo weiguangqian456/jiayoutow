@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0"
-            android:background="@color/public_color_EC6941"
+            android:background="@color/whites"
             tools:alpha="1" />
 
         <LinearLayout
@@ -81,7 +81,7 @@
             android:layout_height="@dimen/w_23_dip"
             android:layout_marginLeft="@dimen/w_10_dip"
             android:layout_marginRight="@dimen/w_5_dip"
-            android:background="#EC6941">
+            >
 
         </View>
 
@@ -105,7 +105,7 @@
             android:hint="请输入消费金额"
             android:maxLength="11"
             android:inputType="numberDecimal"
-            android:textColor="@color/public_color_D9435A"
+            android:textColor="#FF5543"
             android:textColorHint="@color/public_color_999999"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -172,6 +172,7 @@
 
     </View>
     <LinearLayout
+
         android:id="@+id/ll_input"
         android:layout_width="match_parent"
         android:layout_height="@dimen/w_258_dip"
@@ -199,7 +200,7 @@
                     android:gravity="center"
                     android:minWidth="30dp"
                     android:text="￥100"
-                    android:textColor="@color/public_color_D9435A"
+                    android:textColor="@color/text_color"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -218,7 +219,7 @@
                     android:gravity="center"
                     android:minWidth="30dp"
                     android:text="￥200"
-                    android:textColor="@color/public_color_D9435A"
+                    android:textColor="@color/text_color"
                     android:textSize="16sp"/>
             </LinearLayout>
 
@@ -237,7 +238,7 @@
                     android:gravity="center"
                     android:minWidth="30dp"
                     android:text="￥300"
-                    android:textColor="@color/public_color_D9435A"
+                    android:textColor="@color/text_color"
                     android:textSize="16sp"></TextView>
             </LinearLayout>
 
@@ -256,7 +257,7 @@
                     android:gravity="center"
                     android:minWidth="30dp"
                     android:text="￥500"
-                    android:textColor="@color/public_color_D9435A"
+                    android:textColor="@color/text_color"
                     android:textSize="16sp"></TextView>
             </LinearLayout>
         </LinearLayout>
@@ -486,7 +487,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="@color/public_color_E21A38"
+                    android:background="@color/public_color_3096F8"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -504,13 +505,14 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_actual_money"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/vs_white"
         android:orientation="vertical"
-        android:visibility="gone">
+        >
 
         <LinearLayout
             android:id="@+id/ll_detail"
@@ -608,17 +610,11 @@
                 android:layout_marginRight="@dimen/w_5_dip"
                 android:gravity="center"
                 android:text="合计待支付"
-                android:textColor="@color/public_color_333333"
-                android:textSize="15sp"
+                android:textColor="#252525"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/w_15_dip"
-                android:layout_marginLeft="@dimen/w_10_dip"
-                android:layout_weight="1"
-                android:background="@null" />
+
 
             <TextView
                 android:id="@+id/tv_actual_amount"
@@ -626,20 +622,28 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="￥0.00"
-                android:textColor="@color/public_color_D9435A"
+                android:textColor="#FF5742"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/w_15_dip"
+                android:layout_marginLeft="@dimen/w_10_dip"
+                android:layout_weight="1"
+                android:background="@null" />
             <TextView
+                android:drawablePadding="10dp"
+                android:paddingRight="@dimen/dp_10"
                 android:id="@+id/tv_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="@dimen/w_10_dip"
-                android:drawableRight="@drawable/refuel_detail"
+                android:drawableRight="@mipmap/refuel_detail1"
                 android:gravity="center_horizontal|top"
                 android:text="明细"
-                android:textColor="@color/public_color_D9435A"
+                android:textColor="#252525"
                 android:textSize="10sp"
                 android:textStyle="bold" />
 
@@ -647,7 +651,7 @@
                 android:id="@+id/tv_pay"
                 android:layout_width="@dimen/w_130_dip"
                 android:layout_height="match_parent"
-                android:background="@color/color_red"
+                android:background="#2F95F8"
                 android:gravity="center"
                 android:text="确认支付"
                 android:textColor="@color/White"

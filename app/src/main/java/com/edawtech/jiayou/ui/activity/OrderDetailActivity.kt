@@ -1,6 +1,7 @@
 package com.edawtech.jiayou.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import com.edawtech.jiayou.R
@@ -9,6 +10,7 @@ import com.edawtech.jiayou.config.bean.OrderRefurlBean
 import com.edawtech.jiayou.mvp.presenter.PublicPresenter
 import com.edawtech.jiayou.net.http.HttpURL
 import com.edawtech.jiayou.net.observer.TaskCallback
+import com.edawtech.jiayou.ui.dialog.MessageDialog
 import com.edawtech.jiayou.utils.tool.GsonUtils
 import com.edawtech.jiayou.utils.tool.ToastUtil
 import kotlinx.android.synthetic.main.activity_order_detail.*
@@ -54,16 +56,7 @@ class OrderDetailActivity : BaseMvpActivity() {
             }
         }
         textesc.setOnClickListener {
-            Inform_Target?.netWorkRequestPost(HttpURL.query_delete + mRefuelOrder?.orderId, "", object : TaskCallback {
-                override fun onSuccess(data: String?) {
-                    textesc.visibility = View.GONE
-                }
-
-                override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
-                    ToastUtil.showMsg(msg)
-                }
-
-            })
+            delOrder()
         }
 
     }
@@ -81,5 +74,31 @@ class OrderDetailActivity : BaseMvpActivity() {
 
     override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
 
+    }
+
+    private fun delOrder() {
+        MessageDialog.Builder(this).setTvTitle("")
+                .setTitle("是否取消该订单？")
+                .setConfirm("确定")
+                .setCancel("取消")
+                .setListener(object : MessageDialog.OnListener {
+                    override fun onConfirm(dialog: Dialog?) {
+                        Inform_Target?.netWorkRequestPost(HttpURL.query_delete + mRefuelOrder?.orderId, "", object : TaskCallback {
+                            override fun onSuccess(data: String?) {
+                                textesc.visibility = View.GONE
+                            }
+
+                            override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
+                                ToastUtil.showMsg(msg)
+                            }
+
+                        })
+
+                    }
+
+                    override fun onCancel(dialog: Dialog?) {
+
+                    }
+                }).show()
     }
 }

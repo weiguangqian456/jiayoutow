@@ -79,7 +79,8 @@
     <string name="more_load">加载中~</string>
     <string name="more_period">已经到底啦~</string>
     <string name="load_more">加载中~</string>
-    <string name="refuel_detail_prompt"><![CDATA[请务必　<font color="#FF0000"><big>先到达加油站</big></font>　与工作人员确认后再付款，切勿先买单后加油，避免异常订单的产生]]></string>
+    <string name="refuel_detail_prompt"><![CDATA[请务必　<font color="#FFFF0000"><big>先到达加油站</big></font>　与工作人员确认后再付款，切勿先买单后加油，避免异常订单的产生]]></string>
+    <string name="monetyt"><![CDATA[<font <big><big>5</big></big></font>　元]]></string>
     <!-- 未绑定提醒 -->
     <string name="dial_layout_bind_prompt">您尚未绑定，绑定后才可以拨打电话，现在马上去绑定吧！</string>
     <!-- 未登录提醒 -->

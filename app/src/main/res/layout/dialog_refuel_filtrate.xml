@@ -60,7 +60,7 @@
             android:text="确定"
             android:textColor="@color/public_color_white"
             android:textSize="13sp"
-            app:rv_backgroundColor="@color/public_color_EC6941"
+            app:rv_backgroundColor="#3096F8"
             app:rv_cornerRadius="5dp" />
 
     </LinearLayout>

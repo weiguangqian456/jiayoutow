@@ -39,7 +39,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
-
+                <TextView
+                    android:layout_width="4dp"
+                    android:layout_height="22dp"
+                    android:background="@color/public_color_FF1086FF" />
 
 
                 <TextView
@@ -101,10 +104,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="4dp"
-                android:layout_height="22dp"
-                android:background="@color/public_color_EC6941" />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -373,7 +373,7 @@
                 android:ellipsize="end"
                 android:gravity="right|center_vertical"
                 android:singleLine="true"
-                android:textColor="@color/public_color_EC6941"
+                android:textColor="@color/public_color_FFFF5742"
                 android:textSize="13sp"
                 tools:text="交易单号" />
 
@@ -406,7 +406,7 @@
                 android:ellipsize="end"
                 android:gravity="right|center_vertical"
                 android:singleLine="true"
-                android:textColor="@color/public_color_EC6941"
+                android:textColor="@color/public_color_FFFF5742"
                 android:textSize="13sp"
                 tools:text="交易单号" />
 
@@ -472,7 +472,7 @@
                 android:ellipsize="end"
                 android:gravity="right|center_vertical"
                 android:singleLine="true"
-                android:textColor="@color/public_color_EC6941"
+                android:textColor="@color/public_color_FFFF5742"
                 android:textSize="23sp"
                 tools:text="交易单号" />
 

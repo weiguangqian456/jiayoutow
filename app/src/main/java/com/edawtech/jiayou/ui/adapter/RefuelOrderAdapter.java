@@ -51,8 +51,8 @@ public class RefuelOrderAdapter extends BaseRecycleAdapter {
         holder.mTvOrderTime.setText(item.payTime);
         holder.mTvPayStatus.setText(item.orderStatusName);
 
-        holder.mRtvOrderStatus.getDelegate().setBackgroundColor(mContext.getResources().getColor("已支付".equals(item.orderStatusName) ? R.color.public_color_00CC8E : R.color.public_color_EC6941));
-        holder.mTvPayStatus.setTextColor(mContext.getResources().getColor("已支付".equals(item.orderStatusName) ? R.color.public_color_00CC8E : R.color.public_color_EC6941));
+     //   holder.mRtvOrderStatus.getDelegate().setBackgroundColor(mContext.getResources().getColor("已支付".equals(item.orderStatusName) ? R.color.public_color_00CC8E : R.color.public_color_EC6941));
+    //   holder.mTvPayStatus.setTextColor(mContext.getResources().getColor("已支付".equals(item.orderStatusName) ? R.color.public_color_00CC8E : R.color.public_color_EC6941));
 
         holder.itemView.setOnClickListener(new ValidClickListener() {
             @Override

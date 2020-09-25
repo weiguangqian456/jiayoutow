@@ -58,13 +58,13 @@ public class GunNoAdapter extends RecyclerView.Adapter<GunNoAdapter.ItemViewHold
 
         if (item.check) {
             holder.mRtvFiltrateName.setTextColor(mContext.getResources().getColor(R.color.public_color_white));
-            delegate.setBackgroundColor(mContext.getResources().getColor(R.color.public_color_EC6941));
+            delegate.setBackgroundColor(mContext.getResources().getColor(R.color.public_color_FF1086FF));
             delegate.setStrokeColor(mContext.getResources().getColor(R.color.transparency));
             delegate.setStrokeWidth(1);
         } else {
-            holder.mRtvFiltrateName.setTextColor(mContext.getResources().getColor(R.color.public_color_666666));
+            holder.mRtvFiltrateName.setTextColor(mContext.getResources().getColor(R.color.public_color_FF1086FF));
             delegate.setBackgroundColor(mContext.getResources().getColor(R.color.public_color_white));
-            delegate.setStrokeColor(mContext.getResources().getColor(R.color.public_color_666666));
+            delegate.setStrokeColor(mContext.getResources().getColor(R.color.public_color_FF1086FF));
             delegate.setStrokeWidth(1);
         }
 
