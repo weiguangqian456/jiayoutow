@@ -1,275 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <com.edawtech.jiayou.ui.custom.TitleView
+
         android:id="@+id/title_main_tv"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/TitleView_Height"
-        android:background="@color/colorWhite"
-        app:left_image="@mipmap/icon_titlebar_close"
+        android:background="#FF436FDB"
+        app:left_image="@drawable/ic_seckill_back"
         app:title_gravity="center"
         app:title_name="我要赚钱"
         app:title_textStyle="bold"
-        app:title_text_color="@color/colorFontDark"
-        app:title_text_size="16sp"
+        app:title_text_color="@color/colorWhite"
+        app:title_text_size="18sp"
 
         />
 
-
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#b9231e">
+        android:background="@color/colorMain">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="50dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/rl_invitation"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/w_612_dip"
-                android:background="@drawable/share_commission">
-
-                <ImageView
-                    android:id="@+id/iv_invite"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/w_48_dip"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/w_78_dip"
-                    android:src="@drawable/invitation_btn" />
-
-                <ImageView
-                    android:id="@+id/iv_line_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/w_48_dip"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/w_20_dip"
-                    android:src="@drawable/invitation_line_btn" />
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/iv_my_income"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rl_invitation"
-                android:layout_marginTop="@dimen/w_29_dip"
-                android:src="@drawable/my_income" />
+                android:gravity="center"
+                android:padding="@dimen/dp15"
+                android:text="邀好友加油 赚现金大奖"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/dp30" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iamgebg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@mipmap/share_commission1" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp380"
+                    android:layout_below="@id/iamgebg"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dp30"
+                    android:layout_marginTop="-110dp"
+                    android:layout_marginRight="@dimen/dp30"
+                    android:background="@drawable/juxingbg">
+
+                    <TextView
+                        android:id="@+id/textTlet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dp15"
+                        android:text="每邀请一位新用户可赚"
+                        android:textColor="#FF252525"
+                        android:textSize="@dimen/dp18" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textTlet"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="23dp">
+
+
+                        <TextView
+                            android:id="@+id/monet_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5"
+                            android:textColor="#ffff5543"
+                            android:textSize="100sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="18dp"
+                            android:layout_height="15dp"
+                            android:text="元"
+                            android:textColor="#ffff5543"
+                            app:layout_constraintBottom_toBottomOf="@+id/monet_text"
+                            app:layout_constraintStart_toEndOf="@+id/monet_text"
+                            app:layout_constraintTop_toTopOf="@+id/monet_text"
+                            app:layout_constraintVertical_bias="0.864" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/bg__tix"
+                            android:paddingLeft="@dimen/dp_10"
+                            android:paddingTop="5dp"
+                            android:paddingRight="@dimen/dp_10"
+                            android:paddingBottom="2dp"
+                            android:text="可提现"
+                            android:textColor="@color/whites"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toEndOf="@+id/monet_text"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="@dimen/dp15"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp60"
+                            android:background="@mipmap/lijibg"
+                            android:text="立即邀请"
+                            android:textColor="#FFFFFFFF" />
+
+                        <Button
+                            android:id="@+id/button2"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp60"
+                            android:layout_marginTop="@dimen/dp15"
+                            android:background="@mipmap/mdmgb"
+                            android:text="面对面邀请"
+                            android:textColor="#FF3096F8" />
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp50"
+                android:layout_marginRight="@dimen/dp50"
+                android:drawableLeft="@mipmap/golditem"
+                android:drawableRight="@mipmap/golditem"
+                android:gravity="center"
+                android:padding="@dimen/dp15"
+                android:text="我的收益"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/dp30" />
 
             <LinearLayout
-                android:id="@+id/ll_card"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/iv_my_income"
-                android:layout_marginTop="32dp"
-                android:orientation="horizontal"
-                android:paddingLeft="14.5dp"
-                android:paddingRight="14.5dp">
+                android:orientation="horizontal">
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp80"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/income_card">
-
-                    <LinearLayout
-                        android:id="@+id/one_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="22dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_red"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom"
-                            android:maxLines="1"
-                            android:text="0.00"
-                            android:textColor="#FA3D37"
-                            android:textSize="@dimen/w_14_dip"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom"
-                            android:maxLines="1"
-                            android:text="元"
-                            android:textColor="#FA3D37"
-                            android:textSize="@dimen/w_10_dip"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/one_card"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:text="待提现奖励"
-                        android:textColor="#665A5A"
-                        android:textSize="9.48sp" />
-
-                </RelativeLayout>
+                    android:background="@mipmap/moneysy" />
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp80"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/income_card">
-
-                    <LinearLayout
-                        android:id="@+id/second_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="22dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_total"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom"
-                            android:maxLines="1"
-                            android:text="0.00"
-                            android:textColor="#FA3D37"
-                            android:textSize="@dimen/w_14_dip"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom"
-                            android:maxLines="1"
-                            android:text="元"
-                            android:textColor="#FA3D37"
-                            android:textSize="@dimen/w_10_dip"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/second_card"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:text="累计奖励"
-                        android:textColor="#665A5A"
-                        android:textSize="9.48sp" />
-
-                </RelativeLayout>
+                    android:background="@mipmap/moneysy" />
 
                 <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp80"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@drawable/income_card">
-
-                    <LinearLayout
-                        android:id="@+id/third_card"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="22dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_personNum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom"
-                            android:text="0"
-                            android:textColor="#FA3D37"
-                            android:textSize="@dimen/w_14_dip"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom"
-                            android:maxLines="1"
-                            android:text="人"
-                            android:textColor="#FA3D37"
-                            android:textSize="@dimen/w_10_dip"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/third_card"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:text="邀请用户数"
-                        android:textColor="#665A5A"
-                        android:textSize="9.48sp" />
-
-                </RelativeLayout>
-
+                    android:background="@mipmap/moneysy" />
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_account"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/w_41_dip"
-                android:layout_below="@id/ll_card"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/w_24_dip"
-                android:layout_marginBottom="@dimen/w_22_dip"
-                android:background="@drawable/my_account">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp60"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginRight="@dimen/dp60"
+                android:layout_marginBottom="@dimen/dp20"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/my_account"
-                    android:textColor="@color/White"
-                    android:textSize="@dimen/w_14_dip" />
-            </RelativeLayout>
+                android:background="@mipmap/myzhanhu"
+                android:text="我的账户"
+                android:textColor="@color/whites" />
 
             <ImageView
-                android:id="@+id/iv_intro1"
-                style="@style/MakeMoneyIntroStyle"
-                android:layout_below="@id/rl_account"
-                android:layout_margin="@dimen/w_15_dip"
-                android:src="@drawable/intro1" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/moneybg" />
 
             <ImageView
-                android:id="@+id/iv_intro2"
-                style="@style/MakeMoneyIntroStyle"
-                android:layout_below="@id/iv_intro1"
-                android:layout_marginLeft="@dimen/w_15_dip"
-                android:layout_marginRight="@dimen/w_15_dip"
-                android:src="@drawable/intro2" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp10"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/symeon" />
 
-            <ImageView
-                android:id="@+id/iv_intro3"
-                style="@style/MakeMoneyIntroStyle"
-                android:layout_below="@id/iv_intro2"
-                android:layout_margin="@dimen/w_15_dip"
-                android:src="@drawable/intro3" />
+        </LinearLayout>
 
-            <ImageView
-                style="@style/MakeMoneyIntroStyle"
-                android:layout_below="@id/iv_intro3"
-                android:layout_marginLeft="@dimen/w_15_dip"
-                android:layout_marginRight="@dimen/w_15_dip"
-                android:src="@drawable/intro4" />
 
-        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    </ScrollView>
 
 </LinearLayout>

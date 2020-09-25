@@ -1,14 +1,23 @@
 package com.edawtech.jiayou.ui.activity
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.os.Bundle
+import android.view.View
 import com.edawtech.jiayou.R
 import com.edawtech.jiayou.config.base.BaseMvpActivity
 import com.edawtech.jiayou.config.bean.OrderRefurlBean
+import com.edawtech.jiayou.mvp.presenter.PublicPresenter
+import com.edawtech.jiayou.net.http.HttpURL
+import com.edawtech.jiayou.net.observer.TaskCallback
+import com.edawtech.jiayou.ui.dialog.MessageDialog
 import com.edawtech.jiayou.utils.tool.GsonUtils
+import com.edawtech.jiayou.utils.tool.ToastUtil
 import kotlinx.android.synthetic.main.activity_order_detail.*
 
 class OrderDetailActivity : BaseMvpActivity() {
+    // 请求数据
+    private var Inform_Target: PublicPresenter? = null
     var mRefuelOrder: OrderRefurlBean.OrderRefurlOrderList? = null
 
     override val layoutId: Int
@@ -16,6 +25,8 @@ class OrderDetailActivity : BaseMvpActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
+        Inform_Target = PublicPresenter(this, true, "加载中...")
+        Inform_Target?.attachView(this)
         title_order.leftBackImageTv.setOnClickListener { finish() }
         mRefuelOrder = GsonUtils.getGson().fromJson(intent.getStringExtra("OrderDetail"), OrderRefurlBean.OrderRefurlOrderList().javaClass)
 
@@ -32,7 +43,29 @@ class OrderDetailActivity : BaseMvpActivity() {
         tv_pay_time.text = mRefuelOrder?.payTime
         tv_pay_money.text = "￥" + mRefuelOrder?.amountPay
 
+        textpay.text = "订单" + mRefuelOrder?.orderStatusName
+        when (mRefuelOrder?.orderStatusName) {
+            "已支付" -> textesc.visibility = View.GONE
+            "已退款" -> {
+                textesc.visibility = View.GONE
+                textmes.text = "订单" + mRefuelOrder?.orderStatusName.toString() + "，可重新下单"
+            }
+            else -> {
+                paytextec.text = "订单未支付"
+                textmes.text = "订单" + mRefuelOrder?.orderStatusName.toString() + "，可重新下单"
+            }
+        }
+        textesc.setOnClickListener {
+            delOrder()
+        }
 
+    }
+
+    override fun onDestroy() {
+        if (Inform_Target != null) {
+            Inform_Target?.detachView()
+        }
+        super.onDestroy()
     }
 
     override fun onSuccess(data: String?) {
@@ -41,5 +74,31 @@ class OrderDetailActivity : BaseMvpActivity() {
 
     override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
 
+    }
+
+    private fun delOrder() {
+        MessageDialog.Builder(this).setTvTitle("")
+                .setTitle("是否取消该订单？")
+                .setConfirm("确定")
+                .setCancel("取消")
+                .setListener(object : MessageDialog.OnListener {
+                    override fun onConfirm(dialog: Dialog?) {
+                        Inform_Target?.netWorkRequestPost(HttpURL.query_delete + mRefuelOrder?.orderId, "", object : TaskCallback {
+                            override fun onSuccess(data: String?) {
+                                textesc.visibility = View.GONE
+                            }
+
+                            override fun onFailure(e: Throwable?, code: Int, msg: String?, isNetWorkError: Boolean) {
+                                ToastUtil.showMsg(msg)
+                            }
+
+                        })
+
+                    }
+
+                    override fun onCancel(dialog: Dialog?) {
+
+                    }
+                }).show()
     }
 }

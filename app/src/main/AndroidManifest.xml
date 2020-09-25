@@ -93,7 +93,17 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" /> <!-- 加油站详情 -->
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.activity.RefurlOrderActivity"
+            android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoTitle"
+            android:windowSoftInputMode="adjustPan" />
+
+        <!-- 加油站详情 -->
         <activity
             android:name=".ui.activity.RefuelDetailKTActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
@@ -117,6 +127,10 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".ui.activity.MyQcodeActivity"
+            android:theme="@style/NoTitle"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".ui.activity.RefuelSearchActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
@@ -129,9 +143,8 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
-            android:windowSoftInputMode="adjustPan" />
-         <!-- 加油站搜索 -->
-            <activity
+            android:windowSoftInputMode="adjustPan" /> <!-- 加油站搜索 -->
+        <activity
             android:name=".ui.activity.RefuelKotilActivity"
             android:configChanges="locale|layoutDirection|orientation|keyboardHidden|keyboard"
             android:launchMode="singleTop"
@@ -255,7 +268,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoTitle"
             android:windowSoftInputMode="adjustPan" />
-        <!-- 自动接听、拨打按键音设置 -->
         <!-- 重置密码 -->
         <activity
             android:name=".ui.activity.ResetPasswordActivity"

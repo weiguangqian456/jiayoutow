@@ -19,9 +19,9 @@
 
         <com.flyco.roundview.RoundTextView
             android:id="@+id/rtv_order_status"
-            android:layout_width="5dp"
-            android:layout_height="5dp"
-            app:rv_backgroundColor="@color/public_color_00CC8E"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+
             app:rv_isRadiusHalfHeight="true"
             app:rv_isWidthHeightEqual="true" />
 
@@ -76,7 +76,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:text="￥273.61"
-            android:textColor="@color/public_color_00CC8E"
+
             android:textSize="10sp" />
 
     </LinearLayout>

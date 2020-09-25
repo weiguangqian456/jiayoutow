@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F4F4">
+    android:background="#E7E7E7">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:overScrollMode="never">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -24,15 +24,16 @@
                     android:id="@+id/cb_banner"
                     android:layout_width="match_parent"
                     android:layout_height="295dp"
-                    app:canLoop="true" />
+                    app:canLoop="true" >
 
-                <ImageView
-                    android:id="@+id/iv_banner_default"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/bg_refuel_main_top" />
+                    <ImageView
+                        android:id="@+id/iv_banner_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/bg_refuel_main_top" />
+                </com.bigkoo.convenientbanner.ConvenientBanner>
 
             </FrameLayout>
 
@@ -40,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="230dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
                 android:orientation="vertical">
 
@@ -62,18 +63,17 @@
                     android:layout_height="110dp">
 
                     <com.flyco.roundview.RoundLinearLayout
-
+                        android:id="@+id/rll_refuel"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-
                         app:rv_backgroundColor="@color/public_color_white"
                         app:rv_cornerRadius_BL="10dp"
                         app:rv_cornerRadius_BR="10dp"
                         app:rv_isRippleEnable="false">
 
                         <LinearLayout
-                            android:id="@+id/rll_refuel"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -98,7 +98,7 @@
                                     android:text="距离最近"
                                     android:textColor="@color/public_color_white"
                                     android:textSize="@dimen/w_10_dip"
-                                    app:rv_backgroundColor="@color/public_color_999999"
+                                    app:rv_backgroundColor="#FFA13B"
                                     app:rv_cornerRadius="2dp"
                                     app:rv_isRippleEnable="false" />
 
@@ -137,7 +137,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="￥"
-                                    android:textColor="@color/public_color_EC6941"
+                                    android:textColor="#FF5444"
                                     android:textSize="@dimen/w_10_dip" />
 
                                 <TextView
@@ -147,7 +147,7 @@
                                     android:ellipsize="end"
                                     android:singleLine="true"
                                     android:text="6.22"
-                                    android:textColor="@color/public_color_EC6941"
+                                    android:textColor="#FF5444"
                                     android:textSize="@dimen/w_24_dip" />
 
                                 <TextView
@@ -183,10 +183,10 @@
                             android:layout_height="match_parent">
                             <ImageView
                                 android:layout_marginRight="@dimen/dp15"
-                               android:layout_marginLeft="@dimen/dp15"
+                                android:layout_marginLeft="@dimen/dp15"
                                 android:id="@+id/iv_navigation"
                                 android:layout_centerInParent="true"
-                                android:src="@drawable/ic_refuel_home_navigation"
+                                android:src="@drawable/ic_refuel_home_gation"
                                 android:layout_width="@dimen/dp25"
                                 android:layout_height="@dimen/dp25"/>
                             <TextView
@@ -283,7 +283,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="15dp"
-                            android:src="@drawable/mall_ware_detail_right" />
+                            android:src="@drawable/ic_ware_detail_right" />
 
                     </LinearLayout>
 
@@ -318,7 +318,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="15dp"
-                            android:src="@drawable/mall_ware_detail_right" />
+                            android:src="@drawable/ic_ware_detail_right" />
 
                     </LinearLayout>
 
@@ -385,7 +385,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="15dp"
-                            android:src="@drawable/mall_ware_detail_right" />
+                            android:src="@drawable/ic_ware_detail_right" />
 
                     </LinearLayout>
 
@@ -394,7 +394,8 @@
 
             </LinearLayout>
 
-        </FrameLayout>
+        </LinearLayout>
+
 
     </androidx.core.widget.NestedScrollView>
 

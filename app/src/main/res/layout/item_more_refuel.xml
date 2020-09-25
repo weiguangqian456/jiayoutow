@@ -84,7 +84,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="6.22"
-                    android:textColor="@color/public_color_EC6941"
+                    android:textColor="@color/public_color_E21A38"
                     android:textSize="23sp" />
 
                 <com.flyco.roundview.RoundTextView
@@ -99,9 +99,9 @@
                     android:paddingBottom="2dp"
                     android:singleLine="true"
                     android:text="已降￥0.60"
-                    android:textColor="@color/public_color_white"
+                    android:textColor="@color/public_color_FF5A5A5A"
                     android:textSize="10sp"
-                    app:rv_backgroundColor="@color/public_color_8F9AFC"
+                    app:rv_backgroundColor="@color/public_color_FFFFA13B"
                     app:rv_cornerRadius="2dp"
                     app:rv_isRippleEnable="false" />
 
@@ -130,7 +130,7 @@
                 android:layout_width="@dimen/dp35"
                 android:layout_height="@dimen/dp35"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_refuel_list_navigation" />
+                android:src="@drawable/ic_refuel_navigation" />
 
             <TextView
                 android:id="@+id/tv_navigation"
@@ -142,7 +142,7 @@
                 android:layout_marginRight="15dp"
                 android:gravity="center"
                 android:text="4.74M"
-                android:textColor="@color/public_color_EC6941"
+                android:textColor="@color/public_color_3096F8"
                 android:textSize="10sp" />
 
         </LinearLayout>

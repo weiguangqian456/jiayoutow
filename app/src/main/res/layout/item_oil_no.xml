@@ -14,14 +14,14 @@
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:minWidth="70dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="3dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="3dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="5dp"
         android:text="智能排序"
         android:textColor="@color/public_color_white"
-        android:textSize="12sp"
-        app:rv_backgroundColor="@color/public_color_EC6941"
+        android:textSize="15sp"
+        app:rv_backgroundColor="@color/public_color_FF1086FF"
         app:rv_cornerRadius="5dp" />
 
 </LinearLayout>

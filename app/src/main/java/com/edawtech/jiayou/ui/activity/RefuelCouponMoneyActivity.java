@@ -393,7 +393,6 @@ public class RefuelCouponMoneyActivity extends BaseActivity implements PayResult
         mEtMoney.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
         mEtMoney.setFilters(new InputFilter[]{new InputFilter() {
 
-
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 if (source.equals(".") && dest.toString().length() == 0) {

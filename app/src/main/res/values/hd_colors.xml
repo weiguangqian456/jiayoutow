@@ -34,5 +34,11 @@
 	<color name="grid_state_pressed">#1Affffff</color>
 	<color name="grid_state_focused">#80000000</color>
 	<color name="article_row_text_color">#FF000000</color>
-	<color name="public_color_EC6941">#EC6941</color>
+	<color name="public_color_EC6941">#FFA13B</color>
+	<color name="public_color_FF1086FF">#FF1086FF</color>
+	<color name="public_color_FF5842">#FF5842</color>
+	<color name="public_color_00BE52">#00BE52</color>
+	<color name="public_color_FFFF5742">#FFFF5742</color>
+	<color name="public_color_FFFF5543">#FFFF5543</color>
+
 </resources>

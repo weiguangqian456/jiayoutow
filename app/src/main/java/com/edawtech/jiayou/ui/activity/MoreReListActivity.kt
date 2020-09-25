@@ -2,6 +2,7 @@ package com.edawtech.jiayou.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -124,7 +125,9 @@ class MoreReListActivity : BaseMvpActivity() {
                 holder?.getView<TextView>(R.id.tv_oil_station_name)?.text = data?.gasName
                 holder?.getView<TextView>(R.id.tv_oil_station_address)?.text = data?.gasAddress
                 holder?.getView<RoundTextView>(R.id.tv_depreciate)?.text = data?.distance
-                holder?.getView<TextView>(R.id.tv_international_price)?.text = "国标价￥" + data?.priceOfficial
+               var textView = holder?.getView<TextView>(R.id.tv_international_price)
+                textView?.text = "国标价￥" + data?.priceOfficial
+                textView?.paint?.flags = Paint.STRIKE_THRU_TEXT_FLAG
                 holder?.getView<TextView>(R.id.tv_depreciate)?.text = "已降￥" + ArmsUtils.formatting(if (data?.priceOfficial!! > data?.priceYfq!!) data?.priceOfficial - data?.priceYfq!! else 0.00)
                 holder?.getView<TextView>(R.id.tv_navigation)?.text = data?.distance + "km"
                 holder?.getView<TextView>(R.id.tv_oil_price)?.text = data?.priceYfq.toString()
